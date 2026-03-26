@@ -1,0 +1,13 @@
+packages:
+  "lucide-react": "Icons for the UI"
+  "date-fns": "Date formatting for notes and history"
+  "clsx": "Utility for constructing className strings"
+  "tailwind-merge": "Utility for merging tailwind classes"
+  "@radix-ui/react-slot": "Primitive for UI components"
+
+images: []
+
+notes:
+  - Assumes @workspace/api-client-react is available and exports the required hooks.
+  - Implemented dense form layouts to match desktop application paradigms while modernizing the look.
+  - Using initialData in React Query hooks populated with robust mock data so the UI is fully functional and demonstrateable immediately, even without a connected backend database.

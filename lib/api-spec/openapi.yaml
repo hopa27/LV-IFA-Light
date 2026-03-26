@@ -1,22 +1,28 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: IFA Lite API specification
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: brokers
+    description: Broker/IFA management
+  - name: contacts
+    description: Contact management
+  - name: notes
+    description: Notes management
+  - name: lookups
+    description: Lookup operations
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +30,306 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /brokers:
+    get:
+      operationId: listBrokers
+      tags: [brokers]
+      summary: List all brokers
+      parameters:
+        - name: postcode
+          in: query
+          schema:
+            type: string
+        - name: ifaReference
+          in: query
+          schema:
+            type: string
+        - name: ifaName
+          in: query
+          schema:
+            type: string
+        - name: authorised
+          in: query
+          schema:
+            type: boolean
+        - name: cancelled
+          in: query
+          schema:
+            type: boolean
+        - name: duplicateRecord
+          in: query
+          schema:
+            type: boolean
+        - name: revoked
+          in: query
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: List of brokers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Broker"
+    post:
+      operationId: createBroker
+      tags: [brokers]
+      summary: Create a new broker
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBroker"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Broker"
+  /brokers/{id}:
+    get:
+      operationId: getBroker
+      tags: [brokers]
+      summary: Get broker by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Broker details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Broker"
+        "404":
+          description: Not found
+    put:
+      operationId: updateBroker
+      tags: [brokers]
+      summary: Update a broker
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateBroker"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Broker"
+  /brokers/{brokerId}/contacts:
+    get:
+      operationId: listContacts
+      tags: [contacts]
+      summary: List contacts for a broker
+      parameters:
+        - name: brokerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of contacts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Contact"
+    post:
+      operationId: createContact
+      tags: [contacts]
+      summary: Create a new contact
+      parameters:
+        - name: brokerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateContact"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+  /brokers/{brokerId}/contacts/{id}:
+    put:
+      operationId: updateContact
+      tags: [contacts]
+      summary: Update a contact
+      parameters:
+        - name: brokerId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateContact"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+  /brokers/{brokerId}/notes:
+    get:
+      operationId: listNotes
+      tags: [notes]
+      summary: List notes for a broker
+      parameters:
+        - name: brokerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Note"
+    post:
+      operationId: createNote
+      tags: [notes]
+      summary: Create a note
+      parameters:
+        - name: brokerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateNote"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+  /brokers/{brokerId}/retirement-income:
+    get:
+      operationId: getRetirementIncome
+      tags: [brokers]
+      summary: Get retirement income settings
+      parameters:
+        - name: brokerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Retirement income settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RetirementIncome"
+    put:
+      operationId: updateRetirementIncome
+      tags: [brokers]
+      summary: Update retirement income settings
+      parameters:
+        - name: brokerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RetirementIncome"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RetirementIncome"
+  /brokers/{brokerId}/equity-release:
+    get:
+      operationId: getEquityRelease
+      tags: [brokers]
+      summary: Get equity release settings
+      parameters:
+        - name: brokerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Equity release settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EquityRelease"
+    put:
+      operationId: updateEquityRelease
+      tags: [brokers]
+      summary: Update equity release settings
+      parameters:
+        - name: brokerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EquityRelease"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EquityRelease"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +339,508 @@ components:
           type: string
       required:
         - status
-
+    Broker:
+      type: object
+      properties:
+        id:
+          type: integer
+        ifaRef:
+          type: string
+        brokerNo:
+          type: string
+        fimbraNo:
+          type: string
+        brokerName:
+          type: string
+        tradingName:
+          type: string
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        town:
+          type: string
+        county:
+          type: string
+        postcode:
+          type: string
+        telephone:
+          type: string
+        fax:
+          type: string
+        email:
+          type: string
+        initials:
+          type: string
+        dateChecked:
+          type: string
+        fcaReference:
+          type: string
+        annuityToba:
+          type: boolean
+        status:
+          type: string
+        sentDate:
+          type: string
+        grade:
+          type: string
+        nextDiaryDate:
+          type: string
+        ifaMemberNo:
+          type: string
+        brokerManager:
+          type: string
+        keyAccount:
+          type: string
+        partnerCode:
+          type: string
+        region:
+          type: string
+        createdBy:
+          type: string
+        createdDate:
+          type: string
+        amendedBy:
+          type: string
+        amendedDate:
+          type: string
+      required:
+        - id
+        - brokerName
+    CreateBroker:
+      type: object
+      properties:
+        ifaRef:
+          type: string
+        brokerNo:
+          type: string
+        fimbraNo:
+          type: string
+        brokerName:
+          type: string
+        tradingName:
+          type: string
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        town:
+          type: string
+        county:
+          type: string
+        postcode:
+          type: string
+        telephone:
+          type: string
+        fax:
+          type: string
+        email:
+          type: string
+        initials:
+          type: string
+        dateChecked:
+          type: string
+        fcaReference:
+          type: string
+        annuityToba:
+          type: boolean
+        status:
+          type: string
+        sentDate:
+          type: string
+        grade:
+          type: string
+        nextDiaryDate:
+          type: string
+        ifaMemberNo:
+          type: string
+        brokerManager:
+          type: string
+        keyAccount:
+          type: string
+        partnerCode:
+          type: string
+        region:
+          type: string
+      required:
+        - brokerName
+    UpdateBroker:
+      type: object
+      properties:
+        ifaRef:
+          type: string
+        brokerNo:
+          type: string
+        fimbraNo:
+          type: string
+        brokerName:
+          type: string
+        tradingName:
+          type: string
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        town:
+          type: string
+        county:
+          type: string
+        postcode:
+          type: string
+        telephone:
+          type: string
+        fax:
+          type: string
+        email:
+          type: string
+        initials:
+          type: string
+        dateChecked:
+          type: string
+        fcaReference:
+          type: string
+        annuityToba:
+          type: boolean
+        status:
+          type: string
+        sentDate:
+          type: string
+        grade:
+          type: string
+        nextDiaryDate:
+          type: string
+        ifaMemberNo:
+          type: string
+        brokerManager:
+          type: string
+        keyAccount:
+          type: string
+        partnerCode:
+          type: string
+        region:
+          type: string
+    Contact:
+      type: object
+      properties:
+        id:
+          type: integer
+        brokerId:
+          type: integer
+        reference:
+          type: string
+        title:
+          type: string
+        initials:
+          type: string
+        forename:
+          type: string
+        surname:
+          type: string
+        salutation:
+          type: string
+        position:
+          type: string
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        addressLine3:
+          type: string
+        addressLine4:
+          type: string
+        homeTelephone:
+          type: string
+        mobileTelephone:
+          type: string
+        emailAddress:
+          type: string
+        paidByBacs:
+          type: boolean
+        bankSortCode:
+          type: string
+        bankAccountNo:
+          type: string
+        bankAccountName:
+          type: string
+        bankReference:
+          type: string
+        useNetworkTerms:
+          type: boolean
+        defaultAdviceType:
+          type: string
+        defaultRemunerationBasis:
+          type: string
+        defaultDistributionChannel:
+          type: string
+        restrictedAdvice:
+          type: string
+        simplifiedAdvice:
+          type: string
+        nonAdvised:
+          type: string
+        networkIfa:
+          type: string
+        networkName:
+          type: string
+        networkPostcode:
+          type: string
+        tiedAgent:
+          type: boolean
+        principalAgentRef:
+          type: string
+        isPrincipal:
+          type: boolean
+        network:
+          type: boolean
+      required:
+        - id
+        - brokerId
+    CreateContact:
+      type: object
+      properties:
+        reference:
+          type: string
+        title:
+          type: string
+        initials:
+          type: string
+        forename:
+          type: string
+        surname:
+          type: string
+        salutation:
+          type: string
+        position:
+          type: string
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        addressLine3:
+          type: string
+        addressLine4:
+          type: string
+        homeTelephone:
+          type: string
+        mobileTelephone:
+          type: string
+        emailAddress:
+          type: string
+        paidByBacs:
+          type: boolean
+        bankSortCode:
+          type: string
+        bankAccountNo:
+          type: string
+        bankAccountName:
+          type: string
+        bankReference:
+          type: string
+        useNetworkTerms:
+          type: boolean
+        defaultAdviceType:
+          type: string
+        defaultRemunerationBasis:
+          type: string
+        defaultDistributionChannel:
+          type: string
+        restrictedAdvice:
+          type: string
+        simplifiedAdvice:
+          type: string
+        nonAdvised:
+          type: string
+        networkIfa:
+          type: string
+        networkName:
+          type: string
+        networkPostcode:
+          type: string
+        tiedAgent:
+          type: boolean
+        principalAgentRef:
+          type: string
+        isPrincipal:
+          type: boolean
+        network:
+          type: boolean
+    UpdateContact:
+      type: object
+      properties:
+        reference:
+          type: string
+        title:
+          type: string
+        initials:
+          type: string
+        forename:
+          type: string
+        surname:
+          type: string
+        salutation:
+          type: string
+        position:
+          type: string
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        addressLine3:
+          type: string
+        addressLine4:
+          type: string
+        homeTelephone:
+          type: string
+        mobileTelephone:
+          type: string
+        emailAddress:
+          type: string
+        paidByBacs:
+          type: boolean
+        bankSortCode:
+          type: string
+        bankAccountNo:
+          type: string
+        bankAccountName:
+          type: string
+        bankReference:
+          type: string
+        useNetworkTerms:
+          type: boolean
+        defaultAdviceType:
+          type: string
+        defaultRemunerationBasis:
+          type: string
+        defaultDistributionChannel:
+          type: string
+        restrictedAdvice:
+          type: string
+        simplifiedAdvice:
+          type: string
+        nonAdvised:
+          type: string
+        networkIfa:
+          type: string
+        networkName:
+          type: string
+        networkPostcode:
+          type: string
+        tiedAgent:
+          type: boolean
+        principalAgentRef:
+          type: string
+        isPrincipal:
+          type: boolean
+        network:
+          type: boolean
+    Note:
+      type: object
+      properties:
+        id:
+          type: integer
+        brokerId:
+          type: integer
+        noteType:
+          type: string
+        description:
+          type: string
+        oldValue:
+          type: string
+        newValue:
+          type: string
+        updatedBy:
+          type: string
+        updatedDate:
+          type: string
+      required:
+        - id
+        - brokerId
+    CreateNote:
+      type: object
+      properties:
+        noteType:
+          type: string
+        description:
+          type: string
+        oldValue:
+          type: string
+        newValue:
+          type: string
+        updatedBy:
+          type: string
+        updatedDate:
+          type: string
+    RetirementIncome:
+      type: object
+      properties:
+        id:
+          type: integer
+        brokerId:
+          type: integer
+        npaAdviserCharges:
+          type: number
+        npaAmount:
+          type: number
+        npaCommission:
+          type: number
+        npaExpenseDiscount:
+          type: number
+        npaMarketingAllowance:
+          type: number
+        pipaAdviserCharges:
+          type: number
+        pipaAmount:
+          type: number
+        pipaCommission:
+          type: number
+        pipaExpenseDiscount:
+          type: number
+        pipaMarketingAllowance:
+          type: number
+        prpAdviserCharges:
+          type: number
+        prpAmount:
+          type: number
+        prpCommission:
+          type: number
+        prpExpenseDiscount:
+          type: number
+        prpMarketingAllowance:
+          type: number
+    EquityRelease:
+      type: object
+      properties:
+        id:
+          type: integer
+        brokerId:
+          type: integer
+        mortgagePermissions:
+          type: boolean
+        erlmToba:
+          type: boolean
+        flexibleBrokerRate:
+          type: number
+        flexibleMinimumAmount:
+          type: number
+        flexibleNetworkRate:
+          type: number
+        flexibleTrailCommission:
+          type: boolean
+        lumpSumBrokerRate:
+          type: number
+        lumpSumMinimumAmount:
+          type: number
+        lumpSumNetworkRate:
+          type: number
+        packagingFee:
+          type: number
+        applicationFee:
+          type: number
+        ltvPercent:
+          type: number
+        lumpSumPackagingFee:
+          type: number
+        lumpSumApplicationFee:
+          type: number
+        lumpSumLtvPercent:
+          type: number
