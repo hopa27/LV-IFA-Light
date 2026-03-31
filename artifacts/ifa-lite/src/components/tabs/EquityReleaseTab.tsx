@@ -13,11 +13,11 @@ export default function EquityReleaseTab() {
   const eq: any = data || {};
 
   if (!activeBrokerId) {
-    return <div className="h-full flex items-center justify-center text-slate-400">Please select a broker first.</div>;
+    return <div className="h-full flex items-center justify-center text-[#979797] font-[Mulish]">Please select a broker first.</div>;
   }
 
   return (
-    <div className="flex flex-col h-full animate-in fade-in duration-300 overflow-y-auto pr-2 pb-8">
+    <div className="flex flex-col h-full overflow-y-auto pr-2 pb-8">
       <div className="grid grid-cols-2 gap-6 mb-4">
         <div className="space-y-4">
           <Fieldset title="Permissions" className="h-full">
@@ -37,21 +37,24 @@ export default function EquityReleaseTab() {
         </div>
         
         <Fieldset title="Club Membership" className="h-full">
-          <div className="border border-slate-200 rounded overflow-hidden h-24 mb-2">
-            <table className="w-full text-xs">
-              <thead className="bg-slate-100">
-                <tr><th className="px-2 py-1 text-left">Name</th><th className="px-2 py-1 text-left">Ref</th></tr>
+          <div className="border border-[#BBBBBB] rounded-lg overflow-hidden h-24 mb-2">
+            <table className="w-full text-xs font-[Mulish]">
+              <thead className="bg-[#eaf5f8]">
+                <tr>
+                  <th className="px-2 py-2 text-left border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">Name</th>
+                  <th className="px-2 py-2 text-left border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">Ref</th>
+                </tr>
               </thead>
               <tbody>
-                <tr><td className="px-2 py-1 text-slate-500 italic" colSpan={2}>No memberships</td></tr>
+                <tr><td className="px-2 py-1 text-[#979797] italic" colSpan={2}>No memberships</td></tr>
               </tbody>
             </table>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" className="text-xs py-1 h-auto">Add</Button>
-            <Button variant="outline" className="text-xs py-1 h-auto">Edit</Button>
-            <Button variant="outline" className="text-xs py-1 h-auto">View</Button>
-            <Button variant="outline" className="text-xs py-1 h-auto">Remove</Button>
+            <Button variant="secondary" className="text-xs py-1 h-auto px-4">Add</Button>
+            <Button variant="secondary" className="text-xs py-1 h-auto px-4">Edit</Button>
+            <Button variant="secondary" className="text-xs py-1 h-auto px-4">View</Button>
+            <Button variant="outline" className="text-xs py-1 h-auto px-4">Remove</Button>
           </div>
         </Fieldset>
       </div>
@@ -68,24 +71,24 @@ export default function EquityReleaseTab() {
           </Fieldset>
 
           <Fieldset title="Flexible Special Deals (Age Bands)">
-            <table className="w-full text-[11px] text-center border-collapse">
-              <thead className="bg-slate-100 border-b border-slate-300">
+            <table className="w-full text-[11px] text-center border-collapse font-[Mulish]">
+              <thead className="bg-[#eaf5f8] border-b-2 border-[#04589b]">
                 <tr>
-                  <th className="p-1 border-r border-slate-200">Age Band</th>
-                  <th className="p-1 border-r border-slate-200">Exclusive %</th>
-                  <th className="p-1 border-r border-slate-200">(+/-)</th>
-                  <th className="p-1 border-r border-slate-200">Discounted %</th>
-                  <th className="p-1">Cash Back</th>
+                  <th className="p-1.5 border-r border-[#BBBBBB] text-[#002f5c] font-sans font-semibold">Age Band</th>
+                  <th className="p-1.5 border-r border-[#BBBBBB] text-[#002f5c] font-sans font-semibold">Exclusive %</th>
+                  <th className="p-1.5 border-r border-[#BBBBBB] text-[#002f5c] font-sans font-semibold">(+/-)</th>
+                  <th className="p-1.5 border-r border-[#BBBBBB] text-[#002f5c] font-sans font-semibold">Discounted %</th>
+                  <th className="p-1.5 text-[#002f5c] font-sans font-semibold">Cash Back</th>
                 </tr>
               </thead>
               <tbody>
                 {['60-65','66-70','71-75','76-80','81-85','86-90','91+'].map((band, i) => (
-                  <tr key={band} className={i % 2 === 0 ? 'bg-white' : 'bg-slate-50'}>
-                    <td className="p-1 font-medium border-r border-slate-200">{band}</td>
-                    <td className="p-1 border-r border-slate-200"><input className="w-12 border rounded px-1 text-center" /></td>
-                    <td className="p-1 border-r border-slate-200"><input type="checkbox" /></td>
-                    <td className="p-1 border-r border-slate-200"><input className="w-12 border rounded px-1 text-center" /></td>
-                    <td className="p-1"><input className="w-12 border rounded px-1 text-center" /></td>
+                  <tr key={band} className={i % 2 === 0 ? 'bg-white' : 'bg-[#f4f7f8]'}>
+                    <td className="p-1.5 font-medium border-r border-[#BBBBBB]/50 text-[#3d3d3d]">{band}</td>
+                    <td className="p-1.5 border-r border-[#BBBBBB]/50"><input className="w-14 border border-[#BBBBBB] rounded-lg px-1 text-center text-sm focus:border-[#178830] focus:border-2 focus:outline-none" /></td>
+                    <td className="p-1.5 border-r border-[#BBBBBB]/50"><input type="checkbox" className="accent-[#178830]" /></td>
+                    <td className="p-1.5 border-r border-[#BBBBBB]/50"><input className="w-14 border border-[#BBBBBB] rounded-lg px-1 text-center text-sm focus:border-[#178830] focus:border-2 focus:outline-none" /></td>
+                    <td className="p-1.5"><input className="w-14 border border-[#BBBBBB] rounded-lg px-1 text-center text-sm focus:border-[#178830] focus:border-2 focus:outline-none" /></td>
                   </tr>
                 ))}
               </tbody>
@@ -96,13 +99,13 @@ export default function EquityReleaseTab() {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <FormCheckbox label="Free Up to:" />
-                <input className="w-20 border rounded px-2 py-1 text-sm" placeholder="Amount" />
-                <span className="text-xs text-slate-500">or</span>
-                <input className="w-24 border rounded px-2 py-1 text-sm" placeholder="Max property" />
+                <input className="w-20 border border-[#BBBBBB] rounded-lg px-2 py-1 text-sm font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none" placeholder="Amount" />
+                <span className="text-xs text-[#979797]">or</span>
+                <input className="w-24 border border-[#BBBBBB] rounded-lg px-2 py-1 text-sm font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none" placeholder="Max property" />
               </div>
               <div className="flex items-center gap-2">
                 <FormCheckbox label="Fee discount:" />
-                <input className="w-20 border rounded px-2 py-1 text-sm" />
+                <input className="w-20 border border-[#BBBBBB] rounded-lg px-2 py-1 text-sm font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none" />
               </div>
               <FormCheckbox label="Refund discount/fee amount on completion" />
               <FormCheckbox label="Reduce fees upfront" />
@@ -124,24 +127,24 @@ export default function EquityReleaseTab() {
           </Fieldset>
 
           <Fieldset title="Lump Sum Special Deals (Age Bands)">
-            <table className="w-full text-[11px] text-center border-collapse">
-              <thead className="bg-slate-100 border-b border-slate-300">
+            <table className="w-full text-[11px] text-center border-collapse font-[Mulish]">
+              <thead className="bg-[#eaf5f8] border-b-2 border-[#04589b]">
                 <tr>
-                  <th className="p-1 border-r border-slate-200">Age Band</th>
-                  <th className="p-1 border-r border-slate-200">Exclusive %</th>
-                  <th className="p-1 border-r border-slate-200">(+/-)</th>
-                  <th className="p-1 border-r border-slate-200">Discounted %</th>
-                  <th className="p-1">Cash Back</th>
+                  <th className="p-1.5 border-r border-[#BBBBBB] text-[#002f5c] font-sans font-semibold">Age Band</th>
+                  <th className="p-1.5 border-r border-[#BBBBBB] text-[#002f5c] font-sans font-semibold">Exclusive %</th>
+                  <th className="p-1.5 border-r border-[#BBBBBB] text-[#002f5c] font-sans font-semibold">(+/-)</th>
+                  <th className="p-1.5 border-r border-[#BBBBBB] text-[#002f5c] font-sans font-semibold">Discounted %</th>
+                  <th className="p-1.5 text-[#002f5c] font-sans font-semibold">Cash Back</th>
                 </tr>
               </thead>
               <tbody>
                 {['60-65','66-70','71-75','76-80','81-85','86-90','91+'].map((band, i) => (
-                  <tr key={band} className={i % 2 === 0 ? 'bg-white' : 'bg-slate-50'}>
-                    <td className="p-1 font-medium border-r border-slate-200">{band}</td>
-                    <td className="p-1 border-r border-slate-200"><input className="w-12 border rounded px-1 text-center" /></td>
-                    <td className="p-1 border-r border-slate-200"><input type="checkbox" /></td>
-                    <td className="p-1 border-r border-slate-200"><input className="w-12 border rounded px-1 text-center" /></td>
-                    <td className="p-1"><input className="w-12 border rounded px-1 text-center" /></td>
+                  <tr key={band} className={i % 2 === 0 ? 'bg-white' : 'bg-[#f4f7f8]'}>
+                    <td className="p-1.5 font-medium border-r border-[#BBBBBB]/50 text-[#3d3d3d]">{band}</td>
+                    <td className="p-1.5 border-r border-[#BBBBBB]/50"><input className="w-14 border border-[#BBBBBB] rounded-lg px-1 text-center text-sm focus:border-[#178830] focus:border-2 focus:outline-none" /></td>
+                    <td className="p-1.5 border-r border-[#BBBBBB]/50"><input type="checkbox" className="accent-[#178830]" /></td>
+                    <td className="p-1.5 border-r border-[#BBBBBB]/50"><input className="w-14 border border-[#BBBBBB] rounded-lg px-1 text-center text-sm focus:border-[#178830] focus:border-2 focus:outline-none" /></td>
+                    <td className="p-1.5"><input className="w-14 border border-[#BBBBBB] rounded-lg px-1 text-center text-sm focus:border-[#178830] focus:border-2 focus:outline-none" /></td>
                   </tr>
                 ))}
               </tbody>
@@ -152,13 +155,13 @@ export default function EquityReleaseTab() {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <FormCheckbox label="Free Up to:" />
-                <input className="w-20 border rounded px-2 py-1 text-sm" placeholder="Amount" />
-                <span className="text-xs text-slate-500">or</span>
-                <input className="w-24 border rounded px-2 py-1 text-sm" placeholder="Max property" />
+                <input className="w-20 border border-[#BBBBBB] rounded-lg px-2 py-1 text-sm font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none" placeholder="Amount" />
+                <span className="text-xs text-[#979797]">or</span>
+                <input className="w-24 border border-[#BBBBBB] rounded-lg px-2 py-1 text-sm font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none" placeholder="Max property" />
               </div>
               <div className="flex items-center gap-2">
                 <FormCheckbox label="Fee discount:" />
-                <input className="w-20 border rounded px-2 py-1 text-sm" />
+                <input className="w-20 border border-[#BBBBBB] rounded-lg px-2 py-1 text-sm font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none" />
               </div>
               <FormCheckbox label="Refund discount/fee amount on completion" />
               <FormCheckbox label="Reduce fees upfront" />

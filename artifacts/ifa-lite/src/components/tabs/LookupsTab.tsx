@@ -30,8 +30,8 @@ export default function LookupsTab() {
   };
 
   return (
-    <div className="flex flex-col h-full animate-in fade-in duration-300">
-      <Fieldset title="Search Criteria" className="bg-slate-50/50">
+    <div className="flex flex-col h-full">
+      <Fieldset title="Search Criteria">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="space-y-2">
             <FormInput 
@@ -52,7 +52,7 @@ export default function LookupsTab() {
             />
           </div>
           
-          <div className="space-y-3 pt-2 pl-4 border-l border-border">
+          <div className="space-y-3 pt-2 pl-4 border-l border-[#BBBBBB]">
             <FormCheckbox label="Authorised" checked={authorised} onChange={(e) => setAuthorised(e.target.checked)} />
             <FormCheckbox label="Cancelled" checked={cancelled} onChange={(e) => setCancelled(e.target.checked)} />
             <FormCheckbox label="Duplicate Record" checked={duplicateRecord} onChange={(e) => setDuplicateRecord(e.target.checked)} />
@@ -60,54 +60,54 @@ export default function LookupsTab() {
           </div>
           
           <div className="flex flex-col gap-3 justify-center items-end pr-4">
-            <Button className="w-32 bg-blue-600" onClick={handleSearch}><Search className="w-4 h-4" /> Search</Button>
-            <Button variant="outline" className="w-32"><Building className="w-4 h-4" /> Club</Button>
+            <Button className="w-36" onClick={handleSearch}><Search className="w-4 h-4" /> Search</Button>
+            <Button variant="secondary" className="w-36"><Building className="w-4 h-4" /> Club</Button>
           </div>
         </div>
       </Fieldset>
 
-      <div className="flex-1 bg-white border border-border rounded-md shadow-sm overflow-hidden flex flex-col">
-        <div className="bg-slate-100 border-b border-border px-4 py-2 font-semibold text-xs text-slate-600 uppercase tracking-wider flex justify-between">
+      <div className="flex-1 bg-white border border-[#BBBBBB] rounded-lg shadow-sm overflow-hidden flex flex-col">
+        <div className="bg-[#002f5c] border-b-[3px] border-[#04589b] px-4 py-3 font-semibold text-sm text-white uppercase tracking-wider flex justify-between font-sans">
           <span>Search Results ({brokers.length})</span>
-          <span className="text-[10px] text-slate-400">Click a row to view details</span>
+          <span className="text-[10px] text-white/60 font-[Mulish] normal-case">Click a row to view details</span>
         </div>
         
         <div className="flex-1 overflow-auto">
-          <table className="w-full text-sm text-left">
-            <thead className="bg-slate-50 sticky top-0 shadow-sm">
+          <table className="w-full text-sm text-left border-separate border-spacing-0">
+            <thead className="bg-[#eaf5f8] sticky top-0">
               <tr>
-                <th className="px-4 py-2 border-b border-border font-medium text-slate-700">IFA_REF</th>
-                <th className="px-4 py-2 border-b border-border font-medium text-slate-700">BROKER_NO</th>
-                <th className="px-4 py-2 border-b border-border font-medium text-slate-700">FIMBRA_NO</th>
-                <th className="px-4 py-2 border-b border-border font-medium text-slate-700">BROKER_NAME</th>
-                <th className="px-4 py-2 border-b border-border font-medium text-slate-700">POSTCODE</th>
-                <th className="px-4 py-2 border-b border-border font-medium text-slate-700 text-center">STATUS</th>
+                <th className="px-4 py-3 border-b-[3px] border-[#04589b] font-semibold text-[#002f5c] font-sans">IFA_REF</th>
+                <th className="px-4 py-3 border-b-[3px] border-[#04589b] font-semibold text-[#002f5c] font-sans">BROKER_NO</th>
+                <th className="px-4 py-3 border-b-[3px] border-[#04589b] font-semibold text-[#002f5c] font-sans">FIMBRA_NO</th>
+                <th className="px-4 py-3 border-b-[3px] border-[#04589b] font-semibold text-[#002f5c] font-sans">BROKER_NAME</th>
+                <th className="px-4 py-3 border-b-[3px] border-[#04589b] font-semibold text-[#002f5c] font-sans">POSTCODE</th>
+                <th className="px-4 py-3 border-b-[3px] border-[#04589b] font-semibold text-[#002f5c] font-sans text-center">STATUS</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="font-[Mulish]">
               {isLoading ? (
-                <tr><td colSpan={6} className="text-center py-8 text-slate-500">Loading...</td></tr>
+                <tr><td colSpan={6} className="text-center py-8 text-[#979797]">Loading...</td></tr>
               ) : brokers.length === 0 ? (
-                <tr><td colSpan={6} className="text-center py-8 text-slate-500">No records found.</td></tr>
+                <tr><td colSpan={6} className="text-center py-8 text-[#979797]">No records found.</td></tr>
               ) : (
-                brokers.map((broker) => (
+                brokers.map((broker, i) => (
                   <tr 
                     key={broker.id} 
                     onClick={() => setActiveBrokerId(broker.id!)}
-                    className="border-b border-border hover:bg-blue-50 cursor-pointer transition-colors group"
+                    className={`border-b border-[#BBBBBB]/20 hover:bg-[#05579B] hover:text-white cursor-pointer transition-colors group ${i % 2 === 1 ? 'bg-[#e7ebec]/20' : 'bg-white'}`}
                   >
-                    <td className="px-4 py-2 font-medium text-primary group-hover:underline">{broker.ifaRef}</td>
-                    <td className="px-4 py-2 text-slate-600">{broker.brokerNo}</td>
-                    <td className="px-4 py-2 text-slate-600">{broker.fimbraNo}</td>
-                    <td className="px-4 py-2 font-medium">{broker.brokerName}</td>
-                    <td className="px-4 py-2 text-slate-600">{broker.postcode}</td>
+                    <td className="px-4 py-2 font-medium text-[#005a9c] underline group-hover:text-white">{broker.ifaRef}</td>
+                    <td className="px-4 py-2 text-[#3d3d3d] group-hover:text-white">{broker.brokerNo}</td>
+                    <td className="px-4 py-2 text-[#3d3d3d] group-hover:text-white">{broker.fimbraNo}</td>
+                    <td className="px-4 py-2 font-medium text-[#3d3d3d] group-hover:text-white">{broker.brokerName}</td>
+                    <td className="px-4 py-2 text-[#3d3d3d] group-hover:text-white">{broker.postcode}</td>
                     <td className="px-4 py-2 text-center">
                       {broker.status === 'Authorised' ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-green-100 text-green-800">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#178830]/10 text-[#178830] group-hover:bg-white/20 group-hover:text-white">
                           <CheckCircle className="w-3 h-3" /> Authorised
                         </span>
                       ) : (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-100 text-slate-800">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#eaf5f8] text-[#0d2c41] group-hover:bg-white/20 group-hover:text-white">
                           {broker.status}
                         </span>
                       )}

@@ -8,8 +8,8 @@ export function cn(...inputs: ClassValue[]) {
 
 export function Fieldset({ title, children, className }: { title: string, children: React.ReactNode, className?: string }) {
   return (
-    <fieldset className={cn("border border-border rounded-md p-4 pt-2 mb-4 bg-card shadow-sm", className)}>
-      <legend className="text-xs font-bold text-primary px-2 uppercase tracking-wider bg-card">
+    <fieldset className={cn("border border-[#BBBBBB] rounded-lg p-4 pt-2 mb-4 bg-white", className)}>
+      <legend className="text-xs font-bold text-[#006cf4] px-2 uppercase tracking-wider font-sans">
         {title}
       </legend>
       {children}
@@ -25,14 +25,17 @@ interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 export function FormInput({ label, labelWidth = "w-1/3", className, ...props }: FormInputProps) {
   return (
     <div className="flex items-center gap-3 mb-2">
-      <label className={cn("text-xs font-semibold text-slate-600 text-right truncate", labelWidth)}>
+      <label className={cn("text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans", labelWidth)}>
         {label}
       </label>
       <input 
         className={cn(
-          "flex-1 px-2 py-1.5 text-sm border border-slate-300 rounded shadow-sm",
-          "focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all",
-          "disabled:bg-slate-100 disabled:text-slate-500",
+          "flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d]",
+          "placeholder:text-[#BBBBBB] placeholder:font-[Mulish]",
+          "focus:border-[#178830] focus:border-2 focus:outline-none focus:px-[10px] focus:py-[5px]",
+          "hover:border-[#178830]",
+          "disabled:bg-[#CCCCCC] disabled:border-[#ACACAC] disabled:text-[#3d3d3d] disabled:cursor-not-allowed",
+          "transition-colors",
           className
         )} 
         {...props} 
@@ -50,13 +53,15 @@ interface FormSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> 
 export function FormSelect({ label, options, labelWidth = "w-1/3", className, ...props }: FormSelectProps) {
   return (
     <div className="flex items-center gap-3 mb-2">
-      <label className={cn("text-xs font-semibold text-slate-600 text-right truncate", labelWidth)}>
+      <label className={cn("text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans", labelWidth)}>
         {label}
       </label>
       <select 
         className={cn(
-          "flex-1 px-2 py-1.5 text-sm border border-slate-300 rounded shadow-sm bg-white",
-          "focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all",
+          "flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d]",
+          "focus:border-[#178830] focus:border-2 focus:outline-none",
+          "hover:border-[#178830]",
+          "transition-colors cursor-pointer",
           className
         )} 
         {...props}
@@ -75,10 +80,10 @@ export function FormCheckbox({ label, ...props }: Omit<FormInputProps, 'labelWid
     <div className="flex items-center gap-2 mb-2">
       <input 
         type="checkbox" 
-        className="w-4 h-4 text-primary border-slate-300 rounded focus:ring-primary" 
+        className="w-4 h-4 rounded border-[#979797] text-[#178830] focus:ring-[#178830] accent-[#178830] cursor-pointer" 
         {...props} 
       />
-      <label className="text-xs font-semibold text-slate-600">
+      <label className="text-xs font-semibold text-[#3d3d3d] font-sans cursor-pointer">
         {label}
       </label>
     </div>
@@ -94,19 +99,19 @@ export function FormRadioGroup({ label, name, options, value, onChange }: {
 }) {
   return (
     <div className="flex items-center gap-3 mb-2">
-      <label className="w-1/3 text-xs font-semibold text-slate-600 text-right truncate">
+      <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans">
         {label}
       </label>
       <div className="flex-1 flex gap-4">
         {options.map(opt => (
-          <label key={opt.value} className="flex items-center gap-1.5 text-sm">
+          <label key={opt.value} className="flex items-center gap-1.5 text-sm font-[Mulish] text-[#3d3d3d] cursor-pointer">
             <input 
               type="radio" 
               name={name} 
               value={opt.value} 
               checked={value === opt.value}
               onChange={onChange}
-              className="text-primary focus:ring-primary" 
+              className="w-4 h-4 border-[#979797] text-[#006cf4] focus:ring-[#006cf4] accent-[#006cf4]" 
             />
             {opt.label}
           </label>
@@ -117,11 +122,11 @@ export function FormRadioGroup({ label, name, options, value, onChange }: {
 }
 
 export function Button({ children, variant = 'primary', className, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'outline' }) {
-  const base = "px-4 py-1.5 text-sm font-medium rounded shadow-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed";
+  const base = "px-6 py-2 text-sm font-semibold rounded-full shadow-sm transition-all flex items-center justify-center gap-2 disabled:cursor-not-allowed font-sans";
   const variants = {
-    primary: "bg-primary text-primary-foreground hover:bg-primary/90",
-    secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-    outline: "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
+    primary: "bg-[#006cf4] text-white hover:bg-[#003578] disabled:bg-[#979797] disabled:text-white disabled:opacity-100 shadow-md",
+    secondary: "bg-white text-[#04589b] border border-[#04589b] hover:bg-[#003578] hover:text-white hover:border-[#003578] font-bold",
+    outline: "border border-[#BBBBBB] bg-white text-[#3d3d3d] hover:border-[#006cf4] hover:text-[#006cf4]"
   };
   
   return (
