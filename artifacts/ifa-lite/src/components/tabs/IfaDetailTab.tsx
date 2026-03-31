@@ -1,8 +1,34 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useGetBroker, useUpdateBroker, useListContacts } from '@workspace/api-client-react';
+import { useGetBroker, useUpdateBroker, useListContacts, useCreateNote } from '@workspace/api-client-react';
 import { useApp } from '@/context/app-context';
 import { Fieldset, FormInput, FormSelect, FormRadioGroup } from '@/components/shared/FormElements';
 import { AlertCircle } from 'lucide-react';
+
+const FIELD_LABELS: Record<string, string> = {
+  brokerName: 'Broker Name',
+  tradingName: 'Trading Name',
+  addressLine1: 'Address Line 1',
+  addressLine2: 'Address Line 2',
+  town: 'Town',
+  county: 'County',
+  postcode: 'Postcode',
+  telephone: 'Telephone',
+  fax: 'Fax',
+  email: 'Email',
+  initials: 'Initials',
+  dateChecked: 'Date Checked',
+  fcaReference: 'FCA Reference',
+  annuityToba: 'Annuity TOBA',
+  status: 'Status',
+  sentDate: 'Sent Date',
+  grade: 'Grade',
+  nextDiaryDate: 'Next Diary Date',
+  ifaMemberNo: 'IFA Member No',
+  brokerManager: 'Broker Manager',
+  keyAccount: 'Key Account',
+  partnerCode: 'Partner Code',
+  region: 'Region',
+};
 
 export default function IfaDetailTab() {
   const { activeBrokerId, setIsDirty, setIsSaving, registerSaveHandler, setActiveIfaRef } = useApp();
@@ -16,6 +42,7 @@ export default function IfaDetailTab() {
   });
 
   const { mutate: updateBroker, isPending: isUpdating } = useUpdateBroker();
+  const { mutate: createNote } = useCreateNote();
 
   const [formData, setFormData] = useState<any>({});
   const [originalData, setOriginalData] = useState<any>({});
@@ -35,14 +62,38 @@ export default function IfaDetailTab() {
 
   const handleSave = useCallback(() => {
     if (activeBrokerId) {
+      const changedFields: { field: string; oldVal: string; newVal: string }[] = [];
+      for (const key of Object.keys(FIELD_LABELS)) {
+        const oldVal = String(originalData[key] ?? '');
+        const newVal = String(formData[key] ?? '');
+        if (oldVal !== newVal) {
+          changedFields.push({ field: key, oldVal, newVal });
+        }
+      }
+
       updateBroker({ id: activeBrokerId, data: formData }, {
         onSuccess: () => {
+          const now = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+          for (const change of changedFields) {
+            const label = FIELD_LABELS[change.field] || change.field;
+            createNote({
+              brokerId: activeBrokerId,
+              data: {
+                noteType: 'SYS',
+                description: `${label} updated by SYSTEM on ${now}`,
+                oldValue: change.oldVal,
+                newValue: change.newVal,
+                updatedBy: 'SYSTEM',
+                updatedDate: now,
+              }
+            });
+          }
           setOriginalData(formData);
           setIsDirty(false);
         }
       });
     }
-  }, [activeBrokerId, formData, updateBroker, setIsDirty]);
+  }, [activeBrokerId, formData, originalData, updateBroker, createNote, setIsDirty]);
 
   useEffect(() => {
     registerSaveHandler(handleSave);

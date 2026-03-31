@@ -25,40 +25,36 @@ export default function NotesTab() {
         <Button><Plus className="w-4 h-4" /> Add Note</Button>
       </div>
 
-      <div className="flex-1 overflow-auto bg-[#eaf5f8]/50 border border-[#BBBBBB] rounded-lg p-4 space-y-4">
+      <div className="flex-1 overflow-auto bg-white border border-[#BBBBBB] rounded-lg">
         {notes.length === 0 ? (
           <div className="text-center py-12 text-[#979797] font-[Mulish]">No notes found for this record.</div>
         ) : (
-          notes.map(note => (
-            <div key={note.id} className="bg-white border border-[#BBBBBB]/60 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex justify-between items-start mb-2 border-b border-[#BBBBBB]/30 pb-2">
-                <div className="flex items-center gap-3">
-                  <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold font-sans ${
-                    note.noteType === 'SYS' ? 'bg-[#006cf4]/10 text-[#006cf4]' : 'bg-[#178830]/10 text-[#178830]'
-                  }`}>
-                    {note.noteType}
+          <div className="divide-y divide-[#BBBBBB]">
+            {notes.map(note => (
+              <div key={note.id} className="flex hover:bg-[#eaf5f8]/50 transition-colors">
+                <div className="w-10 shrink-0 flex items-center justify-center bg-[#eaf5f8] border-r border-[#BBBBBB]">
+                  <span className="text-[10px] font-bold text-[#006cf4] font-sans writing-vertical" style={{ writingMode: 'vertical-lr', textOrientation: 'mixed', letterSpacing: '2px' }}>
+                    {note.noteType || 'SYS'}
                   </span>
-                  <span className="text-xs text-[#979797] font-medium font-[Mulish]">{note.updatedBy}</span>
                 </div>
-                <span className="text-xs text-[#979797] font-[Mulish]">{note.updatedDate}</span>
+                <div className="flex-1 px-4 py-3 font-[Mulish] text-sm text-[#3d3d3d]">
+                  <p className="font-medium">{note.description}</p>
+                  {(note.oldValue !== undefined || note.newValue !== undefined) && (
+                    <div className="mt-1 text-xs space-y-0.5">
+                      <p>
+                        <span className="font-bold text-[#979797] uppercase">Old Value</span>
+                        <span className="ml-4">: {note.oldValue || '\u2014'}</span>
+                      </p>
+                      <p>
+                        <span className="font-bold text-[#979797] uppercase">New Value</span>
+                        <span className="ml-3">: {note.newValue || '\u2014'}</span>
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
-              
-              <p className="text-sm font-medium text-[#3d3d3d] mb-3 font-[Mulish]">{note.description}</p>
-              
-              {(note.oldValue || note.newValue) && (
-                <div className="grid grid-cols-2 gap-4 bg-[#eaf5f8] rounded-lg p-3 border border-[#BBBBBB]/30">
-                  <div>
-                    <span className="block text-[10px] uppercase font-bold text-[#979797] mb-1 font-sans">Old Value</span>
-                    <span className="text-sm text-[#d72714] line-through decoration-[#d72714]/30 font-[Mulish]">{note.oldValue || '\u2014'}</span>
-                  </div>
-                  <div>
-                    <span className="block text-[10px] uppercase font-bold text-[#979797] mb-1 font-sans">New Value</span>
-                    <span className="text-sm text-[#178830] font-medium font-[Mulish]">{note.newValue || '\u2014'}</span>
-                  </div>
-                </div>
-              )}
-            </div>
-          ))
+            ))}
+          </div>
         )}
       </div>
     </div>
