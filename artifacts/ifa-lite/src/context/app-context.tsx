@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useListBrokers } from '@workspace/api-client-react';
 
 type TabId = 'lookups' | 'ifa-detail' | 'contacts' | 'retirement' | 'equity' | 'notes';
 
@@ -12,10 +13,19 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [activeTab, setActiveTab] = useState<TabId>('lookups');
+  const [activeTab, setActiveTab] = useState<TabId>('ifa-detail');
   const [activeBrokerId, setActiveBrokerId] = useState<number | null>(null);
+  const [initialized, setInitialized] = useState(false);
 
-  // When a broker is selected, automatically switch to IFA details
+  const { data: brokers } = useListBrokers();
+
+  useEffect(() => {
+    if (!initialized && brokers && brokers.length > 0) {
+      setActiveBrokerId(brokers[0].id!);
+      setInitialized(true);
+    }
+  }, [brokers, initialized]);
+
   const handleSetBroker = (id: number | null) => {
     setActiveBrokerId(id);
     if (id !== null && activeTab === 'lookups') {
