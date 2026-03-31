@@ -28,8 +28,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const hasBroker = activeBrokerId !== null;
 
   return (
-    <div className="min-h-screen bg-[#f0f0f0] flex flex-col">
-      <header className="bg-[#00263e] text-white px-[142px] pt-4 pb-6">
+    <div className="h-screen bg-[#f0f0f0] flex flex-col overflow-hidden">
+      <header className="bg-[#00263e] text-white px-[142px] pt-4 pb-6 shrink-0">
         <div className="flex items-center justify-between">
           <img src="/lve-logo.png" alt="LV= Logo" className="h-6" />
           <Button variant="primary" className="h-8 px-5 py-1 text-sm font-normal">
@@ -66,7 +66,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         })}
       </div>
 
-      <div className="bg-white border-b border-t border-[#BBBBBB] px-6 py-3 flex items-center justify-between sticky top-0 z-20 shrink-0">
+      <div className="bg-white border-b border-t border-[#BBBBBB] px-6 py-3 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
           <select className="border border-[#BBBBBB] rounded-lg px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] bg-white outline-none cursor-pointer hover:border-[#178830] focus:border-[#178830] focus:border-2">
             <option>Active</option>
@@ -92,7 +92,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         {children}
       </main>
       
-      <footer className="bg-white border-t border-slate-200 py-4 px-8 flex justify-between items-center shrink-0 mt-auto">
+      <footer className="bg-white border-t border-slate-200 py-4 px-8 flex justify-between items-center shrink-0">
         <img src="/lve-logo.png" alt="LV= Logo" className="h-6" />
         <div className="text-right">
           <p className="text-[10px] font-medium text-slate-400 font-[Mulish]">Liverpool Victoria Financial Services Limited</p>
