@@ -63,7 +63,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         })}
       </div>
 
-      <div className="bg-white border-b border-t border-[#BBBBBB] px-6 py-2 flex items-center justify-between">
+      <div className="bg-white border-b border-t border-[#BBBBBB] px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <select className="border border-[#BBBBBB] rounded-lg px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] bg-white outline-none cursor-pointer hover:border-[#178830] focus:border-[#178830] focus:border-2">
             <option>Active</option>
@@ -72,14 +72,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           <div className="h-6 w-px bg-[#BBBBBB]" />
 
-          <div className="flex items-center gap-1">
-            <button onClick={goFirst} disabled={!hasBroker || currentIndex <= 0} className="p-1.5 rounded-lg hover:bg-[#eaf5f8] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="First Record"><ChevronFirst className="w-4 h-4 text-[#006cf4]" /></button>
-            <button onClick={goPrev} disabled={!hasBroker || currentIndex <= 0} className="p-1.5 rounded-lg hover:bg-[#eaf5f8] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Previous Record"><ChevronLeft className="w-4 h-4 text-[#006cf4]" /></button>
-            <span className="px-3 text-xs font-semibold text-[#3d3d3d] select-none font-sans">
-              {hasBroker && currentIndex >= 0 ? `Record ${currentIndex + 1} of ${total}` : 'No Record'}
+          <div className="flex items-center gap-2">
+            <button onClick={goFirst} disabled={!hasBroker || currentIndex <= 0} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="First Record"><ChevronFirst className="w-5 h-5" /></button>
+            <button onClick={goPrev} disabled={!hasBroker || currentIndex <= 0} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Previous Record"><ChevronLeft className="w-5 h-5" /></button>
+            <span className="px-2 min-w-[80px] text-center text-sm font-bold text-[#4a4a49] select-none font-['Mulish']">
+              <span>{hasBroker && currentIndex >= 0 ? `${currentIndex + 1} of ${total}` : '0 of 0'}</span>
             </span>
-            <button onClick={goNext} disabled={!hasBroker || currentIndex >= total - 1} className="p-1.5 rounded-lg hover:bg-[#eaf5f8] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Next Record"><ChevronRight className="w-4 h-4 text-[#006cf4]" /></button>
-            <button onClick={goLast} disabled={!hasBroker || currentIndex >= total - 1} className="p-1.5 rounded-lg hover:bg-[#eaf5f8] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Last Record"><ChevronLast className="w-4 h-4 text-[#006cf4]" /></button>
+            <button onClick={goNext} disabled={!hasBroker || currentIndex >= total - 1} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Next Record"><ChevronRight className="w-5 h-5" /></button>
+            <button onClick={goLast} disabled={!hasBroker || currentIndex >= total - 1} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Last Record"><ChevronLast className="w-5 h-5" /></button>
           </div>
         </div>
 
