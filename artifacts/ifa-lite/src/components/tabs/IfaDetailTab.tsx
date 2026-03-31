@@ -5,7 +5,7 @@ import { Fieldset, FormInput, FormSelect, FormRadioGroup } from '@/components/sh
 import { AlertCircle } from 'lucide-react';
 
 export default function IfaDetailTab() {
-  const { activeBrokerId, setIsDirty, setIsSaving, registerSaveHandler } = useApp();
+  const { activeBrokerId, setIsDirty, setIsSaving, registerSaveHandler, setActiveIfaRef } = useApp();
   
   const { data: broker, isLoading } = useGetBroker(activeBrokerId || 0, {
     query: { enabled: !!activeBrokerId }
@@ -25,6 +25,7 @@ export default function IfaDetailTab() {
       setFormData(broker);
       setOriginalData(broker);
       setIsDirty(false);
+      setActiveIfaRef(broker.ifaRef || '');
     }
   }, [broker, setIsDirty]);
 
@@ -70,13 +71,6 @@ export default function IfaDetailTab() {
   return (
     <div className="flex gap-6 h-full overflow-y-auto">
       <div className="flex-1 flex flex-col min-w-[600px]">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-bold text-[#00263e] flex items-center gap-2 font-sans">
-            <span className="w-1 h-6 bg-[#006cf4] rounded-sm"></span>
-            Broker Details: <span className="text-[#006cf4]">{formData.ifaRef}</span>
-          </h2>
-        </div>
-
         <div className="flex-1 overflow-auto pr-2 pb-4">
           <div className="grid grid-cols-2 gap-x-8 gap-y-1">
             <div className="col-span-2 text-xs font-bold text-[#006cf4] border-b-2 border-[#006cf4]/20 pb-1 mb-3 font-sans uppercase tracking-wider">General Information</div>

@@ -8,6 +8,8 @@ interface AppContextType {
   setActiveTab: (tab: TabId) => void;
   activeBrokerId: number | null;
   setActiveBrokerId: (id: number | null) => void;
+  activeIfaRef: string;
+  setActiveIfaRef: (ref: string) => void;
   isDirty: boolean;
   setIsDirty: (dirty: boolean) => void;
   isSaving: boolean;
@@ -22,6 +24,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [activeTab, setActiveTab] = useState<TabId>('ifa-detail');
   const [activeBrokerId, setActiveBrokerId] = useState<number | null>(null);
   const [initialized, setInitialized] = useState(false);
+  const [activeIfaRef, setActiveIfaRef] = useState('');
   const [isDirty, setIsDirty] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const saveHandlerRef = useRef<(() => void) | null>(null);
@@ -60,6 +63,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setActiveTab, 
         activeBrokerId, 
         setActiveBrokerId: handleSetBroker,
+        activeIfaRef,
+        setActiveIfaRef,
         isDirty,
         setIsDirty,
         isSaving,

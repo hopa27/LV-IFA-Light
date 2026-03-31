@@ -14,7 +14,7 @@ const TABS = [
 ] as const;
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const { activeTab, setActiveTab, activeBrokerId, setActiveBrokerId, isDirty, isSaving, triggerSave } = useApp();
+  const { activeTab, setActiveTab, activeBrokerId, setActiveBrokerId, activeIfaRef, isDirty, isSaving, triggerSave } = useApp();
   const { data: brokers = [] } = useListBrokers();
 
   const currentIndex = brokers.findIndex(b => b.id === activeBrokerId);
@@ -87,6 +87,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <button onClick={goLast} disabled={!hasBroker || currentIndex >= total - 1} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Last Record"><ChevronLast className="w-5 h-5" /></button>
           </div>
         </div>
+
+        {activeIfaRef && (
+          <span className="text-sm font-bold text-[#00263e] font-sans flex items-center gap-2">
+            <span className="w-1 h-5 bg-[#006cf4] rounded-sm"></span>
+            Broker: <span className="text-[#006cf4]">{activeIfaRef}</span>
+          </span>
+        )}
 
         <Button onClick={triggerSave} disabled={!isDirty || isSaving}>
           {isSaving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
