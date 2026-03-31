@@ -37,7 +37,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </Button>
         </div>
         <div className="h-px bg-slate-600/50 my-4" />
-        <h1 className="text-[30px] font-normal tracking-tight font-['Livvic'] text-white">
+        <h1 className="text-[30px] font-normal tracking-tight text-white" style={{ fontFamily: "'Livvic', sans-serif" }}>
           IFA Lite
         </h1>
       </header>
