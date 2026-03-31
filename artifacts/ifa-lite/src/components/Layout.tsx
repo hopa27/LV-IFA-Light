@@ -68,6 +68,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       <div className="bg-white border-b border-t border-[#BBBBBB] px-6 py-3 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
+          {activeIfaRef && (
+            <span className="text-sm font-bold text-[#00263e] font-sans flex items-center gap-2">
+              <span className="w-1 h-5 bg-[#006cf4] rounded-sm"></span>
+              Broker: <span className="text-[#006cf4]">{activeIfaRef}</span>
+            </span>
+          )}
+
+          <div className="h-6 w-px bg-[#BBBBBB]" />
+
           <select className="border border-[#BBBBBB] rounded-lg px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] bg-white outline-none cursor-pointer hover:border-[#178830] focus:border-[#178830] focus:border-2">
             <option>Appointment</option>
             <option>Broker Pack Follow Up</option>
@@ -87,13 +96,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <button onClick={goLast} disabled={!hasBroker || currentIndex >= total - 1} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Last Record"><ChevronLast className="w-5 h-5" /></button>
           </div>
         </div>
-
-        {activeIfaRef && (
-          <span className="text-sm font-bold text-[#00263e] font-sans flex items-center gap-2">
-            <span className="w-1 h-5 bg-[#006cf4] rounded-sm"></span>
-            Broker: <span className="text-[#006cf4]">{activeIfaRef}</span>
-          </span>
-        )}
 
         <Button onClick={triggerSave} disabled={!isDirty || isSaving}>
           {isSaving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
