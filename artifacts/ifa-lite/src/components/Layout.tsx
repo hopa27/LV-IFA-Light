@@ -42,7 +42,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </h1>
       </header>
 
-      <div className="bg-white px-6 pt-4 flex gap-2 overflow-x-hidden">
+      <div className="bg-white px-6 pt-4 flex gap-2 overflow-hidden shrink-0">
         {TABS.map(tab => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
