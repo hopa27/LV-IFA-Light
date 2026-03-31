@@ -2,7 +2,7 @@ import React from 'react';
 import { useApp } from '@/context/app-context';
 import { useListBrokers } from '@workspace/api-client-react';
 import { Button } from '@/components/shared/FormElements';
-import { Search, FileText, Users, Briefcase, Home, Database, LogOut, ChevronFirst, ChevronLeft, ChevronRight, ChevronLast } from 'lucide-react';
+import { Search, FileText, Users, Briefcase, Home, Database, ChevronFirst, ChevronLeft, ChevronRight, ChevronLast } from 'lucide-react';
 
 const TABS = [
   { id: 'ifa-detail', label: 'IFA Detail', icon: FileText },
@@ -29,14 +29,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-[#f0f0f0] flex flex-col">
-      <header className="bg-[#00263e] text-white px-6 pt-3 pb-4">
-        <div className="flex items-center justify-between mb-3">
-          <h1 className="text-xl font-bold tracking-tight font-sans">
-            IFA Lite
-          </h1>
-          <span className="text-xs text-white/60 font-[Mulish]">Standard User</span>
+      <header className="bg-[#00263e] text-white px-[142px] pt-4 pb-6">
+        <div className="flex items-center justify-between">
+          <img src="/lve-logo.png" alt="LV= Logo" className="h-6" />
+          <Button variant="primary" className="h-8 px-5 py-1 text-sm font-normal">
+            Logout
+          </Button>
         </div>
-        <div className="h-px bg-slate-600/50" />
+        <div className="h-px bg-slate-600/50 my-4" />
+        <h1 className="text-3xl font-normal tracking-tight font-sans text-white">
+          IFA Lite
+        </h1>
       </header>
 
       <div className="bg-white px-6 pt-4 flex gap-2 overflow-x-hidden">
@@ -83,18 +86,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
 
-        <Button variant="secondary" className="text-xs px-4 py-1.5 h-auto">
-          <LogOut className="w-3.5 h-3.5" /> Exit
-        </Button>
       </div>
 
       <main className="flex-1 overflow-hidden bg-[#f0f0f0] relative p-4">
         {children}
       </main>
       
-      <footer className="bg-white border-t border-[#BBBBBB] py-3 px-6 flex justify-between items-center shrink-0 mt-auto">
-        <span className="text-sm font-bold text-[#00263e] font-sans">IFA Lite</span>
-        <span className="text-[10px] font-medium text-[#979797] font-[Mulish]">SSO Authentication: Active</span>
+      <footer className="bg-white border-t border-slate-200 py-4 px-8 flex justify-between items-center shrink-0 mt-auto">
+        <img src="/lve-logo.png" alt="LV= Logo" className="h-6" />
+        <div className="text-right">
+          <p className="text-[10px] font-medium text-slate-400 font-[Mulish]">Liverpool Victoria Financial Services Limited</p>
+          <p className="text-[10px] font-medium text-slate-400 font-[Mulish]">County Gates, Bournemouth BH1 2NF</p>
+        </div>
       </footer>
     </div>
   );
