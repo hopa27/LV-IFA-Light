@@ -69,7 +69,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="bg-white border-b border-t border-[#BBBBBB] px-6 py-3 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
           <select className="border border-[#BBBBBB] rounded-lg px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] bg-white outline-none cursor-pointer hover:border-[#178830] focus:border-[#178830] focus:border-2">
-            <option>Active</option>
+            <option>Appointment</option>
+            <option>Broker Pack Follow Up</option>
+            <option>Duplicate</option>
             <option>Hold</option>
           </select>
 
