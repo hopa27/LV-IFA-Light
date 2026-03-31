@@ -2,7 +2,7 @@ import React from 'react';
 import { useApp } from '@/context/app-context';
 import { useListBrokers } from '@workspace/api-client-react';
 import { Button } from '@/components/shared/FormElements';
-import { Search, FileText, Users, Briefcase, Home, Database, ChevronFirst, ChevronLeft, ChevronRight, ChevronLast } from 'lucide-react';
+import { Search, FileText, Users, Briefcase, Home, Database, ChevronFirst, ChevronLeft, ChevronRight, ChevronLast, Save, RefreshCw } from 'lucide-react';
 
 const TABS = [
   { id: 'ifa-detail', label: 'IFA Detail', icon: FileText },
@@ -14,7 +14,7 @@ const TABS = [
 ] as const;
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const { activeTab, setActiveTab, activeBrokerId, setActiveBrokerId } = useApp();
+  const { activeTab, setActiveTab, activeBrokerId, setActiveBrokerId, isDirty, isSaving, triggerSave } = useApp();
   const { data: brokers = [] } = useListBrokers();
 
   const currentIndex = brokers.findIndex(b => b.id === activeBrokerId);
@@ -88,6 +88,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
 
+        <Button onClick={triggerSave} disabled={!isDirty || isSaving}>
+          {isSaving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+          Save Changes
+        </Button>
       </div>
 
       <main className="flex-1 overflow-auto bg-[#f0f0f0] relative p-4">

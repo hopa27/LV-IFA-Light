@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useGetBroker, useUpdateBroker, useListContacts } from '@workspace/api-client-react';
 import { useApp } from '@/context/app-context';
-import { Fieldset, FormInput, FormSelect, FormRadioGroup, Button } from '@/components/shared/FormElements';
-import { Save, AlertCircle, RefreshCw } from 'lucide-react';
+import { Fieldset, FormInput, FormSelect, FormRadioGroup } from '@/components/shared/FormElements';
+import { AlertCircle } from 'lucide-react';
 
 export default function IfaDetailTab() {
-  const { activeBrokerId } = useApp();
+  const { activeBrokerId, setIsDirty, setIsSaving, registerSaveHandler } = useApp();
   
   const { data: broker, isLoading } = useGetBroker(activeBrokerId || 0, {
     query: { enabled: !!activeBrokerId }
@@ -18,10 +18,35 @@ export default function IfaDetailTab() {
   const { mutate: updateBroker, isPending: isUpdating } = useUpdateBroker();
 
   const [formData, setFormData] = useState<any>({});
+  const [originalData, setOriginalData] = useState<any>({});
 
   useEffect(() => {
-    if (broker) setFormData(broker);
-  }, [broker]);
+    if (broker) {
+      setFormData(broker);
+      setOriginalData(broker);
+      setIsDirty(false);
+    }
+  }, [broker, setIsDirty]);
+
+  useEffect(() => {
+    setIsSaving(isUpdating);
+  }, [isUpdating, setIsSaving]);
+
+  const handleSave = useCallback(() => {
+    if (activeBrokerId) {
+      updateBroker({ id: activeBrokerId, data: formData }, {
+        onSuccess: () => {
+          setOriginalData(formData);
+          setIsDirty(false);
+        }
+      });
+    }
+  }, [activeBrokerId, formData, updateBroker, setIsDirty]);
+
+  useEffect(() => {
+    registerSaveHandler(handleSave);
+    return () => registerSaveHandler(null);
+  }, [handleSave, registerSaveHandler]);
 
   if (!activeBrokerId) {
     return (
@@ -36,11 +61,10 @@ export default function IfaDetailTab() {
   if (isLoading && !broker) return <div className="p-8 text-center text-[#979797] font-[Mulish]">Loading details...</div>;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSave = () => {
-    updateBroker({ id: activeBrokerId, data: formData });
+    const newData = { ...formData, [e.target.name]: e.target.value };
+    setFormData(newData);
+    const hasChanges = JSON.stringify(newData) !== JSON.stringify(originalData);
+    setIsDirty(hasChanges);
   };
 
   return (
@@ -51,10 +75,6 @@ export default function IfaDetailTab() {
             <span className="w-1 h-6 bg-[#006cf4] rounded-sm"></span>
             Broker Details: <span className="text-[#006cf4]">{formData.ifaRef}</span>
           </h2>
-          <Button onClick={handleSave} disabled={isUpdating}>
-            {isUpdating ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-            Save Changes
-          </Button>
         </div>
 
         <div className="flex-1 overflow-auto pr-2 pb-4">

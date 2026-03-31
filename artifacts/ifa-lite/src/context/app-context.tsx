@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode } from 'react';
 import { useListBrokers } from '@workspace/api-client-react';
 
 type TabId = 'lookups' | 'ifa-detail' | 'contacts' | 'retirement' | 'equity' | 'notes';
@@ -8,6 +8,12 @@ interface AppContextType {
   setActiveTab: (tab: TabId) => void;
   activeBrokerId: number | null;
   setActiveBrokerId: (id: number | null) => void;
+  isDirty: boolean;
+  setIsDirty: (dirty: boolean) => void;
+  isSaving: boolean;
+  setIsSaving: (saving: boolean) => void;
+  registerSaveHandler: (handler: (() => void) | null) => void;
+  triggerSave: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -16,6 +22,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [activeTab, setActiveTab] = useState<TabId>('ifa-detail');
   const [activeBrokerId, setActiveBrokerId] = useState<number | null>(null);
   const [initialized, setInitialized] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const saveHandlerRef = useRef<(() => void) | null>(null);
 
   const { data: brokers } = useListBrokers();
 
@@ -28,10 +37,21 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const handleSetBroker = (id: number | null) => {
     setActiveBrokerId(id);
+    setIsDirty(false);
     if (id !== null && activeTab === 'lookups') {
       setActiveTab('ifa-detail');
     }
   };
+
+  const registerSaveHandler = useCallback((handler: (() => void) | null) => {
+    saveHandlerRef.current = handler;
+  }, []);
+
+  const triggerSave = useCallback(() => {
+    if (saveHandlerRef.current) {
+      saveHandlerRef.current();
+    }
+  }, []);
 
   return (
     <AppContext.Provider 
@@ -39,7 +59,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
         activeTab, 
         setActiveTab, 
         activeBrokerId, 
-        setActiveBrokerId: handleSetBroker 
+        setActiveBrokerId: handleSetBroker,
+        isDirty,
+        setIsDirty,
+        isSaving,
+        setIsSaving,
+        registerSaveHandler,
+        triggerSave,
       }}
     >
       {children}
