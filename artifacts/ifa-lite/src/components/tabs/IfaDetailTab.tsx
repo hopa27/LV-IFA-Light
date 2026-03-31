@@ -44,7 +44,7 @@ export default function IfaDetailTab() {
   };
 
   return (
-    <div className="flex gap-6 h-full">
+    <div className="flex gap-6 h-full overflow-y-auto">
       <div className="flex-1 flex flex-col min-w-[600px]">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-bold text-[#00263e] flex items-center gap-2 font-sans">
