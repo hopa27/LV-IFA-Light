@@ -31,7 +31,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-[#f0f0f0] flex flex-col">
       <header className="bg-[#00263e] text-white px-[142px] pt-4 pb-6">
         <div className="flex items-center justify-between">
-          <img src="/lve-logo.png" alt="LV= Logo" className="h-6" />
+          <img src="/lve-logo.png" alt="LV= Logo" className="h-10" />
           <Button variant="primary" className="h-8 px-5 py-1 text-sm font-normal">
             Logout
           </Button>
