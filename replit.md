@@ -2,7 +2,7 @@
 
 ## Overview
 
-Web-based IFA (Independent Financial Adviser) management application, replacing the legacy Windows desktop application. Built as a pnpm workspace monorepo with React frontend and Express API backend.
+Web-based IFA (Independent Financial Adviser) management application, replacing the legacy Windows desktop application. Built as a pnpm workspace monorepo. Runs as a **fully static website** — all data is embedded in-memory (no database or API server required).
 
 ## Stack
 
@@ -10,29 +10,30 @@ Web-based IFA (Independent Financial Adviser) management application, replacing 
 - **Node.js version**: 24
 - **Package manager**: pnpm
 - **TypeScript version**: 5.9
-- **Frontend**: React + Vite + Tailwind CSS + React Query
-- **API framework**: Express 5
-- **Database**: PostgreSQL + Drizzle ORM
-- **Validation**: Zod (`zod/v4`), `drizzle-zod`
-- **API codegen**: Orval (from OpenAPI spec)
-- **Build**: esbuild (CJS bundle for server), Vite (frontend)
+- **Frontend**: React + Vite + Tailwind CSS
+- **Data layer**: In-memory React context store with embedded JSON seed data
 
 ## Structure
 
 ```text
 artifacts-monorepo/
 ├── artifacts/
-│   ├── api-server/         # Express API server (port 8080)
-│   └── ifa-lite/           # React + Vite frontend (port 25791)
-├── lib/
-│   ├── api-spec/           # OpenAPI spec + Orval codegen config
-│   ├── api-client-react/   # Generated React Query hooks
-│   ├── api-zod/            # Generated Zod schemas from OpenAPI
-│   └── db/                 # Drizzle ORM schema + DB connection
-├── scripts/                # Utility scripts (seed, etc.)
+│   └── ifa-lite/           # React + Vite frontend (static website)
+│       └── src/
+│           ├── data/
+│           │   ├── seed-data.ts      # Embedded JSON data (13 brokers, 17 contacts, 38 notes, etc.)
+│           │   └── static-store.tsx  # React context providing in-memory CRUD store
+│           ├── hooks/
+│           │   └── use-static-data.ts # Drop-in replacement hooks (same API as old generated hooks)
+│           ├── components/
+│           │   ├── Layout.tsx         # Main layout with tabs, toolbar, navigation
+│           │   ├── tabs/              # Tab components (IFA Detail, Contacts, Lookups, etc.)
+│           │   └── shared/            # Combobox, FormElements, ClubModal
+│           ├── context/
+│           │   └── app-context.tsx    # App state (active broker, tab, dirty state, save handler)
+│           └── App.tsx
 ├── pnpm-workspace.yaml
 ├── tsconfig.base.json
-├── tsconfig.json
 └── package.json
 ```
 
@@ -47,31 +48,24 @@ artifacts-monorepo/
 5. **Equity Release** - Mortgage permissions, commissions, age band special deals
 6. **Notes** - Audit trail showing system changes with old/new values
 
-### Database Tables
+### Data Architecture
 
-- `brokers` - Main broker/IFA records
-- `contacts` - Contact details linked to brokers
-- `notes` - Audit trail notes
-- `retirement_income` - Commission settings per broker
-- `equity_release` - Equity release settings per broker
+- **Static data store** (`src/data/static-store.tsx`): React context wrapping `useState` arrays for brokers, contacts, notes, retirement income, and equity release. Provides `updateBroker`, `createBroker`, and `addNote` mutations.
+- **Static hooks** (`src/hooks/use-static-data.ts`): Drop-in replacements for the old generated API hooks (`useListBrokers`, `useGetBroker`, `useUpdateBroker`, `useCreateBroker`, `useListContacts`, `useListNotes`, `useCreateNote`, `useGetRetirementIncome`, `useGetEquityRelease`). Same return shapes (`{ data, isLoading, mutate, isPending }`).
+- **Seed data** (`src/data/seed-data.ts`): 13 brokers, 17 contacts, 38 notes, 11 retirement income records, 9 equity release records embedded as TypeScript arrays.
 
-### API Endpoints
+### UI Design Details
 
-All under `/api`:
-- `GET/POST /brokers` - List/create brokers
-- `GET/PUT /brokers/:id` - Get/update specific broker
-- `GET/POST /brokers/:brokerId/contacts` - List/create contacts
-- `PUT /brokers/:brokerId/contacts/:id` - Update contact
-- `GET/POST /brokers/:brokerId/notes` - List/create notes
-- `GET/PUT /brokers/:brokerId/retirement-income` - Get/update retirement income
-- `GET/PUT /brokers/:brokerId/equity-release` - Get/update equity release
+- **Colors**: Navy #00263e (header), primary blue #006cf4, hover #003578, green #178830 (focus), border grey #BBBBBB, tab inactive bg #eaf5f8, grid header bg #002f5c
+- **Fonts**: Livvic (headings/buttons/tabs), Mulish (inputs/body text)
+- **Layout**: All sections use `px-[142px]` horizontal padding; `html { zoom: 0.8 }` + root `height: calc(100vh / 0.8)` for correct scaling
+- **Custom Combobox**: Green 3px border when open, type-to-filter, navy highlight, blue rotating chevron. Used for ALL dropdowns app-wide.
 
 ## Development Commands
 
-- `pnpm --filter @workspace/api-spec run codegen` - Regenerate API client hooks and Zod schemas
-- `pnpm --filter @workspace/db run push` - Push database schema changes
-- `pnpm --filter @workspace/scripts run seed` - Seed sample data
-- `pnpm run typecheck` - Full type checking across all packages
+- `pnpm --filter @workspace/ifa-lite run dev` - Start development server
+- `pnpm --filter @workspace/ifa-lite run build` - Build for production
+- `pnpm --filter @workspace/ifa-lite run typecheck` - Type check
 
 ## Authentication
 

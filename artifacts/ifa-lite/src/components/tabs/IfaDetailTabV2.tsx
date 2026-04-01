@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useGetBroker, useUpdateBroker, useListContacts, useCreateNote } from '@workspace/api-client-react';
+import { useGetBroker, useUpdateBroker, useListContacts, useCreateNote } from '@/hooks/use-static-data';
 import { useApp } from '@/context/app-context';
 import { Fieldset, FormInput, FormSelect, FormRadioGroup } from '@/components/shared/FormElements';
 import { AlertCircle, Building2, MapPin, Phone, Shield, UserCircle, Settings } from 'lucide-react';

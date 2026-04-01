@@ -1,0 +1,218 @@
+export interface Broker {
+  id: number;
+  ifaRef: string;
+  brokerNo: string;
+  fimbraNo: string;
+  brokerName: string;
+  tradingName?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  town?: string;
+  county?: string;
+  postcode?: string;
+  telephone?: string;
+  fax?: string;
+  email?: string;
+  initials?: string;
+  dateChecked?: string;
+  status: string;
+  fcaReference?: string;
+  annuityToba?: boolean;
+  sentDate?: string;
+  grade?: string;
+  nextDiaryDate?: string;
+  ifaMemberNo?: string;
+  brokerManager?: string;
+  keyAccount?: string;
+  partnerCode?: string;
+  region?: string;
+  createdBy?: string;
+  createdDate?: string;
+  amendedBy?: string;
+  amendedDate?: string;
+  [key: string]: string | number | boolean | null | undefined;
+}
+
+export interface Contact {
+  id: number;
+  brokerId: number;
+  reference: string;
+  title?: string;
+  initials?: string;
+  forename?: string;
+  surname?: string;
+  salutation?: string;
+  position?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  addressLine3?: string;
+  addressLine4?: string;
+  homeTelephone?: string;
+  mobileTelephone?: string;
+  emailAddress?: string;
+  paidByBacs?: boolean;
+  bankSortCode?: string;
+  bankAccountNo?: string;
+  bankAccountName?: string;
+  bankReference?: string;
+  useNetworkTerms?: boolean;
+  defaultAdviceType?: string;
+  defaultRemunerationBasis?: string;
+  defaultDistributionChannel?: string;
+  network?: boolean;
+  tiedAgent?: boolean;
+  isPrincipal?: boolean;
+  networkIfa?: string;
+  networkName?: string;
+  networkPostcode?: string;
+  principalAgentRef?: string;
+  [key: string]: string | number | boolean | null | undefined;
+}
+
+export interface Note {
+  id: number;
+  brokerId: number;
+  noteType: string;
+  description: string;
+  oldValue?: string;
+  newValue?: string;
+  updatedBy?: string;
+  updatedDate?: string;
+  [key: string]: string | number | boolean | null | undefined;
+}
+
+export interface RetirementIncome {
+  id: number;
+  brokerId: number;
+  [key: string]: string | number | boolean | null | undefined;
+}
+
+export interface EquityRelease {
+  id: number;
+  brokerId: number;
+  [key: string]: string | number | boolean | null | undefined;
+}
+
+export interface ListBrokersParams {
+  postcode?: string;
+  ifaReference?: string;
+  ifaName?: string;
+  authorised?: boolean;
+  cancelled?: boolean;
+  duplicateRecord?: boolean;
+  revoked?: boolean;
+  [key: string]: any;
+}
+
+const brokerData = [
+  { ifaRef: "A G S-001", brokerNo: "BRK001", fimbraNo: "FIM001", brokerName: "AF", tradingName: "First Class Financial", addressLine1: "5 Eaton Bray Road", addressLine2: "Suite 4", town: "Northchurch", county: "Hertfordshire", postcode: "HP4 3QZ", telephone: "01442 876543", fax: "01442 876544", email: "info@firstclassfinancial.co.uk", initials: "AF", dateChecked: "15/01/2024", status: "Authorised", fcaReference: "207520", annuityToba: false, sentDate: "10/01/2020", grade: "National Accounts", nextDiaryDate: "15/06/2026", ifaMemberNo: "MEM001", brokerManager: "Keith Harvey", keyAccount: "Yes", partnerCode: "PC-AF01", region: "South", createdBy: "ADMIN", createdDate: "15/02/2002 15:00", amendedBy: "JSMITH", amendedDate: "20/03/2025 10:30" },
+  { ifaRef: "A J B-001", brokerNo: "BRK002", fimbraNo: "FIM002", brokerName: "Aldton Park Financial Services Ltd", tradingName: "Aldton Park FS", addressLine1: "93 Aldton Park", addressLine2: "Business Centre", town: "Newton Aycliffe", county: "County Durham", postcode: "DL5 7DW", telephone: "01325 310234", fax: "01325 310235", email: "admin@aldtonparkfs.co.uk", initials: "AP", dateChecked: "20/02/2024", status: "Authorised", fcaReference: "305421", annuityToba: true, sentDate: "05/03/2019", grade: "Regional", nextDiaryDate: "01/07/2026", ifaMemberNo: "MEM002", brokerManager: "Sarah Collins", keyAccount: "No", partnerCode: "PC-AJ01", region: "North", createdBy: "ADMIN", createdDate: "20/03/2003 10:30", amendedBy: "SCOLLINS", amendedDate: "15/01/2025 14:00" },
+  { ifaRef: "A ONE-001", brokerNo: "BRK003", fimbraNo: "FIM003", brokerName: "a1 Financial Services", tradingName: "A1 Finance", addressLine1: "30 High Street", town: "Wethersfield", county: "Essex", postcode: "CM7 4BS", telephone: "01371 850234", email: "contact@a1finance.co.uk", initials: "A1", dateChecked: "01/12/2023", status: "Cancelled", fcaReference: "401234", grade: "Standard", brokerManager: "Keith Harvey", region: "East", createdBy: "ADMIN", createdDate: "05/06/2004 14:15", amendedBy: "KHARVEY", amendedDate: "10/11/2024 09:00" },
+  { ifaRef: "A T C-001", brokerNo: "BRK004", fimbraNo: "FIM004", brokerName: "A T C Financial Management", tradingName: "ATC FM", addressLine1: "Solway House Business Park", addressLine2: "Unit 12", town: "Kingstown", county: "Cumbria", postcode: "CA3 0HA", telephone: "01228 670345", fax: "01228 670346", email: "enquiries@atcfm.co.uk", initials: "AT", dateChecked: "05/03/2024", status: "Authorised", fcaReference: "312567", annuityToba: true, sentDate: "15/09/2018", grade: "National Accounts", nextDiaryDate: "20/08/2026", ifaMemberNo: "MEM004", brokerManager: "David Thompson", keyAccount: "Yes", partnerCode: "PC-AT01", region: "North", createdBy: "ADMIN", createdDate: "12/09/2001 09:45", amendedBy: "DTHOMPSON", amendedDate: "22/02/2025 11:30" },
+  { ifaRef: "A&JIN-001", brokerNo: "BRK005", fimbraNo: "FIM005", brokerName: "A & J Mortgages Ltd", tradingName: "A&J Mortgages", addressLine1: "1 Qarrenlton Grove", town: "Johnstone", county: "Renfrewshire", postcode: "PA5 8HG", telephone: "01505 321456", email: "info@ajmortgages.co.uk", initials: "AJ", status: "Authorised", fcaReference: "456789", annuityToba: false, grade: "Regional", brokerManager: "Sarah Collins", partnerCode: "PC-AJ02", region: "Scotland", createdBy: "ADMIN", createdDate: "01/11/2005 11:20" },
+  { ifaRef: "A&JPE-001", brokerNo: "BRK006", fimbraNo: "FIM006", brokerName: "A & J Perry Ltd", tradingName: "Perry Financial", addressLine1: "Cardale", addressLine2: "Office 3B", town: "Burnley", county: "Lancashire", postcode: "BB11 3RQ", telephone: "01282 432567", fax: "01282 432568", email: "admin@perryfinancial.co.uk", initials: "PF", dateChecked: "10/04/2024", status: "Authorised", fcaReference: "523456", annuityToba: true, sentDate: "20/04/2020", grade: "Standard", nextDiaryDate: "30/09/2026", ifaMemberNo: "MEM006", brokerManager: "Keith Harvey", keyAccount: "No", partnerCode: "PC-PF01", region: "North West", createdBy: "ADMIN", createdDate: "18/04/2003 16:00", amendedBy: "KHARVEY", amendedDate: "05/03/2025 16:45" },
+  { ifaRef: "A.R.D-001", brokerNo: "BRK007", fimbraNo: "FIM007", brokerName: "A.R.D Consultancy Ltd", tradingName: "ARD Consulting", addressLine1: "9 Melville Street", town: "Edinburgh", county: "Midlothian", postcode: "EH3 7PE", telephone: "0131 226 7890", fax: "0131 226 7891", email: "hello@ardconsulting.co.uk", initials: "AR", dateChecked: "22/05/2024", status: "Authorised", fcaReference: "634567", annuityToba: false, sentDate: "01/08/2017", grade: "National Accounts", nextDiaryDate: "15/10/2026", ifaMemberNo: "MEM007", brokerManager: "David Thompson", keyAccount: "Yes", partnerCode: "PC-AR01", region: "Scotland", createdBy: "ADMIN", createdDate: "22/07/2002 13:30", amendedBy: "DTHOMPSON", amendedDate: "18/04/2025 09:15" },
+  { ifaRef: "A1FIN-002", brokerNo: "BRK008", fimbraNo: "FIM008", brokerName: "A1 Financial Services Online Ltd", tradingName: "A1 FSO", addressLine1: "7-8 The Shrubberies", addressLine2: "Ground Floor", town: "George Street", county: "Gloucestershire", postcode: "GL1 1PQ", telephone: "01452 523456", email: "support@a1fso.co.uk", initials: "A1", dateChecked: "30/06/2024", status: "Authorised", fcaReference: "745678", annuityToba: true, sentDate: "12/02/2021", grade: "Regional", nextDiaryDate: "01/12/2026", ifaMemberNo: "MEM008", brokerManager: "Sarah Collins", partnerCode: "PC-A1F2", region: "South West", createdBy: "ADMIN", createdDate: "30/01/2006 10:00", amendedBy: "SCOLLINS", amendedDate: "01/02/2025 13:00" },
+  { ifaRef: "AAFFI-001", brokerNo: "BRK009", fimbraNo: "FIM009", brokerName: "AAF Financial Ltd", tradingName: "AAF Finance", addressLine1: "82 Broadpark Road", town: "Liverpool", county: "Merseyside", postcode: "L14 9QA", telephone: "0151 228 9012", fax: "0151 228 9013", email: "info@aaffinance.co.uk", initials: "AA", status: "Authorised", fcaReference: "856789", grade: "Standard", brokerManager: "Keith Harvey", region: "North West", createdBy: "ADMIN", createdDate: "14/05/2004 15:45" },
+  { ifaRef: "AAMOR-001", brokerNo: "BRK010", fimbraNo: "FIM010", brokerName: "AA Mortgage Gateway Ltd", tradingName: "AA Mortgage Gateway", addressLine1: "84 Kensington High Street", addressLine2: "3rd Floor", town: "London", county: "Greater London", postcode: "W8 4PT", telephone: "020 7937 8901", fax: "020 7937 8902", email: "info@aamortgage.co.uk", initials: "AM", dateChecked: "15/08/2024", status: "Authorised", fcaReference: "967890", annuityToba: true, sentDate: "03/08/2019", grade: "National Accounts", nextDiaryDate: "01/04/2026", ifaMemberNo: "MEM010", brokerManager: "David Thompson", keyAccount: "Yes", partnerCode: "PC-AM01", region: "London", createdBy: "ADMIN", createdDate: "03/08/2001 12:15", amendedBy: "DTHOMPSON", amendedDate: "10/03/2025 10:00" },
+  { ifaRef: "CLRKH-001", brokerNo: "BRK011", fimbraNo: "FIM011", brokerName: "The Clarkson Hill Group Plc.", tradingName: "Clarkson Hill", addressLine1: "61 Lincombe Road", addressLine2: "The Old Rectory", town: "Radstock", county: "Somerset", postcode: "BA3 3YJ", telephone: "01761 420773", fax: "01761 420774", email: "info@clarksonhill.co.uk", initials: "CH", dateChecked: "01/03/2024", status: "Cancelled", fcaReference: "207520", annuityToba: true, sentDate: "15/02/2018", grade: "National Accounts", nextDiaryDate: "01/05/2026", ifaMemberNo: "MEM011", brokerManager: "Keith Harvey", keyAccount: "Yes", partnerCode: "PC-CH01", region: "South West", createdBy: "ADMIN", createdDate: "15/02/2002 15:00", amendedBy: "ERIPORA", amendedDate: "13/07/2015 14:30" },
+  { ifaRef: "BRKWD-001", brokerNo: "BRK012", fimbraNo: "FIM012", brokerName: "Brookwood Financial Planning", tradingName: "Brookwood FP", addressLine1: "14 Clarence Parade", town: "Southsea", county: "Hampshire", postcode: "PO5 3NU", telephone: "023 9283 4567", email: "advice@brookwoodfp.co.uk", initials: "BW", dateChecked: "12/04/2024", status: "Authorised", fcaReference: "198765", annuityToba: false, sentDate: "20/06/2020", grade: "Regional", nextDiaryDate: "15/07/2026", ifaMemberNo: "MEM012", brokerManager: "Sarah Collins", keyAccount: "No", partnerCode: "PC-BW01", region: "South", createdBy: "ADMIN", createdDate: "08/11/2003 09:00", amendedBy: "SCOLLINS", amendedDate: "28/01/2025 15:30" },
+  { ifaRef: "HRTFN-001", brokerNo: "BRK013", fimbraNo: "FIM013", brokerName: "Hartfield & Associates", tradingName: "Hartfield Wealth", addressLine1: "25 Cathedral Close", addressLine2: "2nd Floor", town: "Exeter", county: "Devon", postcode: "EX1 1EZ", telephone: "01392 456789", fax: "01392 456790", email: "wealth@hartfield.co.uk", initials: "HA", dateChecked: "18/05/2024", status: "Authorised", fcaReference: "345612", annuityToba: true, sentDate: "10/10/2019", grade: "National Accounts", nextDiaryDate: "20/09/2026", ifaMemberNo: "MEM013", brokerManager: "David Thompson", keyAccount: "Yes", partnerCode: "PC-HA01", region: "South West", createdBy: "ADMIN", createdDate: "15/03/2002 11:45", amendedBy: "DTHOMPSON", amendedDate: "14/04/2025 08:30" },
+];
+
+export const initialBrokers: Broker[] = brokerData.map((b, i) => ({ ...b, id: i + 1 }) as Broker);
+
+const contactRaw = [
+  { brokerId: 1, reference: "001", title: "Mr", initials: "RG", forename: "Robert", surname: "Green", salutation: "Mr Green", position: "Director", addressLine1: "5 Eaton Bray Road", addressLine2: "Suite 4", homeTelephone: "01442 876000", mobileTelephone: "07700 900123", emailAddress: "r.green@firstclassfinancial.co.uk", paidByBacs: true, bankSortCode: "20-45-67", bankAccountNo: "12345678", bankAccountName: "First Class Financial Ltd", bankReference: "LV=FC", defaultAdviceType: "Independent", defaultRemunerationBasis: "Fee", defaultDistributionChannel: "Direct" },
+  { brokerId: 1, reference: "002", title: "Mrs", initials: "LG", forename: "Linda", surname: "Green", salutation: "Mrs Green", position: "Compliance Officer", addressLine1: "5 Eaton Bray Road", homeTelephone: "01442 876001", emailAddress: "l.green@firstclassfinancial.co.uk", paidByBacs: true, bankSortCode: "20-45-67", bankAccountNo: "12345678", bankAccountName: "First Class Financial Ltd", bankReference: "LV=FC" },
+  { brokerId: 2, reference: "001", title: "Mr", initials: "PW", forename: "Peter", surname: "Watson", salutation: "Mr Watson", position: "Managing Director", addressLine1: "93 Aldton Park", mobileTelephone: "07700 900456", emailAddress: "p.watson@aldtonparkfs.co.uk", paidByBacs: true, bankSortCode: "30-12-89", bankAccountNo: "87654321", bankAccountName: "Aldton Park FS", bankReference: "LV=AP", defaultAdviceType: "Restricted", defaultRemunerationBasis: "Commission" },
+  { brokerId: 2, reference: "002", title: "Ms", initials: "EJ", forename: "Emma", surname: "Jones", salutation: "Ms Jones", position: "Senior Adviser", addressLine1: "93 Aldton Park", mobileTelephone: "07700 900457", emailAddress: "e.jones@aldtonparkfs.co.uk", paidByBacs: false, useNetworkTerms: true, networkName: "Openwork", networkPostcode: "SN1 1GG", network: true },
+  { brokerId: 4, reference: "001", title: "Dr", initials: "MC", forename: "Michael", surname: "Chen", salutation: "Dr Chen", position: "Principal", addressLine1: "Solway House Business Park", addressLine2: "Unit 12", homeTelephone: "01228 670000", mobileTelephone: "07700 900789", emailAddress: "m.chen@atcfm.co.uk", paidByBacs: true, bankSortCode: "40-22-11", bankAccountNo: "55667788", bankAccountName: "ATC Financial Mgmt", bankReference: "LV=ATC", defaultAdviceType: "Independent", isPrincipal: true },
+  { brokerId: 5, reference: "001", title: "Mr", initials: "AJ", forename: "Andrew", surname: "Jameson", salutation: "Mr Jameson", position: "Director", addressLine1: "1 Qarrenlton Grove", mobileTelephone: "07700 900321", emailAddress: "a.jameson@ajmortgages.co.uk", paidByBacs: true, bankSortCode: "80-15-33", bankAccountNo: "44556677", bankAccountName: "A&J Mortgages Ltd", bankReference: "LV=AJM" },
+  { brokerId: 6, reference: "001", title: "Mr", initials: "JP", forename: "James", surname: "Perry", salutation: "Mr Perry", position: "Senior Partner", addressLine1: "Cardale", addressLine2: "Office 3B", homeTelephone: "01282 432000", mobileTelephone: "07700 900654", emailAddress: "j.perry@perryfinancial.co.uk", paidByBacs: true, bankSortCode: "01-07-44", bankAccountNo: "99887766", bankAccountName: "Perry Financial", bankReference: "LV=PF", defaultAdviceType: "Independent", defaultRemunerationBasis: "Fee" },
+  { brokerId: 6, reference: "002", title: "Mrs", initials: "KP", forename: "Karen", surname: "Perry", salutation: "Mrs Perry", position: "Administrator", homeTelephone: "01282 432001", emailAddress: "k.perry@perryfinancial.co.uk" },
+  { brokerId: 7, reference: "001", title: "Mr", initials: "AD", forename: "Alan", surname: "Drummond", salutation: "Mr Drummond", position: "Consultant", addressLine1: "9 Melville Street", homeTelephone: "0131 226 7800", mobileTelephone: "07700 900987", emailAddress: "a.drummond@ardconsulting.co.uk", paidByBacs: true, bankSortCode: "83-19-27", bankAccountNo: "11223344", bankAccountName: "ARD Consultancy Ltd", bankReference: "LV=ARD", defaultAdviceType: "Independent", tiedAgent: false, isPrincipal: true },
+  { brokerId: 10, reference: "001", title: "Ms", initials: "FT", forename: "Fiona", surname: "Taylor", salutation: "Ms Taylor", position: "Regional Manager", addressLine1: "84 Kensington High Street", addressLine2: "3rd Floor", homeTelephone: "020 7937 8800", mobileTelephone: "07700 900111", emailAddress: "f.taylor@aamortgage.co.uk", paidByBacs: true, bankSortCode: "15-80-44", bankAccountNo: "33445566", bankAccountName: "AA Mortgage Gateway", bankReference: "LV=AAM", defaultAdviceType: "Restricted", defaultDistributionChannel: "Network" },
+  { brokerId: 10, reference: "002", title: "Mr", initials: "BL", forename: "Benjamin", surname: "Lewis", salutation: "Mr Lewis", position: "Mortgage Adviser", mobileTelephone: "07700 900112", emailAddress: "b.lewis@aamortgage.co.uk", useNetworkTerms: true, networkName: "St. James's Place", networkPostcode: "SW1A 1AA", network: true },
+  { brokerId: 11, reference: "001", title: "Mr", initials: "JC", forename: "John", surname: "Clarkson", salutation: "Mr Clarkson", position: "Director", addressLine1: "61 Lincombe Road", homeTelephone: "01761 420000", mobileTelephone: "07700 900222", emailAddress: "j.clarkson@clarksonhill.co.uk", paidByBacs: true, bankSortCode: "77-48-14", bankAccountNo: "24782346", bankAccountName: "(SMT) Money Matter", bankReference: "LV=", defaultAdviceType: "Independent", defaultRemunerationBasis: "Fee", isPrincipal: true },
+  { brokerId: 11, reference: "002", title: "Mrs", initials: "SH", forename: "Sarah", surname: "Hill", salutation: "Mrs Hill", position: "Manager", addressLine1: "61 Lincombe Road", mobileTelephone: "07700 900223", emailAddress: "s.hill@clarksonhill.co.uk", paidByBacs: false },
+  { brokerId: 11, reference: "003", title: "Mr", initials: "TW", forename: "Thomas", surname: "White", salutation: "Mr White", position: "Financial Adviser", mobileTelephone: "07700 900224", emailAddress: "t.white@clarksonhill.co.uk", useNetworkTerms: true, networkName: "Quilter", networkPostcode: "SO15 1EF", network: true },
+  { brokerId: 12, reference: "001", title: "Mrs", initials: "HB", forename: "Helen", surname: "Brooks", salutation: "Mrs Brooks", position: "Director", addressLine1: "14 Clarence Parade", homeTelephone: "023 9283 4000", mobileTelephone: "07700 900333", emailAddress: "h.brooks@brookwoodfp.co.uk", paidByBacs: true, bankSortCode: "56-00-29", bankAccountNo: "78901234", bankAccountName: "Brookwood FP Ltd", bankReference: "LV=BWF", defaultAdviceType: "Independent" },
+  { brokerId: 13, reference: "001", title: "Mr", initials: "DH", forename: "David", surname: "Hartfield", salutation: "Mr Hartfield", position: "Senior Partner", addressLine1: "25 Cathedral Close", addressLine2: "2nd Floor", homeTelephone: "01392 456000", mobileTelephone: "07700 900444", emailAddress: "d.hartfield@hartfield.co.uk", paidByBacs: true, bankSortCode: "09-01-55", bankAccountNo: "56789012", bankAccountName: "Hartfield & Associates", bankReference: "LV=HFA", defaultAdviceType: "Independent", defaultRemunerationBasis: "Mixed", isPrincipal: true },
+  { brokerId: 13, reference: "002", title: "Miss", initials: "CR", forename: "Claire", surname: "Robertson", salutation: "Miss Robertson", position: "Paraplanner", mobileTelephone: "07700 900445", emailAddress: "c.robertson@hartfield.co.uk" },
+];
+
+export const initialContacts: Contact[] = contactRaw.map((c, i) => ({ ...c, id: i + 1 }) as Contact);
+
+const notesRaw = [
+  { brokerId: 1, noteType: "SYS", description: "Grade updated by KHARVEY on 15/01/2025", oldValue: "Regional", newValue: "National Accounts", updatedBy: "KHARVEY", updatedDate: "15/01/2025 10:00" },
+  { brokerId: 1, noteType: "SYS", description: "Broker Manager updated by ADMIN on 10/06/2024", oldValue: "David Thompson", newValue: "Keith Harvey", updatedBy: "ADMIN", updatedDate: "10/06/2024 14:30" },
+  { brokerId: 1, noteType: "MAN", description: "Annual review completed. All documentation up to date. Recommend maintaining current grade.", updatedBy: "KHARVEY", updatedDate: "20/03/2025 10:30" },
+  { brokerId: 2, noteType: "SYS", description: "Annuity TOBA updated by SCOLLINS on 15/01/2025", oldValue: "No", newValue: "Yes", updatedBy: "SCOLLINS", updatedDate: "15/01/2025 14:00" },
+  { brokerId: 2, noteType: "MAN", description: "Spoke with Peter Watson regarding network terms. Awaiting signed TOBA documentation.", updatedBy: "SCOLLINS", updatedDate: "12/12/2024 09:15" },
+  { brokerId: 2, noteType: "SYS", description: "Status updated by ADMIN on 20/03/2023", oldValue: "Pending", newValue: "Authorised", updatedBy: "ADMIN", updatedDate: "20/03/2023 10:30" },
+  { brokerId: 3, noteType: "SYS", description: "Status updated by KHARVEY on 10/11/2024", oldValue: "Authorised", newValue: "Cancelled", updatedBy: "KHARVEY", updatedDate: "10/11/2024 09:00" },
+  { brokerId: 3, noteType: "MAN", description: "Broker ceased trading. FCA registration cancelled. All pending cases transferred to A1 Financial Services Online Ltd.", updatedBy: "KHARVEY", updatedDate: "10/11/2024 09:05" },
+  { brokerId: 4, noteType: "SYS", description: "Key Account updated by DTHOMPSON on 22/02/2025", oldValue: "No", newValue: "Yes", updatedBy: "DTHOMPSON", updatedDate: "22/02/2025 11:30" },
+  { brokerId: 4, noteType: "SYS", description: "Region updated by ADMIN on 01/04/2024", oldValue: "North West", newValue: "North", updatedBy: "ADMIN", updatedDate: "01/04/2024 15:00" },
+  { brokerId: 4, noteType: "MAN", description: "Upgraded to key account status following strong Q4 2024 performance. Volume threshold exceeded.", updatedBy: "DTHOMPSON", updatedDate: "22/02/2025 11:35" },
+  { brokerId: 5, noteType: "SYS", description: "Status updated by SCOLLINS on 01/11/2005", oldValue: "Pending", newValue: "Authorised", updatedBy: "SCOLLINS", updatedDate: "01/11/2005 11:20" },
+  { brokerId: 5, noteType: "SYS", description: "Grade updated by SCOLLINS on 15/06/2024", oldValue: "Standard", newValue: "Regional", updatedBy: "SCOLLINS", updatedDate: "15/06/2024 10:00" },
+  { brokerId: 5, noteType: "MAN", description: "Initial broker pack sent and signed TOBA received. Contact Andrew Jameson confirmed as primary point of contact.", updatedBy: "SCOLLINS", updatedDate: "15/11/2005 09:30" },
+  { brokerId: 6, noteType: "SYS", description: "NPA - Commission updated by KHARVEY on 05/03/2025", oldValue: "1.3", newValue: "1.5", updatedBy: "KHARVEY", updatedDate: "05/03/2025 16:45" },
+  { brokerId: 6, noteType: "MAN", description: "Commission rate increase agreed following broker review meeting on 01/03/2025.", updatedBy: "KHARVEY", updatedDate: "05/03/2025 16:50" },
+  { brokerId: 7, noteType: "SYS", description: "Broker Manager updated by ADMIN on 01/01/2025", oldValue: "Keith Harvey", newValue: "David Thompson", updatedBy: "ADMIN", updatedDate: "01/01/2025 09:00" },
+  { brokerId: 7, noteType: "MAN", description: "Transferred to David Thompson's portfolio as part of Q1 2025 regional realignment.", updatedBy: "ADMIN", updatedDate: "01/01/2025 09:05" },
+  { brokerId: 8, noteType: "SYS", description: "Annuity TOBA updated by SCOLLINS on 01/02/2025", oldValue: "No", newValue: "Yes", updatedBy: "SCOLLINS", updatedDate: "01/02/2025 13:00" },
+  { brokerId: 8, noteType: "SYS", description: "Grade updated by SCOLLINS on 15/09/2024", oldValue: "Standard", newValue: "Regional", updatedBy: "SCOLLINS", updatedDate: "15/09/2024 11:00" },
+  { brokerId: 8, noteType: "MAN", description: "Online platform integration completed. Broker now submitting applications electronically. Training session held with support team.", updatedBy: "SCOLLINS", updatedDate: "20/02/2025 14:30" },
+  { brokerId: 9, noteType: "SYS", description: "Status updated by ADMIN on 14/05/2004", oldValue: "Pending", newValue: "Authorised", updatedBy: "ADMIN", updatedDate: "14/05/2004 15:45" },
+  { brokerId: 9, noteType: "SYS", description: "Broker Manager updated by ADMIN on 01/07/2023", oldValue: "Sarah Collins", newValue: "Keith Harvey", updatedBy: "ADMIN", updatedDate: "01/07/2023 09:00" },
+  { brokerId: 9, noteType: "MAN", description: "Broker under-performing on volume targets. Review scheduled for Q2 2025 with potential downgrade if no improvement.", updatedBy: "KHARVEY", updatedDate: "15/01/2025 11:00" },
+  { brokerId: 10, noteType: "SYS", description: "Grade updated by DTHOMPSON on 10/03/2025", oldValue: "Regional", newValue: "National Accounts", updatedBy: "DTHOMPSON", updatedDate: "10/03/2025 10:00" },
+  { brokerId: 10, noteType: "SYS", description: "Equity Release - Flexible Broker Rate updated by DTHOMPSON on 10/03/2025", oldValue: "1", newValue: "1.25", updatedBy: "DTHOMPSON", updatedDate: "10/03/2025 10:05" },
+  { brokerId: 10, noteType: "MAN", description: "Major account review completed. Upgraded to National Accounts. New equity release terms agreed.", updatedBy: "DTHOMPSON", updatedDate: "10/03/2025 10:10" },
+  { brokerId: 11, noteType: "SYS", description: "NPA - Expense Discount updated by ERIPORA on 13/07/2015", oldValue: ".5", newValue: "0", updatedBy: "ERIPORA", updatedDate: "13/07/2015 14:30" },
+  { brokerId: 11, noteType: "SYS", description: "NPA - Expense Discount updated by ERIPORA on 25/02/2014", oldValue: "0", newValue: ".5", updatedBy: "ERIPORA", updatedDate: "25/02/2014 10:00" },
+  { brokerId: 11, noteType: "SYS", description: "PIPA - Expense Discount updated by ERIPORA on 17/06/2013", oldValue: ".4", newValue: "0", updatedBy: "ERIPORA", updatedDate: "17/06/2013 16:20" },
+  { brokerId: 11, noteType: "SYS", description: "NPA - Expense Discount updated by ERIPORA on 12/06/2013", oldValue: "-.7", newValue: "0", updatedBy: "ERIPORA", updatedDate: "12/06/2013 11:00" },
+  { brokerId: 11, noteType: "SYS", description: "Status updated by KHARVEY on 01/06/2023", oldValue: "Authorised", newValue: "Cancelled", updatedBy: "KHARVEY", updatedDate: "01/06/2023 09:30" },
+  { brokerId: 11, noteType: "MAN", description: "Broker group restructured. Trading ceased under this entity. Clients migrated to new company.", updatedBy: "KHARVEY", updatedDate: "01/06/2023 09:35" },
+  { brokerId: 12, noteType: "SYS", description: "Region updated by SCOLLINS on 28/01/2025", oldValue: "South East", newValue: "South", updatedBy: "SCOLLINS", updatedDate: "28/01/2025 15:30" },
+  { brokerId: 12, noteType: "MAN", description: "Quarterly review completed. Strong performance in retirement income products. Potential for upgrade to National Accounts next quarter.", updatedBy: "SCOLLINS", updatedDate: "28/01/2025 15:35" },
+  { brokerId: 13, noteType: "SYS", description: "Grade updated by DTHOMPSON on 14/04/2025", oldValue: "Regional", newValue: "National Accounts", updatedBy: "DTHOMPSON", updatedDate: "14/04/2025 08:30" },
+  { brokerId: 13, noteType: "SYS", description: "Key Account updated by DTHOMPSON on 14/04/2025", oldValue: "No", newValue: "Yes", updatedBy: "DTHOMPSON", updatedDate: "14/04/2025 08:35" },
+  { brokerId: 13, noteType: "MAN", description: "Exceptional growth in equity release and retirement income volumes. Promoted to key account with enhanced terms.", updatedBy: "DTHOMPSON", updatedDate: "14/04/2025 08:40" },
+];
+
+export const initialNotes: Note[] = notesRaw.map((n, i) => ({ ...n, id: i + 1 }) as Note);
+
+const retirementRaw = [
+  { brokerId: 1, npaAdviserCharges: "0.5", npaAmount: "250", npaCommission: "1.3", npaExpenseDiscount: "0.2", npaMarketingAllowance: "0.1", pipaAdviserCharges: "0.4", pipaAmount: "200", pipaCommission: "1.4", pipaExpenseDiscount: "0.15", pipaMarketingAllowance: "0.1", prpAdviserCharges: "0.6", prpAmount: "300", prpCommission: "2", prpExpenseDiscount: "0.25", prpMarketingAllowance: "0.15" },
+  { brokerId: 2, npaCommission: "1.2", pipaCommission: "1.3", prpCommission: "1.8", npaExpenseDiscount: "0.1", pipaExpenseDiscount: "0.1" },
+  { brokerId: 4, npaAdviserCharges: "0.75", npaAmount: "500", npaCommission: "1.5", npaExpenseDiscount: "0.3", npaMarketingAllowance: "0.2", pipaAdviserCharges: "0.6", pipaAmount: "400", pipaCommission: "1.6", pipaExpenseDiscount: "0.2", pipaMarketingAllowance: "0.15", prpAdviserCharges: "0.8", prpAmount: "600", prpCommission: "2.2", prpExpenseDiscount: "0.35", prpMarketingAllowance: "0.2" },
+  { brokerId: 5, npaCommission: "1.3", pipaCommission: "1.4", prpCommission: "2" },
+  { brokerId: 6, npaAdviserCharges: "0.3", npaAmount: "150", npaCommission: "1.5", npaExpenseDiscount: "0", pipaCommission: "1.4", prpCommission: "1.9" },
+  { brokerId: 7, npaAdviserCharges: "0.6", npaAmount: "350", npaCommission: "1.4", npaExpenseDiscount: "0.15", npaMarketingAllowance: "0.1", pipaAdviserCharges: "0.5", pipaAmount: "300", pipaCommission: "1.5", pipaExpenseDiscount: "0.1", prpAdviserCharges: "0.7", prpAmount: "450", prpCommission: "2.1", prpExpenseDiscount: "0.2", prpMarketingAllowance: "0.15" },
+  { brokerId: 8, npaCommission: "1.2", pipaCommission: "1.3", prpCommission: "1.7" },
+  { brokerId: 10, npaAdviserCharges: "0.8", npaAmount: "600", npaCommission: "1.6", npaExpenseDiscount: "0.3", npaMarketingAllowance: "0.25", pipaAdviserCharges: "0.7", pipaAmount: "500", pipaCommission: "1.7", pipaExpenseDiscount: "0.25", pipaMarketingAllowance: "0.2", prpAdviserCharges: "0.9", prpAmount: "750", prpCommission: "2.5", prpExpenseDiscount: "0.4", prpMarketingAllowance: "0.3" },
+  { brokerId: 11, npaCommission: "1.3", pipaCommission: "1.4", prpCommission: "2" },
+  { brokerId: 12, npaAdviserCharges: "0.4", npaAmount: "200", npaCommission: "1.3", pipaAdviserCharges: "0.35", pipaAmount: "180", pipaCommission: "1.4", prpAdviserCharges: "0.5", prpAmount: "250", prpCommission: "2" },
+  { brokerId: 13, npaAdviserCharges: "0.7", npaAmount: "450", npaCommission: "1.5", npaExpenseDiscount: "0.2", npaMarketingAllowance: "0.15", pipaAdviserCharges: "0.6", pipaAmount: "400", pipaCommission: "1.6", pipaExpenseDiscount: "0.15", pipaMarketingAllowance: "0.1", prpAdviserCharges: "0.85", prpAmount: "550", prpCommission: "2.3", prpExpenseDiscount: "0.3", prpMarketingAllowance: "0.2" },
+];
+
+export const initialRetirementIncome: RetirementIncome[] = retirementRaw.map((r, i) => ({ ...r, id: i + 1 }) as RetirementIncome);
+
+const equityRaw = [
+  { brokerId: 1, mortgagePermissions: true, erlmToba: true, flexibleBrokerRate: "1.1", flexibleMinimumAmount: "500", flexibleNetworkRate: "0.3", flexibleTrailCommission: true, lumpSumBrokerRate: "1.2", lumpSumMinimumAmount: "750", lumpSumNetworkRate: "0.4", packagingFee: "295", applicationFee: "150", ltvPercent: "2.5" },
+  { brokerId: 2, mortgagePermissions: true, erlmToba: false, flexibleBrokerRate: "1", lumpSumBrokerRate: "1", packagingFee: "250", applicationFee: "125" },
+  { brokerId: 4, mortgagePermissions: true, erlmToba: true, flexibleBrokerRate: "1.25", flexibleMinimumAmount: "750", flexibleNetworkRate: "0.4", flexibleTrailCommission: true, lumpSumBrokerRate: "1.3", lumpSumMinimumAmount: "1000", lumpSumNetworkRate: "0.5", packagingFee: "350", applicationFee: "200", ltvPercent: "3", lumpSumPackagingFee: "375", lumpSumApplicationFee: "225", lumpSumLtvPercent: "2.8" },
+  { brokerId: 6, mortgagePermissions: true, erlmToba: true, flexibleBrokerRate: "1", lumpSumBrokerRate: "1.1", packagingFee: "275", applicationFee: "140" },
+  { brokerId: 7, mortgagePermissions: true, erlmToba: true, flexibleBrokerRate: "1.15", flexibleMinimumAmount: "600", flexibleNetworkRate: "0.35", flexibleTrailCommission: false, lumpSumBrokerRate: "1.2", lumpSumMinimumAmount: "800", lumpSumNetworkRate: "0.4", packagingFee: "310", applicationFee: "175", ltvPercent: "2.7" },
+  { brokerId: 10, mortgagePermissions: true, erlmToba: true, flexibleBrokerRate: "1.25", flexibleMinimumAmount: "800", flexibleNetworkRate: "0.45", flexibleTrailCommission: true, lumpSumBrokerRate: "1.35", lumpSumMinimumAmount: "1200", lumpSumNetworkRate: "0.55", packagingFee: "395", applicationFee: "250", ltvPercent: "3.5", lumpSumPackagingFee: "420", lumpSumApplicationFee: "275", lumpSumLtvPercent: "3.2" },
+  { brokerId: 11, mortgagePermissions: true, erlmToba: true, flexibleBrokerRate: "1", lumpSumBrokerRate: "1" },
+  { brokerId: 12, mortgagePermissions: true, erlmToba: false, flexibleBrokerRate: "1.05", flexibleMinimumAmount: "400", lumpSumBrokerRate: "1.1", lumpSumMinimumAmount: "600", packagingFee: "260", applicationFee: "130" },
+  { brokerId: 13, mortgagePermissions: true, erlmToba: true, flexibleBrokerRate: "1.2", flexibleMinimumAmount: "700", flexibleNetworkRate: "0.4", flexibleTrailCommission: true, lumpSumBrokerRate: "1.3", lumpSumMinimumAmount: "950", lumpSumNetworkRate: "0.5", packagingFee: "340", applicationFee: "190", ltvPercent: "3", lumpSumPackagingFee: "360", lumpSumApplicationFee: "210", lumpSumLtvPercent: "2.9" },
+];
+
+export const initialEquityRelease: EquityRelease[] = equityRaw.map((e, i) => ({ ...e, id: i + 1 }) as EquityRelease);

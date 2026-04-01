@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useListBrokers } from '@workspace/api-client-react';
-import type { Broker, ListBrokersParams } from '@workspace/api-client-react';
+import { useListBrokers } from '@/hooks/use-static-data';
+import type { Broker, ListBrokersParams } from '@/hooks/use-static-data';
 import { useApp } from '@/context/app-context';
 import { Fieldset, Button } from '@/components/shared/FormElements';
 import { Combobox } from '@/components/shared/Combobox';

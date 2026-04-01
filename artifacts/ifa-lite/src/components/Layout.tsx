@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 import { useApp } from '@/context/app-context';
-import { useListBrokers, useCreateBroker, getListBrokersQueryKey } from '@workspace/api-client-react';
+import { useListBrokers, useCreateBroker } from '@/hooks/use-static-data';
 import { Button } from '@/components/shared/FormElements';
 import { Combobox } from '@/components/shared/Combobox';
 import { Search, FileText, Users, Briefcase, Home, Database, ChevronFirst, ChevronLeft, ChevronRight, ChevronLast, Save, RefreshCw, FilePlus2, ScanSearch, X } from 'lucide-react';
@@ -109,7 +108,6 @@ function LocateIfaModal({ onClose, onSelect }: { onClose: () => void; onSelect: 
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { activeTab, setActiveTab, activeBrokerId, setActiveBrokerId, activeIfaRef, isDirty, setIsDirty, isSaving, triggerSave, layoutVersion, setLayoutVersion } = useApp();
-  const queryClient = useQueryClient();
   const { data: brokers = [] } = useListBrokers();
   const createBrokerMutation = useCreateBroker();
   const [showLocateModal, setShowLocateModal] = useState(false);
@@ -130,7 +128,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       { data: { brokerName: 'New IFA', status: 'Authorised' } },
       {
         onSuccess: (newBroker: any) => {
-          queryClient.invalidateQueries({ queryKey: getListBrokersQueryKey() });
           setActiveBrokerId(newBroker.id);
         },
         onError: () => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useListContacts } from '@workspace/api-client-react';
+import { useListContacts } from '@/hooks/use-static-data';
 import { useApp } from '@/context/app-context';
 import { Fieldset, FormInput, FormSelect, FormRadioGroup, FormCheckbox, Button } from '@/components/shared/FormElements';
 import { ChevronLeft, ChevronRight, Plus, Save, Search } from 'lucide-react';

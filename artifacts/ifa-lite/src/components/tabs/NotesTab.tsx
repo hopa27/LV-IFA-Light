@@ -1,5 +1,5 @@
 import React from 'react';
-import { useListNotes } from '@workspace/api-client-react';
+import { useListNotes } from '@/hooks/use-static-data';
 import { useApp } from '@/context/app-context';
 import { Button } from '@/components/shared/FormElements';
 import { Plus, History } from 'lucide-react';

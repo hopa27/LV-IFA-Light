@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode } from 'react';
-import { useListBrokers } from '@workspace/api-client-react';
+import { useListBrokers } from '@/hooks/use-static-data';
 
 type TabId = 'lookups' | 'ifa-detail' | 'contacts' | 'retirement' | 'equity' | 'notes';
 

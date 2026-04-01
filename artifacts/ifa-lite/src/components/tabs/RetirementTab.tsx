@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGetRetirementIncome } from '@workspace/api-client-react';
+import { useGetRetirementIncome } from '@/hooks/use-static-data';
 import { useApp } from '@/context/app-context';
 import { Fieldset, FormInput, Button } from '@/components/shared/FormElements';
 import { PlusCircle } from 'lucide-react';
