@@ -25,6 +25,10 @@
   --color-ring: hsl(var(--ring));
 }
 
+html {
+  zoom: 0.8;
+}
+
 :root {
   --background: 0 0% 94%;
   --foreground: 0 0% 24%;
