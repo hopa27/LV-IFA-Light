@@ -42,7 +42,7 @@ export default function RetirementTab() {
   }
 
   return (
-    <div className="flex flex-col gap-4 h-full overflow-y-auto pb-8 pr-2">
+    <div className="flex flex-col gap-4 min-h-full pb-8">
       <div className="bg-[#eaf5f8] border border-[#04589b]/30 text-[#002f5c] px-4 py-2.5 rounded-lg text-sm font-semibold font-sans">
         Retirement Income Commission & Fee Configuration
       </div>

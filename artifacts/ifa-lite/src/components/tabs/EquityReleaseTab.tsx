@@ -17,7 +17,7 @@ export default function EquityReleaseTab() {
   }
 
   return (
-    <div className="flex flex-col h-full overflow-y-auto pr-2 pb-8">
+    <div className="flex flex-col min-h-full pb-8">
       <div className="grid grid-cols-2 gap-6 mb-4">
         <div className="space-y-4">
           <Fieldset title="Permissions" className="h-full">

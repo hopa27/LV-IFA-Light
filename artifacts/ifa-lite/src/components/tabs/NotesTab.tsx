@@ -16,7 +16,7 @@ export default function NotesTab() {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col min-h-full">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-bold text-[#00263e] flex items-center gap-2 font-sans">
           <History className="w-5 h-5 text-[#006cf4]" />

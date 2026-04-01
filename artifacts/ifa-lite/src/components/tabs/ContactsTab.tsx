@@ -19,7 +19,7 @@ export default function ContactsTab() {
   const currentContact: any = contacts[currentIndex] || {};
 
   return (
-    <div className="flex flex-col h-full overflow-y-auto pr-2 pb-8">
+    <div className="flex flex-col min-h-full pb-8">
       <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#BBBBBB]">
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold text-[#3d3d3d] mr-2 font-sans">Contact {contacts.length > 0 ? currentIndex + 1 : 0} of {contacts.length}</span>
