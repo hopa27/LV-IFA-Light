@@ -188,9 +188,20 @@ export default function IfaDetailTab() {
               value={formData.brokerManager || ''} 
               onChange={handleChange}
               options={[
+                {label: 'Stuart Watson', value: 'Stuart Watson'},
+                {label: 'Trudy Davidson', value: 'Trudy Davidson'},
+                {label: 'Natalie Pye', value: 'Natalie Pye'},
                 {label: 'Keith Harvey', value: 'Keith Harvey'},
+                {label: 'Amit Mishra', value: 'Amit Mishra'},
+                {label: 'Shaun King', value: 'Shaun King'},
+                {label: 'Robot Machine', value: 'Robot Machine'},
                 {label: 'Sarah Collins', value: 'Sarah Collins'},
-                {label: 'David Thompson', value: 'David Thompson'}
+                {label: 'David Thompson', value: 'David Thompson'},
+                {label: 'James Whitaker', value: 'James Whitaker'},
+                {label: 'Helen Carter', value: 'Helen Carter'},
+                {label: 'Mark Reynolds', value: 'Mark Reynolds'},
+                {label: 'Lisa Brennan', value: 'Lisa Brennan'},
+                {label: 'Paul Henderson', value: 'Paul Henderson'},
               ]}
             />
             
