@@ -146,9 +146,8 @@ export default function IfaDetailTab() {
               value={formData.status || ''} 
               onChange={handleChange}
               options={[
-                {label: 'Active', value: 'Active'},
-                {label: 'Cancelled', value: 'Cancelled'},
                 {label: 'Authorised', value: 'Authorised'},
+                {label: 'Cancelled', value: 'Cancelled'},
                 {label: 'Revoked', value: 'Revoked'},
                 {label: 'Duplicate Record', value: 'Duplicate Record'}
               ]}
