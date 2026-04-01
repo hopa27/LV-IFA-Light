@@ -13,10 +13,12 @@ interface MutationCallbacks<T> {
   onError?: (err: Error) => void;
 }
 
-export function useListBrokers(params?: ListBrokersParams, _options?: QueryOptions) {
+export function useListBrokers(params?: ListBrokersParams, options?: QueryOptions) {
   const { brokers } = useDataStore();
+  const enabled = options?.query?.enabled !== false;
 
   const filtered = useMemo(() => {
+    if (!enabled) return [];
     if (!params || Object.keys(params).length === 0) return brokers;
 
     return brokers.filter(b => {
