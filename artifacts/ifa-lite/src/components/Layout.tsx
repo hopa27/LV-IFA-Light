@@ -139,7 +139,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="h-screen bg-[#f0f0f0] flex flex-col overflow-hidden">
+    <div className="bg-[#f0f0f0] flex flex-col overflow-hidden" style={{ height: 'calc(100vh / 0.8)' }}>
       <header className="bg-[#00263e] text-white px-[142px] pt-4 pb-6 shrink-0">
         <div className="flex items-center justify-between">
           <img src="/lve-logo.png" alt="LV= Logo" className="h-6" />
