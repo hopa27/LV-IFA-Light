@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useListBrokers } from '@workspace/api-client-react';
 import type { Broker, ListBrokersParams } from '@workspace/api-client-react';
 import { useApp } from '@/context/app-context';
-import { Fieldset, FormInput, FormCheckbox, Button } from '@/components/shared/FormElements';
+import { Fieldset, Button } from '@/components/shared/FormElements';
 import { Search, Building } from 'lucide-react';
 
 const COLUMNS: { key: keyof Broker; header: string }[] = [
@@ -77,10 +77,7 @@ export default function LookupsTab() {
   const [postcode, setPostcode] = useState('');
   const [ifaReference, setIfaReference] = useState('');
   const [ifaName, setIfaName] = useState('');
-  const [authorised, setAuthorised] = useState(true);
-  const [cancelled, setCancelled] = useState(false);
-  const [duplicateRecord, setDuplicateRecord] = useState(false);
-  const [revoked, setRevoked] = useState(false);
+  const [status, setStatus] = useState('Authorised');
   const [searchParams, setSearchParams] = useState<ListBrokersParams>({});
 
   const { data: brokers = [], isLoading } = useListBrokers(searchParams);
@@ -90,46 +87,58 @@ export default function LookupsTab() {
     if (postcode) params.postcode = postcode;
     if (ifaReference) params.ifaReference = ifaReference;
     if (ifaName) params.ifaName = ifaName;
-    if (authorised) params.authorised = true;
-    if (cancelled) params.cancelled = true;
-    if (duplicateRecord) params.duplicateRecord = true;
-    if (revoked) params.revoked = true;
+    if (status === 'Authorised') params.authorised = true;
+    if (status === 'Cancelled') params.cancelled = true;
+    if (status === 'Duplicate Record') params.duplicateRecord = true;
+    if (status === 'Revoked') params.revoked = true;
     setSearchParams(params);
   };
 
   return (
     <div className="flex flex-col min-h-full">
       <Fieldset title="Search Criteria">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="space-y-2">
-            <FormInput 
-              label="Postcode" 
+        <div className="flex items-end gap-4 flex-wrap">
+          <div className="flex flex-col gap-1">
+            <label className="text-xs font-semibold text-[#3d3d3d] font-sans">Postcode</label>
+            <input
               value={postcode}
               onChange={(e) => setPostcode(e.target.value)}
               placeholder="e.g. EC1A"
+              className="w-[140px] px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] placeholder:text-[#BBBBBB] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors"
             />
-            <FormInput 
-              label="IFA Reference" 
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-xs font-semibold text-[#3d3d3d] font-sans">IFA Reference</label>
+            <input
               value={ifaReference}
               onChange={(e) => setIfaReference(e.target.value)}
+              className="w-[140px] px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors"
             />
-            <FormInput 
-              label="IFA Name" 
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-xs font-semibold text-[#3d3d3d] font-sans">IFA Name</label>
+            <input
               value={ifaName}
               onChange={(e) => setIfaName(e.target.value)}
+              className="w-[180px] px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors"
             />
           </div>
-          
-          <div className="space-y-3 pt-2 pl-4 border-l border-[#BBBBBB]">
-            <FormCheckbox label="Authorised" checked={authorised} onChange={(e) => setAuthorised(e.target.checked)} />
-            <FormCheckbox label="Cancelled" checked={cancelled} onChange={(e) => setCancelled(e.target.checked)} />
-            <FormCheckbox label="Duplicate Record" checked={duplicateRecord} onChange={(e) => setDuplicateRecord(e.target.checked)} />
-            <FormCheckbox label="Revoked" checked={revoked} onChange={(e) => setRevoked(e.target.checked)} />
+          <div className="flex flex-col gap-1">
+            <label className="text-xs font-semibold text-[#3d3d3d] font-sans">Status</label>
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              className="w-[170px] px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors cursor-pointer"
+            >
+              <option value="Authorised">Authorised</option>
+              <option value="Cancelled">Cancelled</option>
+              <option value="Duplicate Record">Duplicate Record</option>
+              <option value="Revoked">Revoked</option>
+            </select>
           </div>
-          
-          <div className="flex flex-col gap-3 justify-center items-end pr-4">
-            <Button className="w-36" onClick={handleSearch}><Search className="w-4 h-4" /> Search</Button>
-            <Button variant="secondary" className="w-36"><Building className="w-4 h-4" /> Club</Button>
+          <div className="flex gap-2">
+            <Button className="w-28" onClick={handleSearch}><Search className="w-4 h-4" /> Search</Button>
+            <Button variant="secondary" className="w-28"><Building className="w-4 h-4" /> Club</Button>
           </div>
         </div>
       </Fieldset>
