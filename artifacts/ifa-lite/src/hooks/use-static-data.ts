@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useState } from 'react';
+import { useMemo, useCallback } from 'react';
 import { useDataStore } from '@/data/static-store';
 import type { Broker, Contact, Note, RetirementIncome, EquityRelease, ListBrokersParams } from '@/data/seed-data';
 
@@ -45,50 +45,30 @@ export function useGetBroker(id: number, options?: QueryOptions) {
 
 export function useUpdateBroker() {
   const { updateBroker } = useDataStore();
-  const [isPending, setIsPending] = useState(false);
 
   const mutate = useCallback((
     { id, data }: { id: number; data: Partial<Broker> },
     callbacks?: MutationCallbacks<Broker>
   ) => {
-    setIsPending(true);
-    setTimeout(() => {
-      try {
-        const result = updateBroker(id, data);
-        setIsPending(false);
-        callbacks?.onSuccess?.(result);
-      } catch (err) {
-        setIsPending(false);
-        callbacks?.onError?.(err as Error);
-      }
-    }, 100);
+    const result = updateBroker(id, data);
+    callbacks?.onSuccess?.(result);
   }, [updateBroker]);
 
-  return { mutate, isPending };
+  return { mutate, isPending: false };
 }
 
 export function useCreateBroker() {
   const { createBroker } = useDataStore();
-  const [isPending, setIsPending] = useState(false);
 
   const mutate = useCallback((
     { data }: { data: Partial<Broker> },
     callbacks?: MutationCallbacks<Broker>
   ) => {
-    setIsPending(true);
-    setTimeout(() => {
-      try {
-        const result = createBroker(data);
-        setIsPending(false);
-        callbacks?.onSuccess?.(result);
-      } catch (err) {
-        setIsPending(false);
-        callbacks?.onError?.(err as Error);
-      }
-    }, 100);
+    const result = createBroker(data);
+    callbacks?.onSuccess?.(result);
   }, [createBroker]);
 
-  return { mutate, isPending };
+  return { mutate, isPending: false };
 }
 
 export function useListContacts(brokerId: number, options?: QueryOptions) {
