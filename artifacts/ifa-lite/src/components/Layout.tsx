@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useApp } from '@/context/app-context';
 import { useListBrokers, useCreateBroker, getListBrokersQueryKey } from '@workspace/api-client-react';
 import { Button } from '@/components/shared/FormElements';
+import { Combobox } from '@/components/shared/Combobox';
 import { Search, FileText, Users, Briefcase, Home, Database, ChevronFirst, ChevronLeft, ChevronRight, ChevronLast, Save, RefreshCw, FilePlus2, ScanSearch, X } from 'lucide-react';
 
 const TABS = [
@@ -107,11 +108,12 @@ function LocateIfaModal({ onClose, onSelect }: { onClose: () => void; onSelect: 
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const { activeTab, setActiveTab, activeBrokerId, setActiveBrokerId, activeIfaRef, isDirty, isSaving, triggerSave, layoutVersion, setLayoutVersion } = useApp();
+  const { activeTab, setActiveTab, activeBrokerId, setActiveBrokerId, activeIfaRef, isDirty, setIsDirty, isSaving, triggerSave, layoutVersion, setLayoutVersion } = useApp();
   const queryClient = useQueryClient();
   const { data: brokers = [] } = useListBrokers();
   const createBrokerMutation = useCreateBroker();
   const [showLocateModal, setShowLocateModal] = useState(false);
+  const [toolbarAction, setToolbarAction] = useState('Appointment');
 
   const currentIndex = brokers.findIndex(b => b.id === activeBrokerId);
   const total = brokers.length;
@@ -188,12 +190,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           <div className="h-6 w-px bg-[#BBBBBB]" />
 
-          <select className="border border-[#BBBBBB] rounded-lg px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] bg-white outline-none cursor-pointer hover:border-[#178830] focus:border-[#178830] focus:border-2">
-            <option>Appointment</option>
-            <option>Broker Pack Follow Up</option>
-            <option>Duplicate</option>
-            <option>Hold</option>
-          </select>
+          <div className="w-[200px]">
+            <Combobox
+              value={toolbarAction}
+              onChange={setToolbarAction}
+              options={[
+                { label: 'Appointment', value: 'Appointment' },
+                { label: 'Broker Pack Follow Up', value: 'Broker Pack Follow Up' },
+                { label: 'Duplicate', value: 'Duplicate' },
+                { label: 'Hold', value: 'Hold' },
+              ]}
+            />
+          </div>
 
           <div className="h-6 w-px bg-[#BBBBBB]" />
 
@@ -238,20 +246,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <p className="text-[10px] font-medium text-slate-400 font-[Mulish]">Liverpool Victoria Financial Services Limited</p>
             <p className="text-[10px] font-medium text-slate-400 font-[Mulish]">County Gates, Bournemouth BH1 2NF</p>
           </div>
-          <select
-            value={layoutVersion}
-            onChange={e => {
-              if (isDirty) {
-                if (!window.confirm('You have unsaved changes. Switch layout anyway?')) return;
-                setIsDirty(false);
-              }
-              setLayoutVersion(e.target.value as 'v1' | 'v2');
-            }}
-            className="border border-[#BBBBBB] rounded-lg px-3 py-1.5 text-xs font-[Mulish] text-[#3d3d3d] bg-white outline-none cursor-pointer hover:border-[#178830] focus:border-[#178830] focus:border-2"
-          >
-            <option value="v1">Layout V1</option>
-            <option value="v2">Layout V2</option>
-          </select>
+          <div className="w-[130px]">
+            <Combobox
+              value={layoutVersion}
+              onChange={(val) => {
+                if (isDirty) {
+                  if (!window.confirm('You have unsaved changes. Switch layout anyway?')) return;
+                  setIsDirty(false);
+                }
+                setLayoutVersion(val as 'v1' | 'v2');
+              }}
+              options={[
+                { label: 'Layout V1', value: 'v1' },
+                { label: 'Layout V2', value: 'v2' },
+              ]}
+            />
+          </div>
         </div>
       </footer>
 

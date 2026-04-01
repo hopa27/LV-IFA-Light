@@ -44,33 +44,42 @@ export function FormInput({ label, labelWidth = "w-1/3", className, ...props }: 
   );
 }
 
-interface FormSelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+import { Combobox } from './Combobox';
+
+interface FormSelectProps {
   label: string;
   options: { value: string; label: string }[];
   labelWidth?: string;
+  className?: string;
+  name?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  disabled?: boolean;
 }
 
-export function FormSelect({ label, options, labelWidth = "w-1/3", className, ...props }: FormSelectProps) {
+export function FormSelect({ label, options, labelWidth = "w-1/3", className, name, value = '', onChange, disabled }: FormSelectProps) {
   return (
     <div className="flex items-center gap-3 mb-2">
       <label className={cn("text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans", labelWidth)}>
         {label}
       </label>
-      <select 
-        className={cn(
-          "flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d]",
-          "focus:border-[#178830] focus:border-2 focus:outline-none",
-          "hover:border-[#178830]",
-          "transition-colors cursor-pointer",
-          className
-        )} 
-        {...props}
-      >
-        <option value="">-- Select --</option>
-        {options.map(opt => (
-          <option key={opt.value} value={opt.value}>{opt.label}</option>
-        ))}
-      </select>
+      <div className="flex-1">
+        <Combobox
+          options={options}
+          value={value}
+          name={name}
+          disabled={disabled}
+          onChange={(val) => {
+            if (onChange) {
+              const syntheticEvent = {
+                target: { name: name || '', value: val },
+              } as React.ChangeEvent<HTMLSelectElement>;
+              onChange(syntheticEvent);
+            }
+          }}
+          className={className}
+        />
+      </div>
     </div>
   );
 }

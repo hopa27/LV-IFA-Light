@@ -3,6 +3,7 @@ import { useListBrokers } from '@workspace/api-client-react';
 import type { Broker, ListBrokersParams } from '@workspace/api-client-react';
 import { useApp } from '@/context/app-context';
 import { Fieldset, Button } from '@/components/shared/FormElements';
+import { Combobox } from '@/components/shared/Combobox';
 import { Search, Building } from 'lucide-react';
 
 const COLUMNS: { key: keyof Broker; header: string }[] = [
@@ -125,16 +126,18 @@ export default function LookupsTab() {
           </div>
           <div className="flex flex-col gap-1">
             <label className="text-xs font-semibold text-[#3d3d3d] font-sans">Status</label>
-            <select
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              className="w-[170px] px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors cursor-pointer"
-            >
-              <option value="Authorised">Authorised</option>
-              <option value="Cancelled">Cancelled</option>
-              <option value="Duplicate Record">Duplicate Record</option>
-              <option value="Revoked">Revoked</option>
-            </select>
+            <div className="w-[170px]">
+              <Combobox
+                value={status}
+                onChange={(val) => setStatus(val)}
+                options={[
+                  { label: 'Authorised', value: 'Authorised' },
+                  { label: 'Cancelled', value: 'Cancelled' },
+                  { label: 'Duplicate Record', value: 'Duplicate Record' },
+                  { label: 'Revoked', value: 'Revoked' },
+                ]}
+              />
+            </div>
           </div>
           <div className="flex gap-2">
             <Button className="w-28" onClick={handleSearch}><Search className="w-4 h-4" /> Search</Button>
