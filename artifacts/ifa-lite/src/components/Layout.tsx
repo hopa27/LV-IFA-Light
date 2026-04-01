@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useApp } from '@/context/app-context';
-import { useListBrokers } from '@workspace/api-client-react';
+import { useListBrokers, useCreateBroker, getListBrokersQueryKey } from '@workspace/api-client-react';
 import { Button } from '@/components/shared/FormElements';
-import { Search, FileText, Users, Briefcase, Home, Database, ChevronFirst, ChevronLeft, ChevronRight, ChevronLast, Save, RefreshCw } from 'lucide-react';
+import { Search, FileText, Users, Briefcase, Home, Database, ChevronFirst, ChevronLeft, ChevronRight, ChevronLast, Save, RefreshCw, Plus, Crosshair, X } from 'lucide-react';
 
 const TABS = [
   { id: 'ifa-detail', label: 'IFA Detail', icon: FileText },
@@ -13,9 +14,104 @@ const TABS = [
   { id: 'notes', label: 'Notes', icon: Database },
 ] as const;
 
+function LocateIfaModal({ onClose, onSelect }: { onClose: () => void; onSelect: (id: number) => void }) {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [submittedTerm, setSubmittedTerm] = useState<string | null>(null);
+  const { data: brokers = [], isLoading } = useListBrokers(
+    submittedTerm ? { ifaReference: submittedTerm } : undefined,
+    { query: { enabled: submittedTerm !== null && submittedTerm.length > 0 } }
+  );
+
+  const canFind = searchTerm.trim().length > 0;
+
+  const handleFind = () => {
+    if (!canFind) return;
+    setSubmittedTerm(searchTerm.trim());
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') handleFind();
+    if (e.key === 'Escape') onClose();
+  };
+
+  const hasSearched = submittedTerm !== null && submittedTerm.length > 0;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={onClose} role="dialog" aria-label="Locate IFA">
+      <div className="bg-[#f0f0f0] border border-[#BBBBBB] rounded-lg shadow-2xl w-[480px]" onClick={e => e.stopPropagation()}>
+        <div className="bg-[#00263e] text-white px-4 py-2.5 rounded-t-lg flex items-center justify-between">
+          <span className="text-sm font-semibold font-sans">Locate IFA</span>
+          <button onClick={onClose} className="text-white/70 hover:text-white transition-colors" aria-label="Close">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="p-5">
+          <div className="flex items-center gap-3 mb-4">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Enter IFA reference..."
+              autoFocus
+              className="flex-1 border border-[#BBBBBB] rounded-lg px-3 py-2 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2"
+            />
+          </div>
+
+          {hasSearched && (
+            <div className="border border-[#BBBBBB] rounded-lg overflow-hidden mb-4 max-h-[200px] overflow-y-auto">
+              <table className="w-full text-xs text-left">
+                <thead className="bg-[#eaf5f8] sticky top-0">
+                  <tr>
+                    <th className="px-3 py-2 font-semibold text-[#002f5c] font-sans border-b border-[#BBBBBB]">IFA Ref</th>
+                    <th className="px-3 py-2 font-semibold text-[#002f5c] font-sans border-b border-[#BBBBBB]">Broker Name</th>
+                    <th className="px-3 py-2 font-semibold text-[#002f5c] font-sans border-b border-[#BBBBBB]">Postcode</th>
+                  </tr>
+                </thead>
+                <tbody className="font-[Mulish]">
+                  {isLoading ? (
+                    <tr><td colSpan={3} className="text-center py-4 text-[#979797]">Searching...</td></tr>
+                  ) : brokers.length === 0 ? (
+                    <tr><td colSpan={3} className="text-center py-4 text-[#979797]">No records found.</td></tr>
+                  ) : (
+                    brokers.map((broker, i) => (
+                      <tr
+                        key={broker.id}
+                        onClick={() => { onSelect(broker.id!); onClose(); }}
+                        className={`cursor-pointer hover:bg-[#05579B] hover:text-white transition-colors group ${i % 2 === 1 ? 'bg-[#e7ebec]/30' : 'bg-white'}`}
+                      >
+                        <td className="px-3 py-1.5 font-medium text-[#005a9c] group-hover:text-white">{broker.ifaRef}</td>
+                        <td className="px-3 py-1.5 text-[#3d3d3d] group-hover:text-white">{broker.brokerName}</td>
+                        <td className="px-3 py-1.5 text-[#3d3d3d] group-hover:text-white">{broker.postcode}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          <div className="flex justify-end gap-3">
+            <Button onClick={handleFind} disabled={!canFind}>
+              <Search className="w-4 h-4" /> Find
+            </Button>
+            <Button variant="secondary" onClick={onClose}>
+              <X className="w-4 h-4" /> Quit
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { activeTab, setActiveTab, activeBrokerId, setActiveBrokerId, activeIfaRef, isDirty, isSaving, triggerSave } = useApp();
+  const queryClient = useQueryClient();
   const { data: brokers = [] } = useListBrokers();
+  const createBrokerMutation = useCreateBroker();
+  const [showLocateModal, setShowLocateModal] = useState(false);
 
   const currentIndex = brokers.findIndex(b => b.id === activeBrokerId);
   const total = brokers.length;
@@ -26,6 +122,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const goLast = () => { const b = brokers[total - 1]; if (b) setActiveBrokerId(b.id!); };
 
   const hasBroker = activeBrokerId !== null;
+
+  const handleAddNewIfa = () => {
+    createBrokerMutation.mutate(
+      { data: { brokerName: 'New IFA', status: 'Authorised' } },
+      {
+        onSuccess: (newBroker: any) => {
+          queryClient.invalidateQueries({ queryKey: getListBrokersQueryKey() });
+          setActiveBrokerId(newBroker.id);
+        },
+        onError: () => {
+          alert('Failed to create new IFA. Please try again.');
+        },
+      }
+    );
+  };
 
   return (
     <div className="h-screen bg-[#f0f0f0] flex flex-col overflow-hidden">
@@ -68,6 +179,28 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       <div className="bg-white border-b border-t border-[#BBBBBB] px-6 py-3 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleAddNewIfa}
+              disabled={createBrokerMutation.isPending}
+              className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              title="Add New IFA"
+              aria-label="Add New IFA"
+            >
+              <Plus className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setShowLocateModal(true)}
+              className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] transition-colors"
+              title="Locate IFA"
+              aria-label="Locate IFA"
+            >
+              <Crosshair className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="h-6 w-px bg-[#BBBBBB]" />
+
           {activeIfaRef && (
             <span className="text-sm font-bold text-[#00263e] font-sans flex items-center gap-2">
               <span className="w-1 h-5 bg-[#006cf4] rounded-sm"></span>
@@ -114,6 +247,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <p className="text-[10px] font-medium text-slate-400 font-[Mulish]">County Gates, Bournemouth BH1 2NF</p>
         </div>
       </footer>
+
+      {showLocateModal && (
+        <LocateIfaModal
+          onClose={() => setShowLocateModal(false)}
+          onSelect={(id) => setActiveBrokerId(id)}
+        />
+      )}
     </div>
   );
 }
