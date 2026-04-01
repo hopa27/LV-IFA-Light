@@ -217,14 +217,23 @@ export default function IfaDetailTab() {
                 onChange={handleChange}
                 options={[
                   {label: '', value: ''},
-                  {label: 'London', value: 'London'},
-                  {label: 'South', value: 'South'},
-                  {label: 'South East', value: 'South East'},
-                  {label: 'South West', value: 'South West'},
-                  {label: 'East', value: 'East'},
-                  {label: 'North', value: 'North'},
-                  {label: 'North West', value: 'North West'},
-                  {label: 'Scotland', value: 'Scotland'}
+                  {label: 'BIR - Birmingham', value: 'BIR'},
+                  {label: 'BRI - Bristol', value: 'BRI'},
+                  {label: 'CDF - Cardiff', value: 'CDF'},
+                  {label: 'EDI - Edinburgh', value: 'EDI'},
+                  {label: 'EXE - Exeter', value: 'EXE'},
+                  {label: 'GLA - Glasgow', value: 'GLA'},
+                  {label: 'HEO - Head Office', value: 'HEO'},
+                  {label: 'HIT - Hitchin', value: 'HIT'},
+                  {label: 'LEE - Leeds', value: 'LEE'},
+                  {label: 'LON - London', value: 'LON'},
+                  {label: 'MAN - Manchester', value: 'MAN'},
+                  {label: 'MID - Midlands', value: 'MID'},
+                  {label: 'NEW - Newcastle', value: 'NEW'},
+                  {label: 'NOR - Norwich', value: 'NOR'},
+                  {label: 'NOT - Nottingham', value: 'NOT'},
+                  {label: 'REA - Reading', value: 'REA'},
+                  {label: 'SOU - Southampton', value: 'SOU'},
                 ]}
               />
             </div>
