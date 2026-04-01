@@ -165,6 +165,11 @@ export default function IfaDetailTab() {
               onChange={handleChange}
               options={[
                 {label: 'National Accounts', value: 'National Accounts'},
+                {label: 'Major Accounts', value: 'Major Accounts'},
+                {label: 'Nursery Accounts', value: 'Nursery Accounts'},
+                {label: 'Others', value: 'Others'},
+                {label: 'Networks', value: 'Networks'},
+                {label: 'Annuity Accounts', value: 'Annuity Accounts'},
                 {label: 'Regional', value: 'Regional'},
                 {label: 'Standard', value: 'Standard'}
               ]}
