@@ -1,6 +1,5 @@
-import { db } from "@workspace/db";
+import { db, sql } from "@workspace/db";
 import { brokersTable, contactsTable, notesTable, retirementIncomeTable, equityReleaseTable } from "@workspace/db/schema";
-import { sql } from "drizzle-orm";
 
 async function seed() {
   console.log("Seeding database...");
@@ -62,10 +61,19 @@ async function seed() {
     { brokerId: inserted[3].id, noteType: "SYS", description: "Key Account updated by DTHOMPSON on 22/02/2025", oldValue: "No", newValue: "Yes", updatedBy: "DTHOMPSON", updatedDate: "22/02/2025 11:30" },
     { brokerId: inserted[3].id, noteType: "SYS", description: "Region updated by ADMIN on 01/04/2024", oldValue: "North West", newValue: "North", updatedBy: "ADMIN", updatedDate: "01/04/2024 15:00" },
     { brokerId: inserted[3].id, noteType: "MAN", description: "Upgraded to key account status following strong Q4 2024 performance. Volume threshold exceeded.", updatedBy: "DTHOMPSON", updatedDate: "22/02/2025 11:35" },
+    { brokerId: inserted[4].id, noteType: "SYS", description: "Status updated by SCOLLINS on 01/11/2005", oldValue: "Pending", newValue: "Authorised", updatedBy: "SCOLLINS", updatedDate: "01/11/2005 11:20" },
+    { brokerId: inserted[4].id, noteType: "SYS", description: "Grade updated by SCOLLINS on 15/06/2024", oldValue: "Standard", newValue: "Regional", updatedBy: "SCOLLINS", updatedDate: "15/06/2024 10:00" },
+    { brokerId: inserted[4].id, noteType: "MAN", description: "Initial broker pack sent and signed TOBA received. Contact Andrew Jameson confirmed as primary point of contact.", updatedBy: "SCOLLINS", updatedDate: "15/11/2005 09:30" },
     { brokerId: inserted[5].id, noteType: "SYS", description: "NPA - Commission updated by KHARVEY on 05/03/2025", oldValue: "1.3", newValue: "1.5", updatedBy: "KHARVEY", updatedDate: "05/03/2025 16:45" },
     { brokerId: inserted[5].id, noteType: "MAN", description: "Commission rate increase agreed following broker review meeting on 01/03/2025.", updatedBy: "KHARVEY", updatedDate: "05/03/2025 16:50" },
     { brokerId: inserted[6].id, noteType: "SYS", description: "Broker Manager updated by ADMIN on 01/01/2025", oldValue: "Keith Harvey", newValue: "David Thompson", updatedBy: "ADMIN", updatedDate: "01/01/2025 09:00" },
     { brokerId: inserted[6].id, noteType: "MAN", description: "Transferred to David Thompson's portfolio as part of Q1 2025 regional realignment.", updatedBy: "ADMIN", updatedDate: "01/01/2025 09:05" },
+    { brokerId: inserted[7].id, noteType: "SYS", description: "Annuity TOBA updated by SCOLLINS on 01/02/2025", oldValue: "No", newValue: "Yes", updatedBy: "SCOLLINS", updatedDate: "01/02/2025 13:00" },
+    { brokerId: inserted[7].id, noteType: "SYS", description: "Grade updated by SCOLLINS on 15/09/2024", oldValue: "Standard", newValue: "Regional", updatedBy: "SCOLLINS", updatedDate: "15/09/2024 11:00" },
+    { brokerId: inserted[7].id, noteType: "MAN", description: "Online platform integration completed. Broker now submitting applications electronically. Training session held with support team.", updatedBy: "SCOLLINS", updatedDate: "20/02/2025 14:30" },
+    { brokerId: inserted[8].id, noteType: "SYS", description: "Status updated by ADMIN on 14/05/2004", oldValue: "Pending", newValue: "Authorised", updatedBy: "ADMIN", updatedDate: "14/05/2004 15:45" },
+    { brokerId: inserted[8].id, noteType: "SYS", description: "Broker Manager updated by ADMIN on 01/07/2023", oldValue: "Sarah Collins", newValue: "Keith Harvey", updatedBy: "ADMIN", updatedDate: "01/07/2023 09:00" },
+    { brokerId: inserted[8].id, noteType: "MAN", description: "Broker under-performing on volume targets. Review scheduled for Q2 2025 with potential downgrade if no improvement.", updatedBy: "KHARVEY", updatedDate: "15/01/2025 11:00" },
     { brokerId: inserted[9].id, noteType: "SYS", description: "Grade updated by DTHOMPSON on 10/03/2025", oldValue: "Regional", newValue: "National Accounts", updatedBy: "DTHOMPSON", updatedDate: "10/03/2025 10:00" },
     { brokerId: inserted[9].id, noteType: "SYS", description: "Equity Release - Flexible Broker Rate updated by DTHOMPSON on 10/03/2025", oldValue: "1", newValue: "1.25", updatedBy: "DTHOMPSON", updatedDate: "10/03/2025 10:05" },
     { brokerId: inserted[9].id, noteType: "MAN", description: "Major account review completed. Upgraded to National Accounts. New equity release terms agreed.", updatedBy: "DTHOMPSON", updatedDate: "10/03/2025 10:10" },
