@@ -3,6 +3,8 @@ import { useListBrokers } from '@workspace/api-client-react';
 
 type TabId = 'lookups' | 'ifa-detail' | 'contacts' | 'retirement' | 'equity' | 'notes';
 
+type LayoutVersion = 'v1' | 'v2';
+
 interface AppContextType {
   activeTab: TabId;
   setActiveTab: (tab: TabId) => void;
@@ -16,6 +18,8 @@ interface AppContextType {
   setIsSaving: (saving: boolean) => void;
   registerSaveHandler: (handler: (() => void) | null) => void;
   triggerSave: () => void;
+  layoutVersion: LayoutVersion;
+  setLayoutVersion: (v: LayoutVersion) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -27,6 +31,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [activeIfaRef, setActiveIfaRef] = useState('');
   const [isDirty, setIsDirty] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [layoutVersion, setLayoutVersion] = useState<LayoutVersion>('v1');
   const saveHandlerRef = useRef<(() => void) | null>(null);
 
   const { data: brokers } = useListBrokers();
@@ -71,6 +76,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setIsSaving,
         registerSaveHandler,
         triggerSave,
+        layoutVersion,
+        setLayoutVersion,
       }}
     >
       {children}

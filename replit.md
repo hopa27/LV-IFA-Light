@@ -40,7 +40,7 @@ artifacts-monorepo/
 
 ### Tabs (matching legacy desktop app)
 
-1. **IFA Detail** - Main broker/IFA information form with contacts grid
+1. **IFA Detail** - Main broker/IFA information form with contacts grid. Supports V1 (flat form) and V2 (card-based grouped layout) via footer dropdown switcher
 2. **Contacts** - Detailed contact management with bank details, network settings
 3. **Lookups** - Search and filter brokers by postcode, reference, name, status; horizontally scrollable grid showing all ~65 broker columns
 4. **Retirement Income** - Commission settings for NPA, PIPA, PRP products

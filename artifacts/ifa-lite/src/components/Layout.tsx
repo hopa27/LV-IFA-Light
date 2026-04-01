@@ -107,7 +107,7 @@ function LocateIfaModal({ onClose, onSelect }: { onClose: () => void; onSelect: 
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const { activeTab, setActiveTab, activeBrokerId, setActiveBrokerId, activeIfaRef, isDirty, isSaving, triggerSave } = useApp();
+  const { activeTab, setActiveTab, activeBrokerId, setActiveBrokerId, activeIfaRef, isDirty, isSaving, triggerSave, layoutVersion, setLayoutVersion } = useApp();
   const queryClient = useQueryClient();
   const { data: brokers = [] } = useListBrokers();
   const createBrokerMutation = useCreateBroker();
@@ -233,9 +233,25 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       
       <footer className="bg-white border-t border-slate-200 py-4 px-[142px] flex justify-between items-center">
         <img src="/lve-logo.png" alt="LV= Logo" className="h-6" />
-        <div className="text-right">
-          <p className="text-[10px] font-medium text-slate-400 font-[Mulish]">Liverpool Victoria Financial Services Limited</p>
-          <p className="text-[10px] font-medium text-slate-400 font-[Mulish]">County Gates, Bournemouth BH1 2NF</p>
+        <div className="flex items-center gap-6">
+          <div className="text-right">
+            <p className="text-[10px] font-medium text-slate-400 font-[Mulish]">Liverpool Victoria Financial Services Limited</p>
+            <p className="text-[10px] font-medium text-slate-400 font-[Mulish]">County Gates, Bournemouth BH1 2NF</p>
+          </div>
+          <select
+            value={layoutVersion}
+            onChange={e => {
+              if (isDirty) {
+                if (!window.confirm('You have unsaved changes. Switch layout anyway?')) return;
+                setIsDirty(false);
+              }
+              setLayoutVersion(e.target.value as 'v1' | 'v2');
+            }}
+            className="border border-[#BBBBBB] rounded-lg px-3 py-1.5 text-xs font-[Mulish] text-[#3d3d3d] bg-white outline-none cursor-pointer hover:border-[#178830] focus:border-[#178830] focus:border-2"
+          >
+            <option value="v1">Layout V1</option>
+            <option value="v2">Layout V2</option>
+          </select>
         </div>
       </footer>
 

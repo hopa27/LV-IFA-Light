@@ -9,6 +9,7 @@ import Layout from "@/components/Layout";
 // Tabs
 import LookupsTab from "@/components/tabs/LookupsTab";
 import IfaDetailTab from "@/components/tabs/IfaDetailTab";
+import IfaDetailTabV2 from "@/components/tabs/IfaDetailTabV2";
 import ContactsTab from "@/components/tabs/ContactsTab";
 import RetirementTab from "@/components/tabs/RetirementTab";
 import EquityReleaseTab from "@/components/tabs/EquityReleaseTab";
@@ -24,13 +25,11 @@ const queryClient = new QueryClient({
 });
 
 function TabRouter() {
-  const { activeTab } = useApp();
+  const { activeTab, layoutVersion } = useApp();
   
-  // Render active tab dynamically to maintain state in others if we used hidden, 
-  // but for simplicity and standard React unmounting, we just switch components.
   switch (activeTab) {
     case 'lookups': return <LookupsTab />;
-    case 'ifa-detail': return <IfaDetailTab />;
+    case 'ifa-detail': return layoutVersion === 'v2' ? <IfaDetailTabV2 /> : <IfaDetailTab />;
     case 'contacts': return <ContactsTab />;
     case 'retirement': return <RetirementTab />;
     case 'equity': return <EquityReleaseTab />;
