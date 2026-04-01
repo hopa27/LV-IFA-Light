@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "wxGOlhplBVFMWL6GI-8DZ"
+uri = "file://prompt.md"
+type = "text"
+title = "IFA Lite Recreation Prompt"
