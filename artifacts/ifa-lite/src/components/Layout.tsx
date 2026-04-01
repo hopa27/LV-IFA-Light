@@ -140,7 +140,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="h-screen bg-[#f0f0f0] flex flex-col overflow-hidden">
-      <header className="bg-[#00263e] text-white px-8 pt-4 pb-6 shrink-0">
+      <header className="bg-[#00263e] text-white px-[142px] pt-4 pb-6 shrink-0">
         <div className="flex items-center justify-between">
           <img src="/lve-logo.png" alt="LV= Logo" className="h-6" />
           <Button variant="primary" className="h-8 px-5 py-1 text-sm font-normal">
@@ -153,7 +153,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </h1>
       </header>
 
-      <div className="bg-white px-8 pt-4 flex gap-2 overflow-hidden shrink-0">
+      <div className="bg-white px-[142px] pt-4 flex gap-2 overflow-hidden shrink-0">
         {TABS.map(tab => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -177,7 +177,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         })}
       </div>
 
-      <div className="bg-white border-b border-t border-[#BBBBBB] px-8 py-3 flex items-center justify-between shrink-0">
+      <div className="bg-white border-b border-t border-[#BBBBBB] px-[142px] py-3 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
           {activeIfaRef && (
             <span className="text-sm font-bold text-[#00263e] font-sans flex items-center gap-2">
@@ -227,11 +227,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      <main className="flex-1 overflow-auto bg-[#f0f0f0] relative px-8 py-4">
+      <main className="flex-1 overflow-auto bg-[#f0f0f0] relative px-[142px] py-4">
         {children}
       </main>
       
-      <footer className="bg-white border-t border-slate-200 py-4 px-8 flex justify-between items-center shrink-0">
+      <footer className="bg-white border-t border-slate-200 py-4 px-[142px] flex justify-between items-center shrink-0">
         <img src="/lve-logo.png" alt="LV= Logo" className="h-6" />
         <div className="text-right">
           <p className="text-[10px] font-medium text-slate-400 font-[Mulish]">Liverpool Victoria Financial Services Limited</p>
