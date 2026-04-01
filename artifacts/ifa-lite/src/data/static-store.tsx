@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useCallback, useRef, ReactNode } from 'react';
 import {
   Broker, Contact, Note, RetirementIncome, EquityRelease,
   initialBrokers, initialContacts, initialNotes, initialRetirementIncome, initialEquityRelease,
@@ -24,6 +24,9 @@ export function DataStoreProvider({ children }: { children: ReactNode }) {
   const [retirementIncome] = useState<RetirementIncome[]>(() => [...initialRetirementIncome]);
   const [equityRelease] = useState<EquityRelease[]>(() => [...initialEquityRelease]);
 
+  const nextBrokerId = useRef(initialBrokers.reduce((max, b) => Math.max(max, b.id), 0) + 1);
+  const nextNoteId = useRef(initialNotes.reduce((max, n) => Math.max(max, n.id), 0) + 1);
+
   const updateBroker = useCallback((id: number, data: Partial<Broker>) => {
     let updated: Broker = {} as Broker;
     setBrokers(prev => prev.map(b => {
@@ -37,14 +40,13 @@ export function DataStoreProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const createBroker = useCallback((data: Partial<Broker>) => {
-    const maxId = brokers.reduce((max, b) => Math.max(max, b.id), 0);
-    const nextId = maxId + 1;
+    const id = nextBrokerId.current++;
     const now = new Date();
     const newBroker: Broker = {
-      id: nextId,
-      ifaRef: `NEW-${String(nextId).padStart(3, '0')}`,
-      brokerNo: `BRK${String(nextId).padStart(3, '0')}`,
-      fimbraNo: `FIM${String(nextId).padStart(3, '0')}`,
+      id,
+      ifaRef: `NEW-${String(id).padStart(3, '0')}`,
+      brokerNo: `BRK${String(id).padStart(3, '0')}`,
+      fimbraNo: `FIM${String(id).padStart(3, '0')}`,
       brokerName: '',
       status: 'Authorised',
       createdBy: 'SYSTEM',
@@ -53,21 +55,18 @@ export function DataStoreProvider({ children }: { children: ReactNode }) {
     };
     setBrokers(prev => [...prev, newBroker]);
     return newBroker;
-  }, [brokers]);
+  }, []);
 
   const addNote = useCallback((brokerId: number, data: Partial<Note>) => {
+    const id = nextNoteId.current++;
     const newNote: Note = {
-      id: 0,
+      id,
       brokerId,
       noteType: data.noteType || 'SYS',
       description: data.description || '',
       ...data,
     };
-    setNotes(prev => {
-      const maxId = prev.reduce((max, n) => Math.max(max, n.id), 0);
-      newNote.id = maxId + 1;
-      return [newNote, ...prev];
-    });
+    setNotes(prev => [newNote, ...prev]);
     return newNote;
   }, []);
 
