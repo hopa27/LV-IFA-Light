@@ -42,7 +42,7 @@ artifacts-monorepo/
 
 1. **IFA Detail** - Main broker/IFA information form with contacts grid
 2. **Contacts** - Detailed contact management with bank details, network settings
-3. **Lookups** - Search and filter brokers by postcode, reference, name, status
+3. **Lookups** - Search and filter brokers by postcode, reference, name, status; horizontally scrollable grid showing all ~65 broker columns
 4. **Retirement Income** - Commission settings for NPA, PIPA, PRP products
 5. **Equity Release** - Mortgage permissions, commissions, age band special deals
 6. **Notes** - Audit trail showing system changes with old/new values

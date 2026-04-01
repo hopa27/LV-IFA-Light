@@ -358,6 +358,14 @@ components:
           type: string
         addressLine2:
           type: string
+        building:
+          type: string
+        noStreet:
+          type: string
+        district:
+          type: string
+        city:
+          type: string
         town:
           type: string
         county:
@@ -395,6 +403,90 @@ components:
         partnerCode:
           type: string
         region:
+          type: string
+        salutation:
+          type: string
+        classCode:
+          type: string
+        repkey:
+          type: string
+        rsmNo:
+          type: string
+        nextIfaIllRef:
+          type: string
+        sibReference:
+          type: string
+        sibAuthorisationDate:
+          type: string
+        sibInitials:
+          type: string
+        brokerPackSent:
+          type: string
+        brokerPackSentDate:
+          type: string
+        area:
+          type: string
+        nextContactNo:
+          type: string
+        consultant:
+          type: string
+        peverelBroker:
+          type: string
+        paidByBacs:
+          type: string
+        bankSortCode:
+          type: string
+        bankAccountNo:
+          type: string
+        bankAccountName:
+          type: string
+        bankRef:
+          type: string
+        networkIfaReference:
+          type: string
+        ifaCommission:
+          type: string
+        networkCommission:
+          type: string
+        network:
+          type: string
+        memberNumber:
+          type: string
+        plaIfaCommission:
+          type: string
+        plaNetworkCommission:
+          type: string
+        ifaWhen:
+          type: string
+        ifaPortfolio:
+          type: string
+        brokerNameUpper:
+          type: string
+        expense:
+          type: string
+        coCode:
+          type: string
+        ltcCommission:
+          type: string
+        acareCommission:
+          type: string
+        namId:
+          type: string
+        ilaCommission:
+          type: string
+        ilaExpense:
+          type: string
+        ifaIlaCommissionPct:
+          type: string
+        ifaIlaExpensePct:
+          type: string
+        networkIlaCommissionPct:
+          type: string
+        icfpCommission:
+          type: string
+        icfpExpense:
+          type: string
+        networkIcfpCommissionPct:
           type: string
         createdBy:
           type: string
@@ -424,6 +516,14 @@ components:
           type: string
         addressLine2:
           type: string
+        building:
+          type: string
+        noStreet:
+          type: string
+        district:
+          type: string
+        city:
+          type: string
         town:
           type: string
         county:
@@ -461,6 +561,90 @@ components:
         partnerCode:
           type: string
         region:
+          type: string
+        salutation:
+          type: string
+        classCode:
+          type: string
+        repkey:
+          type: string
+        rsmNo:
+          type: string
+        nextIfaIllRef:
+          type: string
+        sibReference:
+          type: string
+        sibAuthorisationDate:
+          type: string
+        sibInitials:
+          type: string
+        brokerPackSent:
+          type: string
+        brokerPackSentDate:
+          type: string
+        area:
+          type: string
+        nextContactNo:
+          type: string
+        consultant:
+          type: string
+        peverelBroker:
+          type: string
+        paidByBacs:
+          type: string
+        bankSortCode:
+          type: string
+        bankAccountNo:
+          type: string
+        bankAccountName:
+          type: string
+        bankRef:
+          type: string
+        networkIfaReference:
+          type: string
+        ifaCommission:
+          type: string
+        networkCommission:
+          type: string
+        network:
+          type: string
+        memberNumber:
+          type: string
+        plaIfaCommission:
+          type: string
+        plaNetworkCommission:
+          type: string
+        ifaWhen:
+          type: string
+        ifaPortfolio:
+          type: string
+        brokerNameUpper:
+          type: string
+        expense:
+          type: string
+        coCode:
+          type: string
+        ltcCommission:
+          type: string
+        acareCommission:
+          type: string
+        namId:
+          type: string
+        ilaCommission:
+          type: string
+        ilaExpense:
+          type: string
+        ifaIlaCommissionPct:
+          type: string
+        ifaIlaExpensePct:
+          type: string
+        networkIlaCommissionPct:
+          type: string
+        icfpCommission:
+          type: string
+        icfpExpense:
+          type: string
+        networkIcfpCommissionPct:
           type: string
       required:
         - brokerName
@@ -481,6 +665,14 @@ components:
           type: string
         addressLine2:
           type: string
+        building:
+          type: string
+        noStreet:
+          type: string
+        district:
+          type: string
+        city:
+          type: string
         town:
           type: string
         county:
@@ -518,6 +710,90 @@ components:
         partnerCode:
           type: string
         region:
+          type: string
+        salutation:
+          type: string
+        classCode:
+          type: string
+        repkey:
+          type: string
+        rsmNo:
+          type: string
+        nextIfaIllRef:
+          type: string
+        sibReference:
+          type: string
+        sibAuthorisationDate:
+          type: string
+        sibInitials:
+          type: string
+        brokerPackSent:
+          type: string
+        brokerPackSentDate:
+          type: string
+        area:
+          type: string
+        nextContactNo:
+          type: string
+        consultant:
+          type: string
+        peverelBroker:
+          type: string
+        paidByBacs:
+          type: string
+        bankSortCode:
+          type: string
+        bankAccountNo:
+          type: string
+        bankAccountName:
+          type: string
+        bankRef:
+          type: string
+        networkIfaReference:
+          type: string
+        ifaCommission:
+          type: string
+        networkCommission:
+          type: string
+        network:
+          type: string
+        memberNumber:
+          type: string
+        plaIfaCommission:
+          type: string
+        plaNetworkCommission:
+          type: string
+        ifaWhen:
+          type: string
+        ifaPortfolio:
+          type: string
+        brokerNameUpper:
+          type: string
+        expense:
+          type: string
+        coCode:
+          type: string
+        ltcCommission:
+          type: string
+        acareCommission:
+          type: string
+        namId:
+          type: string
+        ilaCommission:
+          type: string
+        ilaExpense:
+          type: string
+        ifaIlaCommissionPct:
+          type: string
+        ifaIlaExpensePct:
+          type: string
+        networkIlaCommissionPct:
+          type: string
+        icfpCommission:
+          type: string
+        icfpExpense:
+          type: string
+        networkIcfpCommissionPct:
           type: string
     Contact:
       type: object

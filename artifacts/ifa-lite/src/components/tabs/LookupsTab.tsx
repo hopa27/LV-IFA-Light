@@ -1,8 +1,76 @@
 import React, { useState } from 'react';
 import { useListBrokers } from '@workspace/api-client-react';
+import type { Broker, ListBrokersParams } from '@workspace/api-client-react';
 import { useApp } from '@/context/app-context';
 import { Fieldset, FormInput, FormCheckbox, Button } from '@/components/shared/FormElements';
-import { Search, Building, CheckCircle } from 'lucide-react';
+import { Search, Building } from 'lucide-react';
+
+const COLUMNS: { key: keyof Broker; header: string }[] = [
+  { key: 'ifaRef', header: 'IFA_REF' },
+  { key: 'brokerNo', header: 'BROKER_NO' },
+  { key: 'fimbraNo', header: 'FIMBRA_NO' },
+  { key: 'brokerName', header: 'BROKER_NAME' },
+  { key: 'building', header: 'BUILDING' },
+  { key: 'noStreet', header: 'NO_STREET' },
+  { key: 'district', header: 'DISTRICT' },
+  { key: 'city', header: 'CITY' },
+  { key: 'county', header: 'COUNTY' },
+  { key: 'postcode', header: 'POST_CODE' },
+  { key: 'telephone', header: 'TEL' },
+  { key: 'fax', header: 'FAX' },
+  { key: 'salutation', header: 'SALUTATION' },
+  { key: 'classCode', header: 'CLASS_CODE' },
+  { key: 'createdDate', header: 'CREATED' },
+  { key: 'createdBy', header: 'CREATED_BY' },
+  { key: 'amendedDate', header: 'AMENDED' },
+  { key: 'amendedBy', header: 'AMENDED_BY' },
+  { key: 'repkey', header: 'REPKEY' },
+  { key: 'rsmNo', header: 'RSM_NO' },
+  { key: 'nextIfaIllRef', header: 'NEXTIFAILLREF' },
+  { key: 'sibReference', header: 'SIBREFERENCE' },
+  { key: 'sibAuthorisationDate', header: 'SIBAUTHORISATIONDATE' },
+  { key: 'sibInitials', header: 'SIBINITIALS' },
+  { key: 'brokerPackSent', header: 'BROKERPACKSENT' },
+  { key: 'brokerPackSentDate', header: 'BROKERPACKSENTDATE' },
+  { key: 'nextDiaryDate', header: 'NEXTDIARYDATE' },
+  { key: 'area', header: 'AREA' },
+  { key: 'keyAccount', header: 'KEYACCOUNT' },
+  { key: 'grade', header: 'GRADE' },
+  { key: 'nextContactNo', header: 'NEXTCONTACTNO' },
+  { key: 'status', header: 'STATUS' },
+  { key: 'consultant', header: 'CONSULTANT' },
+  { key: 'peverelBroker', header: 'PEVERELBROKER' },
+  { key: 'paidByBacs', header: 'PAIDBYBACS' },
+  { key: 'bankSortCode', header: 'BANKSORTCODE' },
+  { key: 'bankAccountNo', header: 'BANKACCOUNTNO' },
+  { key: 'bankAccountName', header: 'BANKACCOUNTNAME' },
+  { key: 'bankRef', header: 'BANKREF' },
+  { key: 'networkIfaReference', header: 'NETWORKIFAREFERENCE' },
+  { key: 'ifaCommission', header: 'IFACOMMISSION' },
+  { key: 'networkCommission', header: 'NETWORKCOMMISSION' },
+  { key: 'network', header: 'NETWORK' },
+  { key: 'memberNumber', header: 'MEMBERNUMBER' },
+  { key: 'plaIfaCommission', header: 'PLAIFACOMMISSION' },
+  { key: 'plaNetworkCommission', header: 'PLANETWORKCOMMISSION' },
+  { key: 'ifaWhen', header: 'IFA_WHEN' },
+  { key: 'ifaPortfolio', header: 'IFAPORTFOLIO' },
+  { key: 'brokerNameUpper', header: 'BROKER_NAME_UPPER' },
+  { key: 'expense', header: 'EXPENSE' },
+  { key: 'coCode', header: 'COCODE' },
+  { key: 'ltcCommission', header: 'LTC_COMMISSION' },
+  { key: 'acareCommission', header: 'ACARECOMMISSION' },
+  { key: 'email', header: 'EMAIL_ADDRESS' },
+  { key: 'namId', header: 'NAM_ID' },
+  { key: 'ilaCommission', header: 'ILA_COMMISSION' },
+  { key: 'ilaExpense', header: 'ILA_EXPENSE' },
+  { key: 'ifaIlaCommissionPct', header: 'IFA_ILA_COMMISSION_PCT' },
+  { key: 'ifaIlaExpensePct', header: 'IFA_ILA_EXPENSE_PCT' },
+  { key: 'networkIlaCommissionPct', header: 'NETWORK_ILA_COMMISSION_PCT' },
+  { key: 'icfpCommission', header: 'ICFP_COMMISSION' },
+  { key: 'icfpExpense', header: 'ICFP_EXPENSE' },
+  { key: 'networkIcfpCommissionPct', header: 'NETWORK_ICFP_COMMISSION_PCT' },
+  { key: 'partnerCode', header: 'PARTNER_CODE' },
+];
 
 export default function LookupsTab() {
   const { setActiveBrokerId } = useApp();
@@ -13,12 +81,12 @@ export default function LookupsTab() {
   const [cancelled, setCancelled] = useState(false);
   const [duplicateRecord, setDuplicateRecord] = useState(false);
   const [revoked, setRevoked] = useState(false);
-  const [searchParams, setSearchParams] = useState<Record<string, any>>({});
+  const [searchParams, setSearchParams] = useState<ListBrokersParams>({});
 
   const { data: brokers = [], isLoading } = useListBrokers(searchParams);
 
   const handleSearch = () => {
-    const params: Record<string, any> = {};
+    const params: ListBrokersParams = {};
     if (postcode) params.postcode = postcode;
     if (ifaReference) params.ifaReference = ifaReference;
     if (ifaName) params.ifaName = ifaName;
@@ -67,28 +135,27 @@ export default function LookupsTab() {
       </Fieldset>
 
       <div className="flex-1 bg-white border border-[#BBBBBB] rounded-lg shadow-sm overflow-hidden flex flex-col">
-        <div className="bg-[#002f5c] border-b-[3px] border-[#04589b] px-4 py-3 font-semibold text-sm text-white uppercase tracking-wider flex justify-between font-sans">
+        <div className="bg-[#002f5c] border-b-[3px] border-[#04589b] px-4 py-3 font-semibold text-sm text-white uppercase tracking-wider flex justify-between font-sans shrink-0">
           <span>Search Results ({brokers.length})</span>
           <span className="text-[10px] text-white/60 font-[Mulish] normal-case">Click a row to view details</span>
         </div>
         
         <div className="flex-1 overflow-auto">
-          <table className="w-full text-sm text-left border-separate border-spacing-0">
-            <thead className="bg-[#eaf5f8] sticky top-0">
+          <table className="text-xs text-left border-collapse" style={{ minWidth: `${COLUMNS.length * 140}px` }}>
+            <thead className="bg-[#eaf5f8] sticky top-0 z-10">
               <tr>
-                <th className="px-4 py-3 border-b-[3px] border-[#04589b] font-semibold text-[#002f5c] font-sans">IFA_REF</th>
-                <th className="px-4 py-3 border-b-[3px] border-[#04589b] font-semibold text-[#002f5c] font-sans">BROKER_NO</th>
-                <th className="px-4 py-3 border-b-[3px] border-[#04589b] font-semibold text-[#002f5c] font-sans">FIMBRA_NO</th>
-                <th className="px-4 py-3 border-b-[3px] border-[#04589b] font-semibold text-[#002f5c] font-sans">BROKER_NAME</th>
-                <th className="px-4 py-3 border-b-[3px] border-[#04589b] font-semibold text-[#002f5c] font-sans">POSTCODE</th>
-                <th className="px-4 py-3 border-b-[3px] border-[#04589b] font-semibold text-[#002f5c] font-sans text-center">STATUS</th>
+                {COLUMNS.map(col => (
+                  <th key={col.key} className="px-3 py-2 border-b-[3px] border-[#04589b] font-semibold text-[#002f5c] font-sans whitespace-nowrap">
+                    {col.header}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody className="font-[Mulish]">
               {isLoading ? (
-                <tr><td colSpan={6} className="text-center py-8 text-[#979797]">Loading...</td></tr>
+                <tr><td colSpan={COLUMNS.length} className="text-center py-8 text-[#979797]">Loading...</td></tr>
               ) : brokers.length === 0 ? (
-                <tr><td colSpan={6} className="text-center py-8 text-[#979797]">No records found.</td></tr>
+                <tr><td colSpan={COLUMNS.length} className="text-center py-8 text-[#979797]">No records found.</td></tr>
               ) : (
                 brokers.map((broker, i) => (
                   <tr 
@@ -96,22 +163,16 @@ export default function LookupsTab() {
                     onClick={() => setActiveBrokerId(broker.id!)}
                     className={`border-b border-[#BBBBBB]/20 hover:bg-[#05579B] hover:text-white cursor-pointer transition-colors group ${i % 2 === 1 ? 'bg-[#e7ebec]/20' : 'bg-white'}`}
                   >
-                    <td className="px-4 py-2 font-medium text-[#005a9c] underline group-hover:text-white">{broker.ifaRef}</td>
-                    <td className="px-4 py-2 text-[#3d3d3d] group-hover:text-white">{broker.brokerNo}</td>
-                    <td className="px-4 py-2 text-[#3d3d3d] group-hover:text-white">{broker.fimbraNo}</td>
-                    <td className="px-4 py-2 font-medium text-[#3d3d3d] group-hover:text-white">{broker.brokerName}</td>
-                    <td className="px-4 py-2 text-[#3d3d3d] group-hover:text-white">{broker.postcode}</td>
-                    <td className="px-4 py-2 text-center">
-                      {broker.status === 'Authorised' ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#178830]/10 text-[#178830] group-hover:bg-white/20 group-hover:text-white">
-                          <CheckCircle className="w-3 h-3" /> Authorised
-                        </span>
-                      ) : (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#eaf5f8] text-[#0d2c41] group-hover:bg-white/20 group-hover:text-white">
-                          {broker.status}
-                        </span>
-                      )}
-                    </td>
+                    {COLUMNS.map(col => (
+                      <td 
+                        key={col.key} 
+                        className={`px-3 py-1.5 whitespace-nowrap group-hover:text-white ${
+                          col.key === 'ifaRef' ? 'font-medium text-[#005a9c] underline' : 'text-[#3d3d3d]'
+                        }`}
+                      >
+                        {broker[col.key] != null ? String(broker[col.key]) : ''}
+                      </td>
+                    ))}
                   </tr>
                 ))
               )}
