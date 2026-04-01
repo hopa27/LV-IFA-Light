@@ -4,6 +4,7 @@ import type { Broker, ListBrokersParams } from '@workspace/api-client-react';
 import { useApp } from '@/context/app-context';
 import { Fieldset, Button } from '@/components/shared/FormElements';
 import { Combobox } from '@/components/shared/Combobox';
+import ClubModal from '@/components/shared/ClubModal';
 import { Search, Building } from 'lucide-react';
 
 const COLUMNS: { key: keyof Broker; header: string }[] = [
@@ -80,6 +81,7 @@ export default function LookupsTab() {
   const [ifaName, setIfaName] = useState('');
   const [status, setStatus] = useState('Authorised');
   const [searchParams, setSearchParams] = useState<ListBrokersParams>({});
+  const [showClubModal, setShowClubModal] = useState(false);
 
   const { data: brokers = [], isLoading } = useListBrokers(searchParams);
 
@@ -141,7 +143,7 @@ export default function LookupsTab() {
           </div>
           <div className="flex gap-2">
             <Button className="w-28" onClick={handleSearch}><Search className="w-4 h-4" /> Search</Button>
-            <Button variant="secondary" className="w-28"><Building className="w-4 h-4" /> Club</Button>
+            <Button variant="secondary" className="w-28" onClick={() => setShowClubModal(true)}><Building className="w-4 h-4" /> Club</Button>
           </div>
         </div>
       </Fieldset>
@@ -192,6 +194,8 @@ export default function LookupsTab() {
           </table>
         </div>
       </div>
+
+      {showClubModal && <ClubModal onClose={() => setShowClubModal(false)} />}
     </div>
   );
 }
