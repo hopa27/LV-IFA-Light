@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useApp } from '@/context/app-context';
 import { useListBrokers, useCreateBroker, getListBrokersQueryKey } from '@workspace/api-client-react';
 import { Button } from '@/components/shared/FormElements';
-import { Search, FileText, Users, Briefcase, Home, Database, ChevronFirst, ChevronLeft, ChevronRight, ChevronLast, Save, RefreshCw, Plus, Crosshair, X } from 'lucide-react';
+import { Search, FileText, Users, Briefcase, Home, Database, ChevronFirst, ChevronLeft, ChevronRight, ChevronLast, Save, RefreshCw, FilePlus2, ScanSearch, X } from 'lucide-react';
 
 const TABS = [
   { id: 'ifa-detail', label: 'IFA Detail', icon: FileText },
@@ -179,28 +179,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       <div className="bg-white border-b border-t border-[#BBBBBB] px-6 py-3 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleAddNewIfa}
-              disabled={createBrokerMutation.isPending}
-              className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-              title="Add New IFA"
-              aria-label="Add New IFA"
-            >
-              <Plus className="w-5 h-5" />
-            </button>
-            <button
-              onClick={() => setShowLocateModal(true)}
-              className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] transition-colors"
-              title="Locate IFA"
-              aria-label="Locate IFA"
-            >
-              <Crosshair className="w-5 h-5" />
-            </button>
-          </div>
-
-          <div className="h-6 w-px bg-[#BBBBBB]" />
-
           {activeIfaRef && (
             <span className="text-sm font-bold text-[#00263e] font-sans flex items-center gap-2">
               <span className="w-1 h-5 bg-[#006cf4] rounded-sm"></span>
@@ -230,10 +208,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
 
-        <Button onClick={triggerSave} disabled={!isDirty || isSaving}>
-          {isSaving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          Save Changes
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button variant="secondary" onClick={handleAddNewIfa} disabled={createBrokerMutation.isPending}>
+            <FilePlus2 className="w-4 h-4" />
+            New IFA
+          </Button>
+          <Button variant="secondary" onClick={() => setShowLocateModal(true)}>
+            <ScanSearch className="w-4 h-4" />
+            Locate IFA
+          </Button>
+
+          <div className="h-6 w-px bg-[#BBBBBB]" />
+
+          <Button onClick={triggerSave} disabled={!isDirty || isSaving}>
+            {isSaving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            Save Changes
+          </Button>
+        </div>
       </div>
 
       <main className="flex-1 overflow-auto bg-[#f0f0f0] relative p-4">
