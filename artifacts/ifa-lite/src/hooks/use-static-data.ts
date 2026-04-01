@@ -1,10 +1,19 @@
 import { useMemo, useCallback, useState } from 'react';
 import { useDataStore } from '@/data/static-store';
-import type { Broker, ListBrokersParams } from '@/data/seed-data';
+import type { Broker, Contact, Note, RetirementIncome, EquityRelease, ListBrokersParams } from '@/data/seed-data';
 
 export type { Broker, ListBrokersParams } from '@/data/seed-data';
 
-export function useListBrokers(params?: ListBrokersParams, _options?: any) {
+interface QueryOptions {
+  query?: { enabled?: boolean };
+}
+
+interface MutationCallbacks<T> {
+  onSuccess?: (result: T) => void;
+  onError?: (err: Error) => void;
+}
+
+export function useListBrokers(params?: ListBrokersParams, _options?: QueryOptions) {
   const { brokers } = useDataStore();
 
   const filtered = useMemo(() => {
@@ -27,7 +36,7 @@ export function useListBrokers(params?: ListBrokersParams, _options?: any) {
   return { data: filtered, isLoading: false, isError: false, error: null };
 }
 
-export function useGetBroker(id: number, options?: { query?: { enabled?: boolean } }) {
+export function useGetBroker(id: number, options?: QueryOptions) {
   const { brokers } = useDataStore();
   const enabled = options?.query?.enabled !== false;
   const data = enabled ? brokers.find(b => b.id === id) : undefined;
@@ -40,7 +49,7 @@ export function useUpdateBroker() {
 
   const mutate = useCallback((
     { id, data }: { id: number; data: Partial<Broker> },
-    callbacks?: { onSuccess?: (result: Broker) => void; onError?: (err: Error) => void }
+    callbacks?: MutationCallbacks<Broker>
   ) => {
     setIsPending(true);
     setTimeout(() => {
@@ -64,7 +73,7 @@ export function useCreateBroker() {
 
   const mutate = useCallback((
     { data }: { data: Partial<Broker> },
-    callbacks?: { onSuccess?: (result: Broker) => void; onError?: (err: Error) => void }
+    callbacks?: MutationCallbacks<Broker>
   ) => {
     setIsPending(true);
     setTimeout(() => {
@@ -82,17 +91,17 @@ export function useCreateBroker() {
   return { mutate, isPending };
 }
 
-export function useListContacts(brokerId: number, options?: { query?: { enabled?: boolean } }) {
+export function useListContacts(brokerId: number, options?: QueryOptions) {
   const { contacts } = useDataStore();
   const enabled = options?.query?.enabled !== false;
-  const data = enabled ? contacts.filter(c => c.brokerId === brokerId) : [];
+  const data: Contact[] = enabled ? contacts.filter(c => c.brokerId === brokerId) : [];
   return { data, isLoading: false };
 }
 
-export function useListNotes(brokerId: number, options?: { query?: { enabled?: boolean } }) {
+export function useListNotes(brokerId: number, options?: QueryOptions) {
   const { notes } = useDataStore();
   const enabled = options?.query?.enabled !== false;
-  const data = enabled ? notes.filter(n => n.brokerId === brokerId) : [];
+  const data: Note[] = enabled ? notes.filter(n => n.brokerId === brokerId) : [];
   return { data, isLoading: false };
 }
 
@@ -100,7 +109,7 @@ export function useCreateNote() {
   const { addNote } = useDataStore();
 
   const mutate = useCallback((
-    { brokerId, data }: { brokerId: number; data: any },
+    { brokerId, data }: { brokerId: number; data: Partial<Note> },
     callbacks?: { onSuccess?: () => void }
   ) => {
     addNote(brokerId, data);
@@ -110,17 +119,17 @@ export function useCreateNote() {
   return { mutate };
 }
 
-export function useGetRetirementIncome(brokerId: number, options?: { query?: { enabled?: boolean } }) {
+export function useGetRetirementIncome(brokerId: number, options?: QueryOptions) {
   const { retirementIncome } = useDataStore();
   const enabled = options?.query?.enabled !== false;
-  const data = enabled ? retirementIncome.find(r => r.brokerId === brokerId) : undefined;
+  const data: RetirementIncome | undefined = enabled ? retirementIncome.find(r => r.brokerId === brokerId) : undefined;
   return { data, isLoading: false };
 }
 
-export function useGetEquityRelease(brokerId: number, options?: { query?: { enabled?: boolean } }) {
+export function useGetEquityRelease(brokerId: number, options?: QueryOptions) {
   const { equityRelease } = useDataStore();
   const enabled = options?.query?.enabled !== false;
-  const data = enabled ? equityRelease.find(e => e.brokerId === brokerId) : undefined;
+  const data: EquityRelease | undefined = enabled ? equityRelease.find(e => e.brokerId === brokerId) : undefined;
   return { data, isLoading: false };
 }
 

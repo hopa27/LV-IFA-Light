@@ -37,27 +37,23 @@ export function DataStoreProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const createBroker = useCallback((data: Partial<Broker>) => {
+    const maxId = brokers.reduce((max, b) => Math.max(max, b.id), 0);
+    const nextId = maxId + 1;
+    const now = new Date();
     const newBroker: Broker = {
-      id: 0,
-      ifaRef: '',
-      brokerNo: '',
-      fimbraNo: '',
+      id: nextId,
+      ifaRef: `NEW-${String(nextId).padStart(3, '0')}`,
+      brokerNo: `BRK${String(nextId).padStart(3, '0')}`,
+      fimbraNo: `FIM${String(nextId).padStart(3, '0')}`,
       brokerName: '',
       status: 'Authorised',
+      createdBy: 'SYSTEM',
+      createdDate: now.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' + now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
       ...data,
     };
-    setBrokers(prev => {
-      const maxId = prev.reduce((max, b) => Math.max(max, b.id), 0);
-      newBroker.id = maxId + 1;
-      newBroker.ifaRef = newBroker.ifaRef || `NEW-${String(newBroker.id).padStart(3, '0')}`;
-      newBroker.brokerNo = newBroker.brokerNo || `BRK${String(newBroker.id).padStart(3, '0')}`;
-      newBroker.fimbraNo = newBroker.fimbraNo || `FIM${String(newBroker.id).padStart(3, '0')}`;
-      newBroker.createdBy = 'SYSTEM';
-      newBroker.createdDate = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' + new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-      return [...prev, newBroker];
-    });
+    setBrokers(prev => [...prev, newBroker]);
     return newBroker;
-  }, []);
+  }, [brokers]);
 
   const addNote = useCallback((brokerId: number, data: Partial<Note>) => {
     const newNote: Note = {
