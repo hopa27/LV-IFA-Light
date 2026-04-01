@@ -202,9 +202,7 @@ export default function IfaDetailTab() {
               onChange={handleChange}
               options={[
                 {label: '', value: ''},
-                {label: 'Gold', value: 'Gold'},
-                {label: 'Silver', value: 'Silver'},
-                {label: 'Bronze', value: 'Bronze'}
+                ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l => ({label: l, value: l}))
               ]}
             />
             
