@@ -1,12 +1,132 @@
-import React, { useState } from 'react';
-import { useListContacts } from '@/hooks/use-static-data';
+import React, { useState, useMemo } from 'react';
+import { useListContacts, useListBrokers } from '@/hooks/use-static-data';
 import { useApp } from '@/context/app-context';
 import { Fieldset, FormInput, FormSelect, FormRadioGroup, FormCheckbox, Button } from '@/components/shared/FormElements';
-import { ChevronLeft, ChevronRight, Plus, Save, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Save, Search, X, Check } from 'lucide-react';
+
+function NetworkLookupModal({ onSelect, onClose }: { onSelect: (ifa: string, name: string, postcode: string) => void; onClose: () => void }) {
+  const [ifaRef, setIfaRef] = useState('');
+  const [postcode, setPostcode] = useState('');
+  const [brokerName, setBrokerName] = useState('');
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+
+  const { data: allBrokers = [] } = useListBrokers();
+
+  const filtered = useMemo(() => {
+    return allBrokers.filter(b => {
+      if (ifaRef && !b.ifaRef?.toLowerCase().includes(ifaRef.toLowerCase())) return false;
+      if (postcode && !b.postcode?.toLowerCase().includes(postcode.toLowerCase())) return false;
+      if (brokerName && !b.brokerName?.toLowerCase().includes(brokerName.toLowerCase())) return false;
+      return true;
+    });
+  }, [allBrokers, ifaRef, postcode, brokerName]);
+
+  const handleOk = () => {
+    const broker = allBrokers.find(b => b.id === selectedId);
+    if (broker) {
+      onSelect(broker.ifaRef || '', broker.brokerName || '', broker.postcode || '');
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center" onClick={onClose}>
+      <div className="bg-[#f0f0f0] rounded-lg shadow-2xl w-[680px] max-h-[80vh] flex flex-col border border-[#BBBBBB]" onClick={e => e.stopPropagation()}>
+        <div className="bg-[#002f5c] text-white px-4 py-2.5 flex items-center justify-between rounded-t-lg">
+          <span className="text-sm font-semibold font-sans">IFA Network Lookup</span>
+          <button onClick={onClose} className="text-white/70 hover:text-white"><X className="w-4 h-4" /></button>
+        </div>
+
+        <div className="px-4 py-3 border-b border-[#BBBBBB]">
+          <div className="flex gap-3 items-end">
+            <div className="flex-1">
+              <label className="text-[10px] font-semibold text-[#3d3d3d] font-sans block mb-0.5">IFA Ref.</label>
+              <input
+                className="w-full px-2 py-1 text-xs border border-[#BBBBBB] rounded bg-white font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none"
+                value={ifaRef}
+                onChange={e => setIfaRef(e.target.value)}
+                autoFocus
+              />
+            </div>
+            <div className="flex-1">
+              <label className="text-[10px] font-semibold text-[#3d3d3d] font-sans block mb-0.5">Postcode</label>
+              <input
+                className="w-full px-2 py-1 text-xs border border-[#BBBBBB] rounded bg-white font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none"
+                value={postcode}
+                onChange={e => setPostcode(e.target.value)}
+              />
+            </div>
+            <div className="flex-1">
+              <label className="text-[10px] font-semibold text-[#3d3d3d] font-sans block mb-0.5">Broker Name</label>
+              <input
+                className="w-full px-2 py-1 text-xs border border-[#BBBBBB] rounded bg-white font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none"
+                value={brokerName}
+                onChange={e => setBrokerName(e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex gap-2 px-4 py-2 border-b border-[#BBBBBB]">
+          <Button className="text-xs px-3 py-1" onClick={handleOk} disabled={selectedId === null}>
+            <Check className="w-3 h-3" /> OK
+          </Button>
+          <Button variant="secondary" className="text-xs px-3 py-1" onClick={onClose}>
+            <X className="w-3 h-3" /> Cancel
+          </Button>
+        </div>
+
+        <div className="flex-1 overflow-auto max-h-[350px]">
+          <table className="w-full text-xs border-collapse">
+            <thead className="bg-[#eaf5f8] sticky top-0 z-10">
+              <tr>
+                <th className="px-3 py-2 text-left border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">IFA_REF</th>
+                <th className="px-3 py-2 text-left border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">POST_CODE</th>
+                <th className="px-3 py-2 text-left border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">BROKER_NAME</th>
+              </tr>
+            </thead>
+            <tbody className="font-[Mulish]">
+              {filtered.length === 0 ? (
+                <tr><td colSpan={3} className="text-center py-6 text-[#979797] italic">No records found</td></tr>
+              ) : (
+                filtered.map((b, i) => (
+                  <tr
+                    key={b.id}
+                    onClick={() => setSelectedId(b.id)}
+                    onDoubleClick={() => {
+                      setSelectedId(b.id);
+                      onSelect(b.ifaRef || '', b.brokerName || '', b.postcode || '');
+                    }}
+                    className={`cursor-pointer border-b border-[#BBBBBB]/20 transition-colors ${
+                      selectedId === b.id
+                        ? 'bg-[#05579B] text-white'
+                        : i % 2 === 1 ? 'bg-[#e7ebec]/20 hover:bg-[#05579B]/20' : 'bg-white hover:bg-[#05579B]/20'
+                    }`}
+                  >
+                    <td className="px-3 py-1.5 whitespace-nowrap">{b.ifaRef}</td>
+                    <td className="px-3 py-1.5 whitespace-nowrap">{b.postcode}</td>
+                    <td className="px-3 py-1.5 whitespace-nowrap">{b.brokerName}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="px-4 py-3 border-t border-[#BBBBBB] bg-[#f0f0f0] rounded-b-lg">
+          <div className="text-[10px] text-[#979797] font-[Mulish]">
+            {filtered.length} record{filtered.length !== 1 ? 's' : ''} found — click to select, double-click to confirm
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function ContactsTab() {
   const { activeBrokerId } = useApp();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showNetworkLookup, setShowNetworkLookup] = useState(false);
+  const [networkOverrides, setNetworkOverrides] = useState<{ networkIfa?: string; networkName?: string; networkPostcode?: string } | null>(null);
 
   const { data: contacts = [] } = useListContacts(activeBrokerId || 0, {
     query: { enabled: !!activeBrokerId }
@@ -18,15 +138,29 @@ export default function ContactsTab() {
 
   const currentContact: any = contacts[currentIndex] || {};
 
+  const networkIfa = networkOverrides?.networkIfa ?? currentContact.networkIfa ?? '';
+  const networkName = networkOverrides?.networkName ?? currentContact.networkName ?? '';
+  const networkPostcode = networkOverrides?.networkPostcode ?? currentContact.networkPostcode ?? '';
+
+  const handleNetworkSelect = (ifa: string, name: string, postcode: string) => {
+    setNetworkOverrides({ networkIfa: ifa, networkName: name, networkPostcode: postcode });
+    setShowNetworkLookup(false);
+  };
+
+  const handleContactChange = (newIndex: number) => {
+    setCurrentIndex(newIndex);
+    setNetworkOverrides(null);
+  };
+
   return (
     <div className="flex flex-col min-h-full pb-8">
       <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#BBBBBB]">
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold text-[#3d3d3d] mr-2 font-sans">Contact {contacts.length > 0 ? currentIndex + 1 : 0} of {contacts.length}</span>
-          <Button variant="outline" className="px-2 rounded-lg" onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))} disabled={currentIndex === 0}>
+          <Button variant="outline" className="px-2 rounded-lg" onClick={() => handleContactChange(Math.max(0, currentIndex - 1))} disabled={currentIndex === 0}>
             <ChevronLeft className="w-4 h-4" />
           </Button>
-          <Button variant="outline" className="px-2 rounded-lg" onClick={() => setCurrentIndex(Math.min(contacts.length - 1, currentIndex + 1))} disabled={currentIndex >= contacts.length - 1}>
+          <Button variant="outline" className="px-2 rounded-lg" onClick={() => handleContactChange(Math.min(contacts.length - 1, currentIndex + 1))} disabled={currentIndex >= contacts.length - 1}>
             <ChevronRight className="w-4 h-4" />
           </Button>
         </div>
@@ -101,11 +235,11 @@ export default function ContactsTab() {
           
           <Fieldset title="IFA Member Detail">
             <div className="flex gap-2 items-center mb-2">
-               <FormInput label="Network IFA" value={currentContact.networkIfa || ''} className="flex-1" />
-               <Button variant="outline" className="px-2 py-1 rounded-lg"><Search className="w-3 h-3" /></Button>
+               <FormInput label="Network IFA" value={networkIfa} className="flex-1" readOnly />
+               <Button variant="outline" className="px-2 py-1 rounded-lg" onClick={() => setShowNetworkLookup(true)}><Search className="w-3 h-3" /></Button>
             </div>
-            <FormInput label="Network Name" value={currentContact.networkName || ''} readOnly className="bg-[#CCCCCC]" />
-            <FormInput label="Postcode" value={currentContact.networkPostcode || ''} readOnly className="bg-[#CCCCCC]" />
+            <FormInput label="Network Name" value={networkName} readOnly className="bg-[#CCCCCC]" />
+            <FormInput label="Postcode" value={networkPostcode} readOnly className="bg-[#CCCCCC]" />
           </Fieldset>
 
           <Fieldset title="Network Members">
@@ -134,6 +268,13 @@ export default function ContactsTab() {
           </Fieldset>
         </div>
       </div>
+
+      {showNetworkLookup && (
+        <NetworkLookupModal
+          onSelect={handleNetworkSelect}
+          onClose={() => setShowNetworkLookup(false)}
+        />
+      )}
     </div>
   );
 }
