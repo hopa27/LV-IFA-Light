@@ -274,61 +274,63 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         })}
       </div>
 
-      <div className="sticky top-0 z-20 bg-white border-b border-t border-[#BBBBBB] px-[142px] py-3 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          {activeIfaRef && (
-            <span className="text-sm font-bold text-[#00263e] font-sans flex items-center gap-2">
-              <span className="w-1 h-5 bg-[#006cf4] rounded-sm"></span>
-              Broker: <span className="text-[#006cf4]">{activeIfaRef}</span>
-            </span>
-          )}
+      {activeTab === 'ifa-detail' && (
+        <div className="sticky top-0 z-20 bg-white border-b border-t border-[#BBBBBB] px-[142px] py-3 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            {activeIfaRef && (
+              <span className="text-sm font-bold text-[#00263e] font-sans flex items-center gap-2">
+                <span className="w-1 h-5 bg-[#006cf4] rounded-sm"></span>
+                Broker: <span className="text-[#006cf4]">{activeIfaRef}</span>
+              </span>
+            )}
 
-          <div className="h-6 w-px bg-[#BBBBBB]" />
+            <div className="h-6 w-px bg-[#BBBBBB]" />
 
-          <div className="w-[200px]">
-            <Combobox
-              value={toolbarAction}
-              onChange={setToolbarAction}
-              options={[
-                { label: 'Appointment', value: 'Appointment' },
-                { label: 'Broker Pack Follow Up', value: 'Broker Pack Follow Up' },
-                { label: 'Duplicate', value: 'Duplicate' },
-                { label: 'Hold', value: 'Hold' },
-              ]}
-            />
+            <div className="w-[200px]">
+              <Combobox
+                value={toolbarAction}
+                onChange={setToolbarAction}
+                options={[
+                  { label: 'Appointment', value: 'Appointment' },
+                  { label: 'Broker Pack Follow Up', value: 'Broker Pack Follow Up' },
+                  { label: 'Duplicate', value: 'Duplicate' },
+                  { label: 'Hold', value: 'Hold' },
+                ]}
+              />
+            </div>
+
+            <div className="h-6 w-px bg-[#BBBBBB]" />
+
+            <div className="flex items-center gap-2">
+              <button onClick={goFirst} disabled={!hasBroker || currentIndex <= 0} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="First Record"><ChevronFirst className="w-5 h-5" /></button>
+              <button onClick={goPrev} disabled={!hasBroker || currentIndex <= 0} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Previous Record"><ChevronLeft className="w-5 h-5" /></button>
+              <span className="px-2 min-w-[80px] text-center text-sm font-bold text-[#4a4a49] select-none font-['Mulish']">
+                <span>{hasBroker && currentIndex >= 0 ? `${currentIndex + 1} of ${total}` : '0 of 0'}</span>
+              </span>
+              <button onClick={goNext} disabled={!hasBroker || currentIndex >= total - 1} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Next Record"><ChevronRight className="w-5 h-5" /></button>
+              <button onClick={goLast} disabled={!hasBroker || currentIndex >= total - 1} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Last Record"><ChevronLast className="w-5 h-5" /></button>
+            </div>
           </div>
 
-          <div className="h-6 w-px bg-[#BBBBBB]" />
+          <div className="flex items-center gap-3">
+            <Button variant="secondary" onClick={() => setShowInsertModal(true)} disabled={createBrokerMutation.isPending}>
+              <FilePlus2 className="w-4 h-4" />
+              New IFA
+            </Button>
+            <Button variant="secondary" onClick={() => setShowLocateModal(true)}>
+              <ScanSearch className="w-4 h-4" />
+              Locate IFA
+            </Button>
 
-          <div className="flex items-center gap-2">
-            <button onClick={goFirst} disabled={!hasBroker || currentIndex <= 0} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="First Record"><ChevronFirst className="w-5 h-5" /></button>
-            <button onClick={goPrev} disabled={!hasBroker || currentIndex <= 0} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Previous Record"><ChevronLeft className="w-5 h-5" /></button>
-            <span className="px-2 min-w-[80px] text-center text-sm font-bold text-[#4a4a49] select-none font-['Mulish']">
-              <span>{hasBroker && currentIndex >= 0 ? `${currentIndex + 1} of ${total}` : '0 of 0'}</span>
-            </span>
-            <button onClick={goNext} disabled={!hasBroker || currentIndex >= total - 1} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Next Record"><ChevronRight className="w-5 h-5" /></button>
-            <button onClick={goLast} disabled={!hasBroker || currentIndex >= total - 1} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Last Record"><ChevronLast className="w-5 h-5" /></button>
+            <div className="h-6 w-px bg-[#BBBBBB]" />
+
+            <Button onClick={triggerSave} disabled={!isDirty || isSaving}>
+              {isSaving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+              Save Changes
+            </Button>
           </div>
         </div>
-
-        <div className="flex items-center gap-3">
-          <Button variant="secondary" onClick={() => setShowInsertModal(true)} disabled={createBrokerMutation.isPending}>
-            <FilePlus2 className="w-4 h-4" />
-            New IFA
-          </Button>
-          <Button variant="secondary" onClick={() => setShowLocateModal(true)}>
-            <ScanSearch className="w-4 h-4" />
-            Locate IFA
-          </Button>
-
-          <div className="h-6 w-px bg-[#BBBBBB]" />
-
-          <Button onClick={triggerSave} disabled={!isDirty || isSaving}>
-            {isSaving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-            Save Changes
-          </Button>
-        </div>
-      </div>
+      )}
 
       <main className="bg-[#f0f0f0] px-[142px] py-4">
         {children}
