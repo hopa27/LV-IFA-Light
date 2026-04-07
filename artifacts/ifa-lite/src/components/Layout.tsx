@@ -3,7 +3,7 @@ import { useApp } from '@/context/app-context';
 import { useListBrokers, useCreateBroker } from '@/hooks/use-static-data';
 import { Button } from '@/components/shared/FormElements';
 import { Combobox } from '@/components/shared/Combobox';
-import { Search, FileText, Users, Briefcase, Home, Database, ChevronFirst, ChevronLeft, ChevronRight, ChevronLast, Save, RefreshCw, FilePlus2, ScanSearch, X } from 'lucide-react';
+import { Search, FileText, Users, Briefcase, Home, Database, ChevronFirst, ChevronLeft, ChevronRight, ChevronLast, Save, RefreshCw, FilePlus2, ScanSearch, X, Check } from 'lucide-react';
 
 const TABS = [
   { id: 'ifa-detail', label: 'IFA Detail', icon: FileText },
@@ -13,6 +13,102 @@ const TABS = [
   { id: 'equity', label: 'Equity Release', icon: Home },
   { id: 'notes', label: 'Notes', icon: Database },
 ] as const;
+
+function InsertIfaModal({ onClose, onCreate }: { onClose: () => void; onCreate: (data: Record<string, string>) => void }) {
+  const [form, setForm] = useState({
+    brokerName: '',
+    addressLine1: '',
+    addressLine2: '',
+    town: '',
+    county: '',
+    postcode: '',
+    telephone: '',
+    fax: '',
+  });
+
+  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setForm(prev => ({ ...prev, [field]: e.target.value }));
+
+  const handleOk = () => {
+    if (!form.brokerName.trim()) {
+      alert('Please enter a Broker Name.');
+      return;
+    }
+    onCreate(form);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={onClose} role="dialog" aria-label="Insert IFA">
+      <div className="bg-[#f0f0f0] border border-[#BBBBBB] rounded-lg shadow-2xl w-[420px]" onClick={e => e.stopPropagation()} onKeyDown={handleKeyDown}>
+        <div className="bg-[#002f5c] text-white px-4 py-2.5 rounded-t-lg flex items-center justify-between">
+          <span className="text-sm font-semibold font-sans">Insert IFA</span>
+          <button onClick={onClose} className="text-white/70 hover:text-white transition-colors" aria-label="Close">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="p-5 space-y-3">
+          <div>
+            <label className="text-xs font-semibold text-[#3d3d3d] font-sans block mb-1">Broker Name</label>
+            <input
+              autoFocus
+              value={form.brokerName}
+              onChange={set('brokerName')}
+              className="w-full border border-[#BBBBBB] rounded-lg px-3 py-2 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <input value={form.addressLine1} onChange={set('addressLine1')} placeholder="Address Line 1" className="w-full border border-[#BBBBBB] rounded px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2 placeholder:text-[#BBBBBB]" />
+            <input value={form.addressLine2} onChange={set('addressLine2')} placeholder="Address Line 2" className="w-full border border-[#BBBBBB] rounded px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2 placeholder:text-[#BBBBBB]" />
+          </div>
+
+          <div className="flex gap-3">
+            <div className="flex-1" />
+            <div className="text-right space-y-1.5">
+              <div className="flex items-center gap-2">
+                <label className="text-[10px] font-semibold text-[#979797] font-sans whitespace-nowrap">(Town)</label>
+                <input value={form.town} onChange={set('town')} className="w-[180px] border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2" />
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="text-[10px] font-semibold text-[#979797] font-sans whitespace-nowrap">(County)</label>
+                <input value={form.county} onChange={set('county')} className="w-[180px] border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2" />
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="text-[10px] font-semibold text-[#979797] font-sans whitespace-nowrap">(Postcode)</label>
+                <input value={form.postcode} onChange={set('postcode')} className="w-[180px] border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2" />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex gap-4 pt-1">
+            <div className="flex-1">
+              <label className="text-xs font-semibold text-[#3d3d3d] font-sans block mb-1">Telephone</label>
+              <input value={form.telephone} onChange={set('telephone')} className="w-full border border-[#BBBBBB] rounded px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2" />
+            </div>
+            <div className="flex-1">
+              <label className="text-xs font-semibold text-[#3d3d3d] font-sans block mb-1">Fax</label>
+              <input value={form.fax} onChange={set('fax')} className="w-full border border-[#BBBBBB] rounded px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2" />
+            </div>
+          </div>
+
+          <div className="flex justify-end gap-3 pt-3 border-t border-[#BBBBBB]">
+            <Button onClick={handleOk}>
+              <Check className="w-4 h-4" /> Ok
+            </Button>
+            <Button variant="secondary" onClick={onClose}>
+              <X className="w-4 h-4" /> Cancel
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function LocateIfaModal({ onClose, onSelect }: { onClose: () => void; onSelect: (id: number) => void }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -111,6 +207,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const { data: brokers = [] } = useListBrokers();
   const createBrokerMutation = useCreateBroker();
   const [showLocateModal, setShowLocateModal] = useState(false);
+  const [showInsertModal, setShowInsertModal] = useState(false);
   const [toolbarAction, setToolbarAction] = useState('Appointment');
 
   const currentIndex = brokers.findIndex(b => b.id === activeBrokerId);
@@ -123,12 +220,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const hasBroker = activeBrokerId !== null;
 
-  const handleAddNewIfa = () => {
+  const handleInsertIfa = (formData: Record<string, string>) => {
     createBrokerMutation.mutate(
-      { data: { brokerName: 'New IFA', status: 'Authorised' } },
+      { data: { ...formData, status: 'Authorised' } },
       {
         onSuccess: (newBroker: any) => {
           setActiveBrokerId(newBroker.id);
+          setShowInsertModal(false);
         },
         onError: () => {
           alert('Failed to create new IFA. Please try again.');
@@ -214,7 +312,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
 
         <div className="flex items-center gap-3">
-          <Button variant="secondary" onClick={handleAddNewIfa} disabled={createBrokerMutation.isPending}>
+          <Button variant="secondary" onClick={() => setShowInsertModal(true)} disabled={createBrokerMutation.isPending}>
             <FilePlus2 className="w-4 h-4" />
             New IFA
           </Button>
@@ -266,6 +364,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <LocateIfaModal
           onClose={() => setShowLocateModal(false)}
           onSelect={(id) => setActiveBrokerId(id)}
+        />
+      )}
+
+      {showInsertModal && (
+        <InsertIfaModal
+          onClose={() => setShowInsertModal(false)}
+          onCreate={handleInsertIfa}
         />
       )}
     </div>
