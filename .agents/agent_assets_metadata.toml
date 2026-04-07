@@ -6,3 +6,9 @@ id = "wxGOlhplBVFMWL6GI-8DZ"
 uri = "file://prompt.md"
 type = "text"
 title = "IFA Lite Recreation Prompt"
+
+[[outputs]]
+id = "7araJHv16rf-jk_dFCHpc"
+uri = "file://ifa-lite-screens-v1.md"
+type = "text"
+title = "IFA Lite V1 — ASCII Screen Layouts & Behavior"
