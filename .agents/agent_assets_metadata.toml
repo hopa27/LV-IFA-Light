@@ -12,3 +12,9 @@ id = "7araJHv16rf-jk_dFCHpc"
 uri = "file://ifa-lite-screens-v1.md"
 type = "text"
 title = "IFA Lite V1 — ASCII Screen Layouts & Behavior"
+
+[[outputs]]
+id = "XZZVCFhcUzr3ksVKttQS_"
+uri = "file://ifa-lite-screen-digest.md"
+type = "text"
+title = "IFA Lite — Screen Digest V1 (Crew360-style)"
