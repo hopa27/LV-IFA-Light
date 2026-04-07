@@ -141,7 +141,7 @@ export default function LookupsTab() {
               />
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 ml-auto">
             <Button className="w-28" onClick={handleSearch}><Search className="w-4 h-4" /> Search</Button>
             <Button variant="secondary" className="w-28" onClick={() => setShowClubModal(true)}><Building className="w-4 h-4" /> Club</Button>
           </div>
