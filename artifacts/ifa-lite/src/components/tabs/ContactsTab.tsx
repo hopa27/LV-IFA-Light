@@ -234,9 +234,16 @@ export default function ContactsTab() {
           </Fieldset>
           
           <Fieldset title="IFA Member Detail">
-            <div className="flex gap-2 items-center mb-2">
-               <FormInput label="Network IFA" value={networkIfa} className="flex-1" readOnly />
-               <Button variant="outline" className="px-2 py-1 rounded-lg" onClick={() => setShowNetworkLookup(true)}><Search className="w-3 h-3" /></Button>
+            <div className="flex items-center gap-3 mb-2">
+              <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans">Network IFA</label>
+              <div className="flex-1 flex gap-2 items-center">
+                <input
+                  value={networkIfa}
+                  readOnly
+                  className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none"
+                />
+                <Button variant="outline" className="px-2 py-1 rounded-lg shrink-0" onClick={() => setShowNetworkLookup(true)}><Search className="w-3 h-3" /></Button>
+              </div>
             </div>
             <FormInput label="Network Name" value={networkName} readOnly className="bg-[#CCCCCC]" />
             <FormInput label="Postcode" value={networkPostcode} readOnly className="bg-[#CCCCCC]" />
