@@ -75,13 +75,19 @@ const COLUMNS: { key: keyof Broker; header: string }[] = [
 ];
 
 export default function LookupsTab() {
-  const { setActiveBrokerId } = useApp();
+  const { setActiveBrokerId, setActiveTab } = useApp();
   const [postcode, setPostcode] = useState('');
   const [ifaReference, setIfaReference] = useState('');
   const [ifaName, setIfaName] = useState('');
   const [status, setStatus] = useState('Authorised');
   const [searchParams, setSearchParams] = useState<ListBrokersParams>({});
   const [showClubModal, setShowClubModal] = useState(false);
+  const [selectedRowId, setSelectedRowId] = useState<number | null>(null);
+
+  const handleSelectBroker = (id: number) => {
+    setActiveBrokerId(id);
+    setActiveTab('ifa-detail');
+  };
 
   const { data: brokers = [], isLoading } = useListBrokers(searchParams);
 
@@ -142,7 +148,7 @@ export default function LookupsTab() {
             </div>
           </div>
           <div className="flex gap-2 ml-auto">
-            <Button className="w-28" onClick={handleSearch}><Search className="w-4 h-4" /> Select</Button>
+            <Button className="w-28" onClick={() => selectedRowId && handleSelectBroker(selectedRowId)} disabled={selectedRowId === null}><Search className="w-4 h-4" /> Select</Button>
             <Button variant="secondary" className="w-28" onClick={() => setShowClubModal(true)}><Building className="w-4 h-4" /> Club</Button>
           </div>
         </div>
@@ -174,14 +180,21 @@ export default function LookupsTab() {
                 brokers.map((broker, i) => (
                   <tr 
                     key={broker.id} 
-                    onClick={() => setActiveBrokerId(broker.id!)}
-                    className={`border-b border-[#BBBBBB]/20 hover:bg-[#05579B] hover:text-white cursor-pointer transition-colors group ${i % 2 === 1 ? 'bg-[#e7ebec]/20' : 'bg-white'}`}
+                    onClick={() => setSelectedRowId(broker.id!)}
+                    onDoubleClick={() => handleSelectBroker(broker.id!)}
+                    className={`border-b border-[#BBBBBB]/20 cursor-pointer transition-colors group ${
+                      selectedRowId === broker.id
+                        ? 'bg-[#05579B] text-white'
+                        : i % 2 === 1 ? 'bg-[#e7ebec]/20 hover:bg-[#05579B]/20' : 'bg-white hover:bg-[#05579B]/20'
+                    }`}
                   >
                     {COLUMNS.map(col => (
                       <td 
                         key={col.key} 
-                        className={`px-3 py-1.5 whitespace-nowrap group-hover:text-white ${
-                          col.key === 'ifaRef' ? 'font-medium text-[#005a9c] underline' : 'text-[#3d3d3d]'
+                        className={`px-3 py-1.5 whitespace-nowrap ${
+                          selectedRowId === broker.id
+                            ? 'text-white'
+                            : col.key === 'ifaRef' ? 'font-medium text-[#005a9c] underline' : 'text-[#3d3d3d]'
                         }`}
                       >
                         {broker[col.key] != null ? String(broker[col.key]) : ''}
