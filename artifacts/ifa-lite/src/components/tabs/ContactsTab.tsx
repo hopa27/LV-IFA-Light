@@ -259,8 +259,8 @@ export default function ContactsTab() {
             <div className="pl-[33%] mb-3">
               <FormCheckbox label="Use terms from principal agent/network" checked={currentContact.useNetworkTerms} />
             </div>
-            <FormRadioGroup label="Default Advice Type" name="defaultAdviceType" options={[{label: 'Independent', value: 'Independent'}, {label: 'Restricted', value: 'Restricted'}]} value={currentContact.defaultAdviceType || ''} />
-            <FormRadioGroup label="Remuneration Basis" name="remunerationBasis" options={[{label: 'Fee', value: 'Fee'}, {label: 'Commission', value: 'Commission'}]} value={currentContact.defaultRemunerationBasis || ''} />
+            <FormSelect label="Default Advice Type" options={[{label: '', value: ''}, {label: 'Independent', value: 'Independent'}, {label: 'Restricted', value: 'Restricted'}]} value={currentContact.defaultAdviceType || ''} />
+            <FormSelect label="Remuneration Basis" options={[{label: '', value: ''}, {label: 'Fee', value: 'Fee'}, {label: 'Commission', value: 'Commission'}]} value={currentContact.defaultRemunerationBasis || ''} />
             <FormInput label="Distribution Channel" value={currentContact.defaultDistributionChannel || ''} />
             
             <div className="grid grid-cols-2 gap-4 mt-4">
@@ -270,9 +270,9 @@ export default function ContactsTab() {
                 <FormRadioGroup label="Principal" name="principal" options={[{label: 'Y', value: 'true'}, {label: 'N', value: 'false'}]} value={String(currentContact.isPrincipal)} />
               </div>
               <div className="space-y-2">
-                <FormCheckbox label="Restricted Advice" checked={currentContact.restrictedAdvice ?? false} />
-                <FormCheckbox label="Simplified Advice" checked={currentContact.simplifiedAdvice ?? false} />
-                <FormCheckbox label="Non Advised" checked={currentContact.nonAdvised ?? false} />
+                <FormSelect label="Restricted" options={[{label: '', value: ''}]} labelWidth="w-20" />
+                <FormSelect label="Simplified" options={[{label: '', value: ''}]} labelWidth="w-20" />
+                <FormSelect label="Non Advised" options={[{label: '', value: ''}]} labelWidth="w-20" />
               </div>
             </div>
           </Fieldset>
