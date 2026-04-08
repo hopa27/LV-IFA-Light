@@ -29,7 +29,7 @@ export default function NotesTab() {
             <div key={note.id} className="flex mb-2 border border-[#BBBBBB] rounded-lg overflow-hidden bg-white">
               <div className="w-10 shrink-0 flex flex-col items-center justify-center bg-[#eaf5f8] border-r border-[#BBBBBB]">
                 {(note.noteType || 'SYS').split('').map((ch, i) => (
-                  <span key={i} className="text-xs font-bold text-[#00263e] font-sans leading-4">{ch}</span>
+                  <span key={i} className="text-[11px] font-bold text-[#00263e] font-sans leading-4 w-[10px] text-center">{ch}</span>
                 ))}
               </div>
               <div className="flex-1 px-4 py-3 font-[Mulish] text-sm text-[#3d3d3d] min-h-[80px]">
