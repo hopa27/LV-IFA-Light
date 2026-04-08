@@ -46,10 +46,6 @@ export default function RetirementTab() {
       <ProductSection title="Non profit Annuity" prefix="npa" data={ri} />
       <ProductSection title="PIPA" prefix="pipa" data={ri} />
       <ProductSection title="PRP" prefix="prp" data={ri} />
-      
-      <div className="flex justify-end mt-4">
-        <Button className="w-40">Save Configuration</Button>
-      </div>
     </div>
   );
 }
