@@ -143,7 +143,7 @@ export default function LookupsTab() {
           </div>
           <div className="flex flex-col gap-1">
             <label className="text-xs font-semibold text-[#3d3d3d] font-sans">Status</label>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col gap-1">
               {Object.entries(statuses).map(([key, checked]) => (
                 <label key={key} className="flex items-center gap-1.5 cursor-pointer select-none">
                   <input
