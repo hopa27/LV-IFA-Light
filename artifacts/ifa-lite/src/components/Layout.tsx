@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useApp } from '@/context/app-context';
 import { useListBrokers, useCreateBroker } from '@/hooks/use-static-data';
 import { Button } from '@/components/shared/FormElements';
@@ -220,6 +220,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const hasBroker = activeBrokerId !== null;
 
+  const stickyWrapperRef = useRef<HTMLDivElement>(null);
+  const [stickyHeight, setStickyHeight] = useState(0);
+
+  useEffect(() => {
+    const el = stickyWrapperRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      setStickyHeight(entry.borderBoxSize?.[0]?.blockSize ?? entry.contentRect.height);
+    });
+    ro.observe(el, { box: 'border-box' });
+    return () => ro.disconnect();
+  }, [activeTab]);
+
   const handleInsertIfa = (formData: Record<string, string>) => {
     createBrokerMutation.mutate(
       { data: { ...formData, status: 'Authorised' } },
@@ -250,7 +263,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </h1>
         </header>
 
-      <div className="sticky top-0 z-30">
+      <div className="sticky top-0 z-30" ref={stickyWrapperRef}>
         <div className="bg-white px-[142px] pt-4 flex gap-2 overflow-hidden">
         {TABS.map(tab => {
           const Icon = tab.icon;
@@ -340,7 +353,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       )}
       </div>
 
-      <main className="bg-[#f0f0f0] px-[142px] pb-4">
+      <main className="bg-[#f0f0f0] px-[142px] pb-4" style={{ '--sticky-header-h': `${stickyHeight}px` } as React.CSSProperties}>
         {children}
       </main>
       

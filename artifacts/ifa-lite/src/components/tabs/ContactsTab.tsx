@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useListContacts, useListBrokers } from '@/hooks/use-static-data';
 import { useApp } from '@/context/app-context';
 import { Fieldset, FormInput, FormSelect, FormRadioGroup, FormCheckbox, Button } from '@/components/shared/FormElements';
@@ -128,6 +128,18 @@ export default function ContactsTab() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showNetworkLookup, setShowNetworkLookup] = useState(false);
   const [networkOverrides, setNetworkOverrides] = useState<{ networkIfa?: string; networkName?: string; networkPostcode?: string } | null>(null);
+  const toolbarRef = useRef<HTMLDivElement>(null);
+  const [toolbarHeight, setToolbarHeight] = useState(0);
+
+  useEffect(() => {
+    const el = toolbarRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      setToolbarHeight(entry.borderBoxSize?.[0]?.blockSize ?? entry.contentRect.height);
+    });
+    ro.observe(el, { box: 'border-box' });
+    return () => ro.disconnect();
+  }, []);
 
   const { data: contacts = [] } = useListContacts(activeBrokerId || 0, {
     query: { enabled: !!activeBrokerId }
@@ -155,7 +167,7 @@ export default function ContactsTab() {
 
   return (
     <div className="flex flex-col min-h-full pb-8">
-      <div className="sticky top-[52px] z-20 pt-[12px] pb-[12px] bg-[#f0f0f0]">
+      <div ref={toolbarRef} className="sticky z-20 pt-[12px] pb-[12px] bg-[#f0f0f0]" style={{ top: 'var(--sticky-header-h, 52px)' }}>
       <div className="flex items-center justify-between bg-white border border-[#BBBBBB] rounded-lg px-6 py-3 shadow-sm">
         <div className="flex items-center gap-4">
           <span className="text-sm font-bold text-[#00263e] font-sans flex items-center gap-2">
@@ -181,7 +193,7 @@ export default function ContactsTab() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4">
-        <div className="sticky top-[132px] z-10 self-start">
+        <div className="sticky z-10 self-start" style={{ top: `calc(var(--sticky-header-h, 52px) + ${toolbarHeight}px)` }}>
           <div className="mb-4">
             <div className="grid grid-cols-[80px_1fr_80px_1fr] gap-x-2 gap-y-2 items-center">
               <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Title</label>
