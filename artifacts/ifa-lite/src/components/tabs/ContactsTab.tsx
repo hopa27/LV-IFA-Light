@@ -155,7 +155,7 @@ export default function ContactsTab() {
 
   return (
     <div className="flex flex-col min-h-full pb-8">
-      <div className="flex items-center justify-between mb-4 bg-white border border-[#BBBBBB] rounded-lg px-6 py-3 shadow-sm">
+      <div className="sticky top-[52px] z-20 flex items-center justify-between mb-4 bg-white border border-[#BBBBBB] rounded-lg px-6 py-3 shadow-sm">
         <div className="flex items-center gap-4">
           <span className="text-sm font-bold text-[#00263e] font-sans flex items-center gap-2">
             <span className="w-1 h-5 bg-[#006cf4] rounded-sm"></span>
