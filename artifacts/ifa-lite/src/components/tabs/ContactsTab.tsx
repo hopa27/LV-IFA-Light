@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useListContacts, useListBrokers } from '@/hooks/use-static-data';
 import { useApp } from '@/context/app-context';
 import { Fieldset, FormInput, FormSelect, FormRadioGroup, FormCheckbox, Button } from '@/components/shared/FormElements';
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Plus, Save, Search, X, Check } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Plus, Search, X, Check } from 'lucide-react';
 
 function NetworkLookupModal({ onSelect, onClose }: { onSelect: (ifa: string, name: string, postcode: string) => void; onClose: () => void }) {
   const [ifaRef, setIfaRef] = useState('');
@@ -170,7 +170,6 @@ export default function ContactsTab() {
         </div>
         <div className="flex gap-2">
           <Button variant="secondary"><Plus className="w-4 h-4" /> Add New</Button>
-          <Button><Save className="w-4 h-4" /> Save Contact</Button>
         </div>
       </div>
 
