@@ -259,8 +259,8 @@ export default function ContactsTab() {
             <div className="pl-[33%] mb-3">
               <FormCheckbox label="Use terms from principal agent/network" checked={currentContact.useNetworkTerms} />
             </div>
-            <FormSelect label="Default Advice Type" options={[{label: '', value: ''}, {label: 'Independent', value: 'Independent'}, {label: 'Restricted', value: 'Restricted'}]} value={currentContact.defaultAdviceType || ''} />
-            <FormSelect label="Remuneration Basis" options={[{label: '', value: ''}, {label: 'Fee', value: 'Fee'}, {label: 'Commission', value: 'Commission'}]} value={currentContact.defaultRemunerationBasis || ''} />
+            <FormRadioGroup label="Default Advice Type" name="defaultAdviceType" options={[{label: 'Independent', value: 'Independent'}, {label: 'Restricted', value: 'Restricted'}]} value={currentContact.defaultAdviceType || ''} />
+            <FormRadioGroup label="Remuneration Basis" name="remunerationBasis" options={[{label: 'Fee', value: 'Fee'}, {label: 'Commission', value: 'Commission'}]} value={currentContact.defaultRemunerationBasis || ''} />
             <FormInput label="Distribution Channel" value={currentContact.defaultDistributionChannel || ''} />
             
             <div className="grid grid-cols-2 gap-4 mt-4">
