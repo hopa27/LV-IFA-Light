@@ -139,7 +139,7 @@ export default function IfaDetailTab() {
               value={String(formData.annuityToba)}
             />
             
-            <FormInput label="Town" name="town" value={formData.town || ''} onChange={handleChange} />
+            <FormInput label="Address Line 3" name="addressLine3" value={formData.addressLine3 || ''} onChange={handleChange} />
             <FormSelect 
               label="Status" 
               name="status"
@@ -153,10 +153,10 @@ export default function IfaDetailTab() {
               ]}
             />
             
-            <FormInput label="County" name="county" value={formData.county || ''} onChange={handleChange} />
+            <FormInput label="Town" name="town" value={formData.town || ''} onChange={handleChange} />
             <FormInput label="Sent Date" name="sentDate" value={formData.sentDate || ''} onChange={handleChange} />
             
-            <FormInput label="Postcode" name="postcode" value={formData.postcode || ''} onChange={handleChange} />
+            <FormInput label="County" name="county" value={formData.county || ''} onChange={handleChange} />
             <FormSelect 
               label="Grade" 
               name="grade"
@@ -174,13 +174,13 @@ export default function IfaDetailTab() {
               ]}
             />
             
-            <FormInput label="Telephone" name="telephone" value={formData.telephone || ''} onChange={handleChange} />
+            <FormInput label="Postcode" name="postcode" value={formData.postcode || ''} onChange={handleChange} />
             <FormInput label="Next Diary Date" name="nextDiaryDate" value={formData.nextDiaryDate || ''} onChange={handleChange} />
             
-            <FormInput label="Fax" name="fax" value={formData.fax || ''} onChange={handleChange} />
+            <FormInput label="Telephone" name="telephone" value={formData.telephone || ''} onChange={handleChange} />
             <FormInput label="IFA Member No" name="ifaMemberNo" value={formData.ifaMemberNo || ''} onChange={handleChange} />
             
-            <FormInput label="Email" name="email" value={formData.email || ''} onChange={handleChange} />
+            <FormInput label="Fax" name="fax" value={formData.fax || ''} onChange={handleChange} />
             <FormSelect 
               label="Broker Manager" 
               name="brokerManager"
@@ -204,7 +204,7 @@ export default function IfaDetailTab() {
               ]}
             />
             
-            <FormInput label="Initials" name="initials" value={formData.initials || ''} onChange={handleChange} />
+            <FormInput label="Email" name="email" value={formData.email || ''} onChange={handleChange} />
             <FormSelect 
               label="Key Account" 
               name="keyAccount"
@@ -216,37 +216,36 @@ export default function IfaDetailTab() {
               ]}
             />
             
-            <FormInput label="Date Checked" name="dateChecked" value={formData.dateChecked || ''} onChange={handleChange} />
+            <FormInput label="Initials" name="initials" value={formData.initials || ''} onChange={handleChange} />
             <FormInput label="Partner Code" name="partnerCode" value={formData.partnerCode || ''} onChange={handleChange} />
             
-            <div className="col-start-2">
-              <FormSelect 
-                label="Region" 
-                name="region"
-                value={formData.region || ''} 
-                onChange={handleChange}
-                options={[
-                  {label: '', value: ''},
-                  {label: 'BIR - Birmingham', value: 'BIR'},
-                  {label: 'BRI - Bristol', value: 'BRI'},
-                  {label: 'CDF - Cardiff', value: 'CDF'},
-                  {label: 'EDI - Edinburgh', value: 'EDI'},
-                  {label: 'EXE - Exeter', value: 'EXE'},
-                  {label: 'GLA - Glasgow', value: 'GLA'},
-                  {label: 'HEO - Head Office', value: 'HEO'},
-                  {label: 'HIT - Hitchin', value: 'HIT'},
-                  {label: 'LEE - Leeds', value: 'LEE'},
-                  {label: 'LON - London', value: 'LON'},
-                  {label: 'MAN - Manchester', value: 'MAN'},
-                  {label: 'MID - Midlands', value: 'MID'},
-                  {label: 'NEW - Newcastle', value: 'NEW'},
-                  {label: 'NOR - Norwich', value: 'NOR'},
-                  {label: 'NOT - Nottingham', value: 'NOT'},
-                  {label: 'REA - Reading', value: 'REA'},
-                  {label: 'SOU - Southampton', value: 'SOU'},
-                ]}
-              />
-            </div>
+            <FormInput label="Date Checked" name="dateChecked" value={formData.dateChecked || ''} onChange={handleChange} />
+            <FormSelect 
+              label="Region" 
+              name="region"
+              value={formData.region || ''} 
+              onChange={handleChange}
+              options={[
+                {label: '', value: ''},
+                {label: 'BIR - Birmingham', value: 'BIR'},
+                {label: 'BRI - Bristol', value: 'BRI'},
+                {label: 'CDF - Cardiff', value: 'CDF'},
+                {label: 'EDI - Edinburgh', value: 'EDI'},
+                {label: 'EXE - Exeter', value: 'EXE'},
+                {label: 'GLA - Glasgow', value: 'GLA'},
+                {label: 'HEO - Head Office', value: 'HEO'},
+                {label: 'HIT - Hitchin', value: 'HIT'},
+                {label: 'LEE - Leeds', value: 'LEE'},
+                {label: 'LON - London', value: 'LON'},
+                {label: 'MAN - Manchester', value: 'MAN'},
+                {label: 'MID - Midlands', value: 'MID'},
+                {label: 'NEW - Newcastle', value: 'NEW'},
+                {label: 'NOR - Norwich', value: 'NOR'},
+                {label: 'NOT - Nottingham', value: 'NOT'},
+                {label: 'REA - Reading', value: 'REA'},
+                {label: 'SOU - Southampton', value: 'SOU'},
+              ]}
+            />
           </div>
 
           <div className="mt-8 pt-4 border-t border-[#BBBBBB] text-xs text-[#979797] flex justify-between bg-[#eaf5f8] p-3 rounded-lg font-[Mulish]">
