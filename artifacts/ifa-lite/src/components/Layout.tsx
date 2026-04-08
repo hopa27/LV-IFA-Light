@@ -203,7 +203,7 @@ function LocateIfaModal({ onClose, onSelect }: { onClose: () => void; onSelect: 
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const { activeTab, setActiveTab, activeBrokerId, setActiveBrokerId, activeIfaRef, isDirty, setIsDirty, isSaving, triggerSave, layoutVersion, setLayoutVersion } = useApp();
+  const { activeTab, setActiveTab, activeBrokerId, setActiveBrokerId, activeIfaRef, isDirty, setIsDirty, isSaving, triggerSave } = useApp();
   const { data: brokers = [] } = useListBrokers();
   const createBrokerMutation = useCreateBroker();
   const [showLocateModal, setShowLocateModal] = useState(false);
@@ -343,27 +343,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       
       <footer className="bg-white border-t border-slate-200 py-4 px-[142px] flex justify-between items-center shrink-0">
         <img src="/lve-logo.png" alt="LV= Logo" className="h-6" />
-        <div className="flex items-center gap-6">
-          <div className="text-right">
-            <p className="text-[10px] font-medium text-slate-400 font-[Mulish]">Liverpool Victoria Financial Services Limited</p>
-            <p className="text-[10px] font-medium text-slate-400 font-[Mulish]">County Gates, Bournemouth BH1 2NF</p>
-          </div>
-          <div className="w-[130px]">
-            <Combobox
-              value={layoutVersion}
-              onChange={(val) => {
-                if (isDirty) {
-                  if (!window.confirm('You have unsaved changes. Switch layout anyway?')) return;
-                  setIsDirty(false);
-                }
-                setLayoutVersion(val as 'v1' | 'v2');
-              }}
-              options={[
-                { label: 'Layout V1', value: 'v1' },
-                { label: 'Layout V2', value: 'v2' },
-              ]}
-            />
-          </div>
+        <div className="text-right">
+          <p className="text-[10px] font-medium text-slate-400 font-[Mulish]">Liverpool Victoria Financial Services Limited</p>
+          <p className="text-[10px] font-medium text-slate-400 font-[Mulish]">County Gates, Bournemouth BH1 2NF</p>
         </div>
       </footer>
       </div>

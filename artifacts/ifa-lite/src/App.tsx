@@ -8,18 +8,17 @@ import Layout from "@/components/Layout";
 
 import LookupsTab from "@/components/tabs/LookupsTab";
 import IfaDetailTab from "@/components/tabs/IfaDetailTab";
-import IfaDetailTabV2 from "@/components/tabs/IfaDetailTabV2";
 import ContactsTab from "@/components/tabs/ContactsTab";
 import RetirementTab from "@/components/tabs/RetirementTab";
 import EquityReleaseTab from "@/components/tabs/EquityReleaseTab";
 import NotesTab from "@/components/tabs/NotesTab";
 
 function TabRouter() {
-  const { activeTab, layoutVersion } = useApp();
+  const { activeTab } = useApp();
   
   switch (activeTab) {
     case 'lookups': return <LookupsTab />;
-    case 'ifa-detail': return layoutVersion === 'v2' ? <IfaDetailTabV2 /> : <IfaDetailTab />;
+    case 'ifa-detail': return <IfaDetailTab />;
     case 'contacts': return <ContactsTab />;
     case 'retirement': return <RetirementTab />;
     case 'equity': return <EquityReleaseTab />;
