@@ -179,7 +179,7 @@ export default function ContactsTab() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4">
         <div>
-          <Fieldset title="Personal Details">
+          <div className="mb-4">
             <div className="flex gap-2 mb-2">
                <FormSelect label="Title" options={[{label: '', value: ''}, {label: 'Mr', value: 'Mr'}, {label: 'Mrs', value: 'Mrs'}, {label: 'Ms', value: 'Ms'}, {label: 'Dr', value: 'Dr'}]} value={currentContact.title || ''} className="w-full" labelWidth="w-1/3" />
                <FormInput label="Initials" value={currentContact.initials || ''} labelWidth="w-16" />
@@ -188,9 +188,6 @@ export default function ContactsTab() {
             <FormInput label="Surname" value={currentContact.surname || ''} />
             <FormInput label="Salutation" value={currentContact.salutation || ''} />
             <FormInput label="Position" value={currentContact.position || ''} />
-          </Fieldset>
-
-          <Fieldset title="Contact Information">
             <FormInput label="Address Line 1" value={currentContact.addressLine1 || ''} />
             <FormInput label="Address Line 2" value={currentContact.addressLine2 || ''} />
             <FormInput label="Address Line 3" value={currentContact.addressLine3 || ''} />
@@ -200,7 +197,7 @@ export default function ContactsTab() {
               <FormInput label="Mobile Tel" value={currentContact.mobileTelephone || ''} />
               <FormInput label="Email" type="email" value={currentContact.emailAddress || ''} />
             </div>
-          </Fieldset>
+          </div>
         </div>
 
         <div>
