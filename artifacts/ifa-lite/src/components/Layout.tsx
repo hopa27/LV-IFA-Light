@@ -321,6 +321,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <ScanSearch className="w-4 h-4" />
               Locate IFA
             </Button>
+            <Button variant="secondary" onClick={() => setShowLocateModal(true)}>
+              <Search className="w-4 h-4" />
+              Lookup IFA
+            </Button>
 
             <div className="h-6 w-px bg-[#BBBBBB]" />
 
