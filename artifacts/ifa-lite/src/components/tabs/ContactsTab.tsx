@@ -218,8 +218,16 @@ export default function ContactsTab() {
             <FormInput label="Address Line 3" value={currentContact.addressLine3 || ''} labelWidth="w-[20%]" />
             <FormInput label="Address Line 4" value={currentContact.addressLine4 || ''} labelWidth="w-[20%]" />
             <div className="mt-4 border-t border-[#BBBBBB] pt-4">
-              <FormInput label="Home Tel" value={currentContact.homeTelephone || ''} labelWidth="w-[20%]" />
-              <FormInput label="Mobile Tel" value={currentContact.mobileTelephone || ''} labelWidth="w-[20%]" />
+              <div className="flex gap-4 mb-2">
+                <div className="flex items-center gap-3 flex-1">
+                  <label className="w-[20%] text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans">Home Tel</label>
+                  <input value={currentContact.homeTelephone || ''} className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+                </div>
+                <div className="flex items-center gap-3 w-[40%]">
+                  <label className="text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans">Mobile Tel</label>
+                  <input value={currentContact.mobileTelephone || ''} className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+                </div>
+              </div>
               <FormInput label="Email" type="email" value={currentContact.emailAddress || ''} labelWidth="w-[20%]" />
             </div>
           </div>
