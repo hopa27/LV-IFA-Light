@@ -223,6 +223,10 @@ export default function ContactsTab() {
               <input value={currentContact.addressLine3 || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
               <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Address Line 4</label>
               <input value={currentContact.addressLine4 || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Address Line 5</label>
+              <input value={currentContact.addressLine5 || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Address Line 6</label>
+              <input value={currentContact.addressLine6 || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
             </div>
 
             <div className="grid grid-cols-[80px_1fr_80px_1fr] gap-x-2 gap-y-2 items-center mt-2">
