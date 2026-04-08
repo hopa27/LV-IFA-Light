@@ -3,7 +3,7 @@ import { useListBrokers } from '@/hooks/use-static-data';
 import type { Broker, ListBrokersParams } from '@/hooks/use-static-data';
 import { useApp } from '@/context/app-context';
 import { Fieldset, Button } from '@/components/shared/FormElements';
-import { Combobox } from '@/components/shared/Combobox';
+
 import ClubModal from '@/components/shared/ClubModal';
 import { Search, Building, Check } from 'lucide-react';
 
@@ -79,7 +79,16 @@ export default function LookupsTab() {
   const [postcode, setPostcode] = useState('');
   const [ifaReference, setIfaReference] = useState('');
   const [ifaName, setIfaName] = useState('');
-  const [status, setStatus] = useState('Authorised');
+  const [statuses, setStatuses] = useState<Record<string, boolean>>({
+    Authorised: true,
+    Cancelled: false,
+    'Duplicate Record': false,
+    Revoked: false,
+  });
+
+  const toggleStatus = (key: string) => {
+    setStatuses(prev => ({ ...prev, [key]: !prev[key] }));
+  };
   const [searchParams, setSearchParams] = useState<ListBrokersParams>({});
   const [showClubModal, setShowClubModal] = useState(false);
   const [selectedRowId, setSelectedRowId] = useState<number | null>(null);
@@ -96,10 +105,10 @@ export default function LookupsTab() {
     if (postcode) params.postcode = postcode;
     if (ifaReference) params.ifaReference = ifaReference;
     if (ifaName) params.ifaName = ifaName;
-    if (status === 'Authorised') params.authorised = true;
-    if (status === 'Cancelled') params.cancelled = true;
-    if (status === 'Duplicate Record') params.duplicateRecord = true;
-    if (status === 'Revoked') params.revoked = true;
+    if (statuses['Authorised']) params.authorised = true;
+    if (statuses['Cancelled']) params.cancelled = true;
+    if (statuses['Duplicate Record']) params.duplicateRecord = true;
+    if (statuses['Revoked']) params.revoked = true;
     setSearchParams(params);
   };
 
@@ -134,17 +143,18 @@ export default function LookupsTab() {
           </div>
           <div className="flex flex-col gap-1">
             <label className="text-xs font-semibold text-[#3d3d3d] font-sans">Status</label>
-            <div className="w-[170px]">
-              <Combobox
-                value={status}
-                onChange={(val) => setStatus(val)}
-                options={[
-                  { label: 'Authorised', value: 'Authorised' },
-                  { label: 'Cancelled', value: 'Cancelled' },
-                  { label: 'Duplicate Record', value: 'Duplicate Record' },
-                  { label: 'Revoked', value: 'Revoked' },
-                ]}
-              />
+            <div className="flex items-center gap-4">
+              {Object.entries(statuses).map(([key, checked]) => (
+                <label key={key} className="flex items-center gap-1.5 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={() => toggleStatus(key)}
+                    className="w-3.5 h-3.5 accent-[#05579B] cursor-pointer"
+                  />
+                  <span className="text-xs font-[Mulish] text-[#3d3d3d]">{key}</span>
+                </label>
+              ))}
             </div>
           </div>
           <div className="flex gap-2 ml-auto">
