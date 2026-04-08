@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useListContacts, useListBrokers } from '@/hooks/use-static-data';
 import { useApp } from '@/context/app-context';
 import { Fieldset, FormInput, FormSelect, FormRadioGroup, FormCheckbox, Button } from '@/components/shared/FormElements';
-import { ChevronLeft, ChevronRight, Plus, Save, Search, X, Check } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Plus, Save, Search, X, Check } from 'lucide-react';
 
 function NetworkLookupModal({ onSelect, onClose }: { onSelect: (ifa: string, name: string, postcode: string) => void; onClose: () => void }) {
   const [ifaRef, setIfaRef] = useState('');
@@ -155,15 +155,7 @@ export default function ContactsTab() {
   return (
     <div className="flex flex-col min-h-full pb-8">
       <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#BBBBBB]">
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-[#3d3d3d] mr-2 font-sans">Contact {contacts.length > 0 ? currentIndex + 1 : 0} of {contacts.length}</span>
-          <Button variant="outline" className="px-2 rounded-lg" onClick={() => handleContactChange(Math.max(0, currentIndex - 1))} disabled={currentIndex === 0}>
-            <ChevronLeft className="w-4 h-4" />
-          </Button>
-          <Button variant="outline" className="px-2 rounded-lg" onClick={() => handleContactChange(Math.min(contacts.length - 1, currentIndex + 1))} disabled={currentIndex >= contacts.length - 1}>
-            <ChevronRight className="w-4 h-4" />
-          </Button>
-        </div>
+        <span className="text-sm font-semibold text-[#3d3d3d] font-sans">Contact {contacts.length > 0 ? currentIndex + 1 : 0} of {contacts.length}</span>
         <div className="flex gap-2">
           <Button variant="secondary"><Plus className="w-4 h-4" /> Add New</Button>
           <Button><Save className="w-4 h-4" /> Save Contact</Button>
@@ -173,7 +165,18 @@ export default function ContactsTab() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4">
         <div>
           <Fieldset title="Personal Details">
-            <FormInput label="Reference" value={currentContact.reference || ''} readOnly className="bg-[#eaf5f8] font-bold text-[#006cf4]" />
+            <div className="flex items-center gap-1 mb-2">
+              <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans pr-3">Reference</label>
+              <input
+                value={currentContact.reference || ''}
+                readOnly
+                className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-[#eaf5f8] font-bold text-[#006cf4] font-[Mulish] focus:outline-none"
+              />
+              <button onClick={() => handleContactChange(0)} disabled={currentIndex === 0} className="p-1 border border-[#BBBBBB] rounded bg-white hover:bg-gray-100 disabled:opacity-40"><ChevronsLeft className="w-4 h-4 text-[#3d3d3d]" /></button>
+              <button onClick={() => handleContactChange(Math.max(0, currentIndex - 1))} disabled={currentIndex === 0} className="p-1 border border-[#BBBBBB] rounded bg-white hover:bg-gray-100 disabled:opacity-40"><ChevronLeft className="w-4 h-4 text-[#3d3d3d]" /></button>
+              <button onClick={() => handleContactChange(Math.min(contacts.length - 1, currentIndex + 1))} disabled={currentIndex >= contacts.length - 1} className="p-1 border border-[#BBBBBB] rounded bg-white hover:bg-gray-100 disabled:opacity-40"><ChevronRight className="w-4 h-4 text-[#3d3d3d]" /></button>
+              <button onClick={() => handleContactChange(contacts.length - 1)} disabled={currentIndex >= contacts.length - 1} className="p-1 border border-[#BBBBBB] rounded bg-white hover:bg-gray-100 disabled:opacity-40"><ChevronsRight className="w-4 h-4 text-[#3d3d3d]" /></button>
+            </div>
             <div className="flex gap-2 mb-2">
                <FormSelect label="Title" options={[{label: '', value: ''}, {label: 'Mr', value: 'Mr'}, {label: 'Mrs', value: 'Mrs'}, {label: 'Ms', value: 'Ms'}, {label: 'Dr', value: 'Dr'}]} value={currentContact.title || ''} className="w-full" labelWidth="w-1/3" />
                <FormInput label="Initials" value={currentContact.initials || ''} labelWidth="w-16" />
