@@ -154,23 +154,27 @@ export default function ContactsTab() {
 
   return (
     <div className="flex flex-col min-h-full pb-8">
-      <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#BBBBBB]">
-        <div className="flex items-center gap-2">
-          <label className="text-xs font-semibold text-[#3d3d3d] font-sans">Reference</label>
-          <input
-            value={currentContact.reference || ''}
-            readOnly
-            className="w-32 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-[#eaf5f8] font-bold text-[#006cf4] font-[Mulish] focus:outline-none"
-          />
-          <button onClick={() => handleContactChange(0)} disabled={currentIndex === 0} className="p-1 border border-[#BBBBBB] rounded bg-white hover:bg-gray-100 disabled:opacity-40"><ChevronsLeft className="w-4 h-4 text-[#3d3d3d]" /></button>
-          <button onClick={() => handleContactChange(Math.max(0, currentIndex - 1))} disabled={currentIndex === 0} className="p-1 border border-[#BBBBBB] rounded bg-white hover:bg-gray-100 disabled:opacity-40"><ChevronLeft className="w-4 h-4 text-[#3d3d3d]" /></button>
-          <button onClick={() => handleContactChange(Math.min(contacts.length - 1, currentIndex + 1))} disabled={currentIndex >= contacts.length - 1} className="p-1 border border-[#BBBBBB] rounded bg-white hover:bg-gray-100 disabled:opacity-40"><ChevronRight className="w-4 h-4 text-[#3d3d3d]" /></button>
-          <button onClick={() => handleContactChange(contacts.length - 1)} disabled={currentIndex >= contacts.length - 1} className="p-1 border border-[#BBBBBB] rounded bg-white hover:bg-gray-100 disabled:opacity-40"><ChevronsRight className="w-4 h-4 text-[#3d3d3d]" /></button>
-          <span className="text-sm font-semibold text-[#3d3d3d] ml-2 font-sans">Contact {contacts.length > 0 ? currentIndex + 1 : 0} of {contacts.length}</span>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-4">
+          <span className="text-sm font-bold text-[#00263e] font-sans flex items-center gap-2">
+            <span className="w-1 h-5 bg-[#006cf4] rounded-sm"></span>
+            Reference: <span className="text-[#006cf4]">{currentContact.reference || ''}</span>
+          </span>
+
+          <div className="h-6 w-px bg-[#BBBBBB]" />
+
+          <div className="flex items-center gap-2">
+            <button onClick={() => handleContactChange(0)} disabled={currentIndex === 0} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="First Contact"><ChevronsLeft className="w-5 h-5" /></button>
+            <button onClick={() => handleContactChange(Math.max(0, currentIndex - 1))} disabled={currentIndex === 0} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Previous Contact"><ChevronLeft className="w-5 h-5" /></button>
+            <span className="px-2 min-w-[80px] text-center text-sm font-bold text-[#4a4a49] select-none font-['Mulish']">
+              {contacts.length > 0 ? `${currentIndex + 1} of ${contacts.length}` : '0 of 0'}
+            </span>
+            <button onClick={() => handleContactChange(Math.min(contacts.length - 1, currentIndex + 1))} disabled={currentIndex >= contacts.length - 1} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Next Contact"><ChevronRight className="w-5 h-5" /></button>
+            <button onClick={() => handleContactChange(contacts.length - 1)} disabled={currentIndex >= contacts.length - 1} className="w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Last Contact"><ChevronsRight className="w-5 h-5" /></button>
+          </div>
         </div>
-        <div className="flex gap-2">
-          <Button variant="secondary"><Plus className="w-4 h-4" /> Add New</Button>
-        </div>
+
+        <Button variant="secondary"><Plus className="w-4 h-4" /> Add New</Button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4">
