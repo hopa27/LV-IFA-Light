@@ -271,6 +271,15 @@ export default function ContactsTab() {
               <FormInput label="Principal Agent Ref" value={currentContact.principalAgentRef || ''} className="flex-1" />
               <Button variant="outline" className="px-2 py-1 rounded-lg"><Search className="w-3 h-3" /></Button>
               <Button variant="outline" className="px-2 py-1 rounded-lg text-xs">Clr</Button>
+              <FormRadioGroup label="" name="principalNY" options={[{label: 'N', value: 'false'}, {label: 'Y', value: 'true'}, {label: 'N', value: 'false2'}]} value="false" />
+            </div>
+          </Fieldset>
+
+          <Fieldset title="Quote Terms">
+            <p className="text-xs text-[#3d3d3d] font-[Mulish] mb-2">Best rate required for all quotes greater than or equal to:</p>
+            <div className="flex gap-4">
+              <FormInput label="Internal / LV.com" value={currentContact.quoteTermsInternal || '0'} labelWidth="w-auto" />
+              <FormInput label="Portals" value={currentContact.quoteTermsPortals || '0'} labelWidth="w-auto" />
             </div>
           </Fieldset>
         </div>
