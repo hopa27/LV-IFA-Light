@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useListContacts, useListBrokers } from '@/hooks/use-static-data';
 import { useApp } from '@/context/app-context';
 import { Fieldset, FormInput, FormSelect, FormRadioGroup, FormCheckbox, Button } from '@/components/shared/FormElements';
+import { Combobox } from '@/components/shared/Combobox';
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Plus, Search, X, Check } from 'lucide-react';
 
 function NetworkLookupModal({ onSelect, onClose }: { onSelect: (ifa: string, name: string, postcode: string) => void; onClose: () => void }) {
@@ -180,8 +181,18 @@ export default function ContactsTab() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4">
         <div>
           <div className="mb-4">
-            <FormSelect label="Title" options={[{label: '', value: ''}, {label: 'Mr', value: 'Mr'}, {label: 'Mrs', value: 'Mrs'}, {label: 'Ms', value: 'Ms'}, {label: 'Dr', value: 'Dr'}]} value={currentContact.title || ''} />
-            <FormInput label="Initials" value={currentContact.initials || ''} />
+            <div className="flex gap-4 mb-2">
+              <div className="flex items-center gap-3 flex-1">
+                <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans">Title</label>
+                <div className="flex-1">
+                  <Combobox options={[{label: '', value: ''}, {label: 'Mr', value: 'Mr'}, {label: 'Mrs', value: 'Mrs'}, {label: 'Ms', value: 'Ms'}, {label: 'Dr', value: 'Dr'}]} value={currentContact.title || ''} onChange={() => {}} />
+                </div>
+              </div>
+              <div className="flex items-center gap-3 w-[40%]">
+                <label className="text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans">Initials</label>
+                <input value={currentContact.initials || ''} className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+              </div>
+            </div>
             <FormInput label="Forename" value={currentContact.forename || ''} />
             <FormInput label="Surname" value={currentContact.surname || ''} />
             <FormInput label="Salutation" value={currentContact.salutation || ''} />
