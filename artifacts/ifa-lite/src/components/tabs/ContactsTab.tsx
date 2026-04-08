@@ -213,14 +213,14 @@ export default function ContactsTab() {
                 <input value={currentContact.position || ''} className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
               </div>
             </div>
-            <FormInput label="Address Line 1" value={currentContact.addressLine1 || ''} />
-            <FormInput label="Address Line 2" value={currentContact.addressLine2 || ''} />
-            <FormInput label="Address Line 3" value={currentContact.addressLine3 || ''} />
-            <FormInput label="Address Line 4" value={currentContact.addressLine4 || ''} />
+            <FormInput label="Address Line 1" value={currentContact.addressLine1 || ''} labelWidth="w-[20%]" />
+            <FormInput label="Address Line 2" value={currentContact.addressLine2 || ''} labelWidth="w-[20%]" />
+            <FormInput label="Address Line 3" value={currentContact.addressLine3 || ''} labelWidth="w-[20%]" />
+            <FormInput label="Address Line 4" value={currentContact.addressLine4 || ''} labelWidth="w-[20%]" />
             <div className="mt-4 border-t border-[#BBBBBB] pt-4">
-              <FormInput label="Home Tel" value={currentContact.homeTelephone || ''} />
-              <FormInput label="Mobile Tel" value={currentContact.mobileTelephone || ''} />
-              <FormInput label="Email" type="email" value={currentContact.emailAddress || ''} />
+              <FormInput label="Home Tel" value={currentContact.homeTelephone || ''} labelWidth="w-[20%]" />
+              <FormInput label="Mobile Tel" value={currentContact.mobileTelephone || ''} labelWidth="w-[20%]" />
+              <FormInput label="Email" type="email" value={currentContact.emailAddress || ''} labelWidth="w-[20%]" />
             </div>
           </div>
         </div>
