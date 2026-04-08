@@ -181,53 +181,45 @@ export default function ContactsTab() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4">
         <div>
           <div className="mb-4">
-            <div className="flex gap-3 mb-2">
-              <div className="flex items-center gap-2 flex-1">
-                <label className="w-[80px] shrink-0 text-xs font-semibold text-[#3d3d3d] text-left font-sans">Title</label>
-                <div className="flex-1">
-                  <Combobox options={[{label: '', value: ''}, {label: 'Mr', value: 'Mr'}, {label: 'Mrs', value: 'Mrs'}, {label: 'Ms', value: 'Ms'}, {label: 'Dr', value: 'Dr'}]} value={currentContact.title || ''} onChange={() => {}} />
-                </div>
+            <div className="grid grid-cols-[80px_1fr_80px_1fr] gap-x-2 gap-y-2 items-center">
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Title</label>
+              <div>
+                <Combobox options={[{label: '', value: ''}, {label: 'Mr', value: 'Mr'}, {label: 'Mrs', value: 'Mrs'}, {label: 'Ms', value: 'Ms'}, {label: 'Dr', value: 'Dr'}]} value={currentContact.title || ''} onChange={() => {}} />
               </div>
-              <div className="flex items-center gap-2 flex-1">
-                <label className="w-[80px] shrink-0 text-xs font-semibold text-[#3d3d3d] text-left font-sans">Initials</label>
-                <input value={currentContact.initials || ''} className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
-              </div>
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Initials</label>
+              <input value={currentContact.initials || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Forename</label>
+              <input value={currentContact.forename || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Surname</label>
+              <input value={currentContact.surname || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Salutation</label>
+              <input value={currentContact.salutation || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Position</label>
+              <input value={currentContact.position || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
             </div>
-            <div className="flex gap-3 mb-2">
-              <div className="flex items-center gap-2 flex-1">
-                <label className="w-[80px] shrink-0 text-xs font-semibold text-[#3d3d3d] text-left font-sans">Forename</label>
-                <input value={currentContact.forename || ''} className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
-              </div>
-              <div className="flex items-center gap-2 flex-1">
-                <label className="w-[80px] shrink-0 text-xs font-semibold text-[#3d3d3d] text-left font-sans">Surname</label>
-                <input value={currentContact.surname || ''} className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
-              </div>
+
+            <div className="grid grid-cols-[80px_1fr] gap-x-2 gap-y-2 items-center mt-2">
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Address Line 1</label>
+              <input value={currentContact.addressLine1 || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Address Line 2</label>
+              <input value={currentContact.addressLine2 || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Address Line 3</label>
+              <input value={currentContact.addressLine3 || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Address Line 4</label>
+              <input value={currentContact.addressLine4 || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
             </div>
-            <div className="flex gap-3 mb-2">
-              <div className="flex items-center gap-2 flex-1">
-                <label className="w-[80px] shrink-0 text-xs font-semibold text-[#3d3d3d] text-left font-sans">Salutation</label>
-                <input value={currentContact.salutation || ''} className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
-              </div>
-              <div className="flex items-center gap-2 flex-1">
-                <label className="w-[80px] shrink-0 text-xs font-semibold text-[#3d3d3d] text-left font-sans">Position</label>
-                <input value={currentContact.position || ''} className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
-              </div>
+
+            <div className="grid grid-cols-[80px_1fr_80px_1fr] gap-x-2 gap-y-2 items-center mt-2">
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Home Tel</label>
+              <input value={currentContact.homeTelephone || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Mobile Tel</label>
+              <input value={currentContact.mobileTelephone || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Email</label>
+              <input type="email" value={currentContact.emailAddress || ''} className="col-span-3 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
             </div>
-            <FormInput label="Address Line 1" value={currentContact.addressLine1 || ''} labelWidth="w-[80px]" className="text-left" />
-            <FormInput label="Address Line 2" value={currentContact.addressLine2 || ''} labelWidth="w-[80px]" />
-            <FormInput label="Address Line 3" value={currentContact.addressLine3 || ''} labelWidth="w-[80px]" />
-            <FormInput label="Address Line 4" value={currentContact.addressLine4 || ''} labelWidth="w-[80px]" />
-            <div className="flex gap-3 mb-2 mt-2">
-              <div className="flex items-center gap-2 flex-1">
-                <label className="w-[80px] shrink-0 text-xs font-semibold text-[#3d3d3d] text-left font-sans">Home Tel</label>
-                <input value={currentContact.homeTelephone || ''} className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
-              </div>
-              <div className="flex items-center gap-2 flex-1">
-                <label className="w-[80px] shrink-0 text-xs font-semibold text-[#3d3d3d] text-left font-sans">Mobile Tel</label>
-                <input value={currentContact.mobileTelephone || ''} className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
-              </div>
-            </div>
-            <FormInput label="Email" type="email" value={currentContact.emailAddress || ''} labelWidth="w-[80px]" />
           </div>
         </div>
 
