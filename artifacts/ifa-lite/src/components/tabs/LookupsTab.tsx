@@ -5,7 +5,7 @@ import { useApp } from '@/context/app-context';
 import { Fieldset, Button } from '@/components/shared/FormElements';
 import { Combobox } from '@/components/shared/Combobox';
 import ClubModal from '@/components/shared/ClubModal';
-import { Search, Building } from 'lucide-react';
+import { Search, Building, Check } from 'lucide-react';
 
 const COLUMNS: { key: keyof Broker; header: string }[] = [
   { key: 'ifaRef', header: 'IFA_REF' },
@@ -148,7 +148,7 @@ export default function LookupsTab() {
             </div>
           </div>
           <div className="flex gap-2 ml-auto">
-            <Button className="w-28" onClick={() => selectedRowId && handleSelectBroker(selectedRowId)} disabled={selectedRowId === null}><Search className="w-4 h-4" /> Select</Button>
+            <Button className="w-28" onClick={() => selectedRowId && handleSelectBroker(selectedRowId)} disabled={selectedRowId === null}><Check className="w-4 h-4" /> Select</Button>
             <Button variant="secondary" className="w-28" onClick={() => setShowClubModal(true)}><Building className="w-4 h-4" /> Club</Button>
           </div>
         </div>
