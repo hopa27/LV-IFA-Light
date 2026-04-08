@@ -236,21 +236,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="bg-[#f0f0f0] flex flex-col overflow-hidden" style={{ height: 'calc(100vh / 0.8)' }}>
-      <header className="bg-[#00263e] text-white px-[142px] pt-4 pb-6 shrink-0">
-        <div className="flex items-center justify-between">
-          <img src="/lve-logo.png" alt="LV= Logo" className="h-6" />
-          <Button variant="primary" className="h-8 px-5 py-1 text-sm font-normal">
-            Logout
-          </Button>
-        </div>
-        <div className="h-px bg-slate-600/50 my-4" />
-        <h1 className="text-[30px] font-normal tracking-tight text-white" style={{ fontFamily: "'Livvic', sans-serif" }}>
-          IFA Lite
-        </h1>
-      </header>
+    <div className="bg-[#f0f0f0] flex flex-col" style={{ height: 'calc(100vh / 0.8)' }}>
+      <div className="sticky top-0 z-30">
+        <header className="bg-[#00263e] text-white px-[142px] pt-4 pb-6">
+          <div className="flex items-center justify-between">
+            <img src="/lve-logo.png" alt="LV= Logo" className="h-6" />
+            <Button variant="primary" className="h-8 px-5 py-1 text-sm font-normal">
+              Logout
+            </Button>
+          </div>
+          <div className="h-px bg-slate-600/50 my-4" />
+          <h1 className="text-[30px] font-normal tracking-tight text-white" style={{ fontFamily: "'Livvic', sans-serif" }}>
+            IFA Lite
+          </h1>
+        </header>
 
-      <div className="bg-white px-[142px] pt-4 flex gap-2 overflow-hidden shrink-0">
+        <div className="bg-white px-[142px] pt-4 flex gap-2 overflow-hidden">
         {TABS.map(tab => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -275,7 +276,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
 
       {activeTab === 'ifa-detail' && (
-        <div className="shrink-0 bg-[#f0f0f0] px-[142px] py-3">
+        <div className="bg-[#f0f0f0] px-[142px] py-3">
         <div className="bg-white border border-[#BBBBBB] rounded-lg px-6 py-3 shadow-sm flex items-center justify-between">
           <div className="flex items-center gap-4">
             {activeIfaRef && (
@@ -337,6 +338,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
         </div>
       )}
+      </div>
 
       <div className="flex-1 overflow-auto flex flex-col">
       <main className="bg-[#f0f0f0] px-[142px] py-4 flex-1">
