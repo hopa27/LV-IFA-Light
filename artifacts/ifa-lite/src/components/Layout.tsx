@@ -275,7 +275,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
 
       {activeTab === 'ifa-detail' && (
-        <div className="shrink-0 bg-white border-b border-t border-[#BBBBBB] px-[142px] py-3 flex items-center justify-between">
+        <div className="shrink-0 bg-[#f0f0f0] px-[142px] py-3">
+        <div className="bg-white border border-[#BBBBBB] rounded-lg px-6 py-3 shadow-sm flex items-center justify-between">
           <div className="flex items-center gap-4">
             {activeIfaRef && (
               <span className="text-sm font-bold text-[#00263e] font-sans flex items-center gap-2">
@@ -333,6 +334,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               Save Changes
             </Button>
           </div>
+        </div>
         </div>
       )}
 
