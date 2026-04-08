@@ -327,26 +327,26 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <Button variant="secondary" onClick={() => setShowInsertModal(true)} disabled={createBrokerMutation.isPending}>
-              <FilePlus2 className="w-4 h-4" />
-              New IFA
-            </Button>
-            <Button variant="secondary" onClick={() => setShowLocateModal(true)}>
-              <ScanSearch className="w-4 h-4" />
-              Locate IFA
-            </Button>
-            <Button variant="secondary" onClick={() => setShowLocateModal(true)}>
-              <Search className="w-4 h-4" />
-              Lookup IFA
-            </Button>
+          <div className="flex items-center gap-2">
+            <button onClick={() => setShowInsertModal(true)} disabled={createBrokerMutation.isPending} className="group relative w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+              <FilePlus2 className="w-5 h-5" />
+              <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-[#002f5c] text-white text-[10px] font-sans px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">New IFA</span>
+            </button>
+            <button onClick={() => setShowLocateModal(true)} className="group relative w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] transition-colors">
+              <ScanSearch className="w-5 h-5" />
+              <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-[#002f5c] text-white text-[10px] font-sans px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">Locate IFA</span>
+            </button>
+            <button onClick={() => setShowLocateModal(true)} className="group relative w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] transition-colors">
+              <Search className="w-5 h-5" />
+              <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-[#002f5c] text-white text-[10px] font-sans px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">Lookup IFA</span>
+            </button>
 
             <div className="h-6 w-px bg-[#BBBBBB]" />
 
-            <Button onClick={triggerSave} disabled={!isDirty || isSaving}>
-              {isSaving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-              Save Changes
-            </Button>
+            <button onClick={triggerSave} disabled={!isDirty || isSaving} className="group relative w-[44px] h-[44px] flex items-center justify-center rounded-[30px] bg-[#006cf4] text-white shadow-md hover:bg-[#003578] disabled:bg-[#979797] disabled:cursor-not-allowed transition-colors">
+              {isSaving ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+              <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-[#002f5c] text-white text-[10px] font-sans px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">Save Changes</span>
+            </button>
           </div>
         </div>
         </div>
