@@ -236,9 +236,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="bg-[#f0f0f0] flex flex-col" style={{ height: 'calc(100vh / 0.8)' }}>
-      <div className="sticky top-0 z-30">
-        <header className="bg-[#00263e] text-white px-[142px] pt-4 pb-6">
+    <div className="bg-[#f0f0f0] flex flex-col overflow-auto" style={{ height: 'calc(100vh / 0.8)' }}>
+        <header className="bg-[#00263e] text-white px-[142px] pt-4 pb-6 shrink-0">
           <div className="flex items-center justify-between">
             <img src="/lve-logo.png" alt="LV= Logo" className="h-6" />
             <Button variant="primary" className="h-8 px-5 py-1 text-sm font-normal">
@@ -251,6 +250,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </h1>
         </header>
 
+      <div className="sticky top-0 z-30">
         <div className="bg-white px-[142px] pt-4 flex gap-2 overflow-hidden">
         {TABS.map(tab => {
           const Icon = tab.icon;
@@ -340,8 +340,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       )}
       </div>
 
-      <div className="flex-1 overflow-auto flex flex-col">
-      <main className="bg-[#f0f0f0] px-[142px] py-4 flex-1">
+      <main className="bg-[#f0f0f0] px-[142px] py-4">
         {children}
       </main>
       
@@ -352,7 +351,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <p className="text-[10px] font-medium text-slate-400 font-[Mulish]">County Gates, Bournemouth BH1 2NF</p>
         </div>
       </footer>
-      </div>
 
       {showLocateModal && (
         <LocateIfaModal
