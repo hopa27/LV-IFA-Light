@@ -176,29 +176,25 @@ export default function EquityReleaseTab() {
           <Fieldset title="Flexible" className="mb-0">
             <AgeBandTable />
             <ValuationSection />
+            <div className="space-y-1 mt-2">
+              <FormInput label="Packaging Fee" labelWidth="w-auto" value={eq.packagingFee || ''} />
+              <FormInput label="Application Fee" labelWidth="w-auto" value={eq.applicationFee || ''} />
+              <FormInput label="LTV % (+ or -)" labelWidth="w-auto" value={eq.ltvPercent || ''} />
+            </div>
           </Fieldset>
 
           {/* Right: Lump Sum */}
           <Fieldset title="Lump Sum" className="mb-0">
             <AgeBandTable />
             <ValuationSection />
+            <div className="space-y-1 mt-2">
+              <FormInput label="Packaging Fee" labelWidth="w-auto" value={eq.lumpSumPackagingFee || ''} />
+              <FormInput label="Application Fee" labelWidth="w-auto" value={eq.lumpSumApplicationFee || ''} />
+              <FormInput label="LTV % (+ or -)" labelWidth="w-auto" value={eq.lumpSumLtvPercent || ''} />
+            </div>
           </Fieldset>
         </div>
       </Fieldset>
-
-      {/* Row 4: Packaging Fee / Application Fee / LTV inside Flexible & Lump Sum columns */}
-      <div className="grid grid-cols-2 gap-4">
-        <Fieldset title="Flexible Fees" className="mb-0">
-          <FormInput label="Packaging Fee" labelWidth="w-auto" value={eq.packagingFee || ''} />
-          <FormInput label="Application Fee" labelWidth="w-auto" value={eq.applicationFee || ''} />
-          <FormInput label="LTV % (+ or -)" labelWidth="w-auto" value={eq.ltvPercent || ''} />
-        </Fieldset>
-        <Fieldset title="Lump Sum Fees" className="mb-0">
-          <FormInput label="Packaging Fee" labelWidth="w-auto" value={eq.lumpSumPackagingFee || ''} />
-          <FormInput label="Application Fee" labelWidth="w-auto" value={eq.lumpSumApplicationFee || ''} />
-          <FormInput label="LTV % (+ or -)" labelWidth="w-auto" value={eq.lumpSumLtvPercent || ''} />
-        </Fieldset>
-      </div>
     </div>
   );
 }
