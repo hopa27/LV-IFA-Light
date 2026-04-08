@@ -270,9 +270,9 @@ export default function ContactsTab() {
                 <FormRadioGroup label="Principal" name="principal" options={[{label: 'Y', value: 'true'}, {label: 'N', value: 'false'}]} value={String(currentContact.isPrincipal)} />
               </div>
               <div className="space-y-2">
-                <FormSelect label="Restricted" options={[{label: '', value: ''}]} labelWidth="w-20" />
-                <FormSelect label="Simplified" options={[{label: '', value: ''}]} labelWidth="w-20" />
-                <FormSelect label="Non Advised" options={[{label: '', value: ''}]} labelWidth="w-20" />
+                <FormCheckbox label="Restricted Advice" checked={currentContact.restrictedAdvice ?? false} />
+                <FormCheckbox label="Simplified Advice" checked={currentContact.simplifiedAdvice ?? false} />
+                <FormCheckbox label="Non Advised" checked={currentContact.nonAdvised ?? false} />
               </div>
             </div>
           </Fieldset>
