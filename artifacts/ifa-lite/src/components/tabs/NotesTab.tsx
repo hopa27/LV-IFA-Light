@@ -27,10 +27,10 @@ export default function NotesTab() {
         ) : (
           notes.map(note => (
             <div key={note.id} className="flex mb-3">
-              <div className="w-8 shrink-0 flex items-start pt-3 justify-center">
-                <span className="text-xs font-bold text-[#00263e] font-sans leading-tight" style={{ writingMode: 'vertical-lr', textOrientation: 'mixed', letterSpacing: '1px' }}>
-                  {note.noteType || 'SYS'}
-                </span>
+              <div className="w-8 shrink-0 flex flex-col items-center pt-2 gap-0">
+                {(note.noteType || 'SYS').split('').map((ch, i) => (
+                  <span key={i} className="text-xs font-bold text-[#00263e] font-sans leading-none">{ch}</span>
+                ))}
               </div>
               <div className="flex-1 border border-[#BBBBBB] bg-white px-3 py-2 font-[Mulish] text-sm text-[#3d3d3d] min-h-[80px]">
                 <p className="font-medium">{note.description}</p>
