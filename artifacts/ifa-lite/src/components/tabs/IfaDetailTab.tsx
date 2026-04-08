@@ -160,7 +160,8 @@ export default function IfaDetailTab() {
             <FormInput label="Date Checked" name="dateChecked" value={formData.dateChecked || ''} onChange={handleChange} />
           </div>
 
-          <div className="grid grid-cols-2 gap-x-8 gap-y-1 mt-2">
+          <hr className="border-t border-[#BBBBBB] mt-4 mb-2" />
+          <div className="grid grid-cols-2 gap-x-8 gap-y-1">
             <FormInput label="Created" name="createdBy" value={formData.createdBy || ''} disabled />
             <FormInput label="" name="createdDate" value={formData.createdDate || ''} disabled />
             <FormInput label="Amended" name="amendedBy" value={formData.amendedBy || ''} disabled />
