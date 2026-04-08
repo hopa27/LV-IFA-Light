@@ -179,7 +179,7 @@ export default function ContactsTab() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4">
-        <div>
+        <div className="sticky top-[120px] z-10 self-start">
           <div className="mb-4">
             <div className="grid grid-cols-[80px_1fr_80px_1fr] gap-x-2 gap-y-2 items-center">
               <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Title</label>
