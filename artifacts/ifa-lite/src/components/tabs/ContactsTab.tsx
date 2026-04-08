@@ -180,10 +180,8 @@ export default function ContactsTab() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4">
         <div>
           <div className="mb-4">
-            <div className="flex gap-2 mb-2">
-               <FormSelect label="Title" options={[{label: '', value: ''}, {label: 'Mr', value: 'Mr'}, {label: 'Mrs', value: 'Mrs'}, {label: 'Ms', value: 'Ms'}, {label: 'Dr', value: 'Dr'}]} value={currentContact.title || ''} className="w-full" labelWidth="w-1/3" />
-               <FormInput label="Initials" value={currentContact.initials || ''} labelWidth="w-16" />
-            </div>
+            <FormSelect label="Title" options={[{label: '', value: ''}, {label: 'Mr', value: 'Mr'}, {label: 'Mrs', value: 'Mrs'}, {label: 'Ms', value: 'Ms'}, {label: 'Dr', value: 'Dr'}]} value={currentContact.title || ''} />
+            <FormInput label="Initials" value={currentContact.initials || ''} />
             <FormInput label="Forename" value={currentContact.forename || ''} />
             <FormInput label="Surname" value={currentContact.surname || ''} />
             <FormInput label="Salutation" value={currentContact.salutation || ''} />
