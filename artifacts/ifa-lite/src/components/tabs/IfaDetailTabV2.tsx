@@ -122,7 +122,7 @@ export default function IfaDetailTabV2() {
       setFormData(broker);
       setOriginalData(broker);
       setIsDirty(false);
-      setActiveIfaRef(broker.ifaRef || '');
+      setActiveIfaRef(broker.brokerName ? (broker.ifaRef || '') : '');
     }
   }, [broker, setIsDirty]);
 
