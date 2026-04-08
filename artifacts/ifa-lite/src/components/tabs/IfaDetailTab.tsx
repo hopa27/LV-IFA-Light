@@ -124,7 +124,6 @@ export default function IfaDetailTab() {
       <div className="flex-1 flex flex-col min-w-[600px]">
         <div className="flex-1 overflow-auto pr-2 pb-4">
           <div className="grid grid-cols-2 gap-x-8 gap-y-1">
-            <div className="col-span-2 text-xs font-bold text-[#006cf4] border-b-2 border-[#006cf4]/20 pb-1 mb-3 font-sans uppercase tracking-wider">General Information</div>
             <FormInput label="Broker Name" name="brokerName" value={formData.brokerName || ''} onChange={handleChange} />
             <FormInput label="FCA Reference" name="fcaReference" value={formData.fcaReference || ''} onChange={handleChange} />
 
