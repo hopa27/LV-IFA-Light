@@ -236,7 +236,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="bg-[#f0f0f0] overflow-auto" style={{ height: 'calc(100vh / 0.8)' }}>
+    <div className="bg-[#f0f0f0] flex flex-col overflow-auto" style={{ height: 'calc(100vh / 0.8)' }}>
       <header className="bg-[#00263e] text-white px-[142px] pt-4 pb-6">
         <div className="flex items-center justify-between">
           <img src="/lve-logo.png" alt="LV= Logo" className="h-6" />
@@ -332,7 +332,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
       )}
 
-      <main className="bg-[#f0f0f0] px-[142px] py-4">
+      <main className="bg-[#f0f0f0] px-[142px] py-4 flex-1">
         {children}
       </main>
       
