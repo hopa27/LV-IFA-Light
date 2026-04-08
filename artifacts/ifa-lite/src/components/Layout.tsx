@@ -276,7 +276,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
 
       {activeTab === 'ifa-detail' && (
-        <div className="bg-[#f0f0f0] px-[142px] py-3">
+        <div className="bg-[#f0f0f0] px-[142px] pt-[12px] pb-[12px]">
         <div className="bg-white border border-[#BBBBBB] rounded-lg px-6 py-3 shadow-sm flex items-center justify-between">
           <div className="flex items-center gap-4">
             {activeIfaRef && (
@@ -340,7 +340,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       )}
       </div>
 
-      <main className="bg-[#f0f0f0] px-[142px] py-4">
+      <main className="bg-[#f0f0f0] px-[142px] pb-4">
         {children}
       </main>
       

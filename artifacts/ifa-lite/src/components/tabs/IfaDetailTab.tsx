@@ -120,7 +120,7 @@ export default function IfaDetailTab() {
   };
 
   return (
-    <div className="flex gap-6 min-h-full">
+    <div className="flex gap-6 min-h-full pt-[12px]">
       <div className="flex-1 flex flex-col min-w-[600px]">
         <div className="flex-1 overflow-auto pr-2 pb-4">
           <div className="grid grid-cols-2 gap-x-8 gap-y-1">

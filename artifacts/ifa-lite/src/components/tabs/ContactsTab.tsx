@@ -155,7 +155,7 @@ export default function ContactsTab() {
 
   return (
     <div className="flex flex-col min-h-full pb-8">
-      <div className="sticky top-[52px] z-20 mb-4 pt-4 bg-[#f0f0f0]">
+      <div className="sticky top-[52px] z-20 pt-[12px] pb-[12px] bg-[#f0f0f0]">
       <div className="flex items-center justify-between bg-white border border-[#BBBBBB] rounded-lg px-6 py-3 shadow-sm">
         <div className="flex items-center gap-4">
           <span className="text-sm font-bold text-[#00263e] font-sans flex items-center gap-2">
@@ -181,7 +181,7 @@ export default function ContactsTab() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-4">
-        <div className="sticky top-[124px] z-10 self-start">
+        <div className="sticky top-[132px] z-10 self-start">
           <div className="mb-4">
             <div className="grid grid-cols-[80px_1fr_80px_1fr] gap-x-2 gap-y-2 items-center">
               <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Title</label>

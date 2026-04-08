@@ -16,7 +16,7 @@ export default function NotesTab() {
   }
 
   return (
-    <div className="flex flex-col min-h-full">
+    <div className="flex flex-col min-h-full pt-[12px]">
       <div className="flex justify-end items-center mb-4">
         <Button><Plus className="w-4 h-4" /> Add Note</Button>
       </div>

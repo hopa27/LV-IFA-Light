@@ -98,7 +98,7 @@ export default function LookupsTab() {
   };
 
   return (
-    <div className="flex flex-col min-h-full">
+    <div className="flex flex-col min-h-full pt-[12px]">
       <Fieldset title="Search Criteria">
         <div className="flex items-end gap-4 flex-wrap">
           <div className="flex flex-col gap-1">
