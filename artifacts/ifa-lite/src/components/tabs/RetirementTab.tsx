@@ -9,7 +9,7 @@ function ProductSection({ title, prefix, data }: { title: string, prefix: string
     <Fieldset title={title}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="space-y-1">
-          <FormInput label="Default adviser charges %" value={data[`${prefix}AdviserCharges`] || ''} />
+          <FormInput label="Default adviser charges %" value="" disabled />
           <FormInput label="Amount" value={data[`${prefix}Amount`] || ''} />
           <FormInput label="Default Commission %" value={data[`${prefix}Commission`] || ''} />
         </div>
