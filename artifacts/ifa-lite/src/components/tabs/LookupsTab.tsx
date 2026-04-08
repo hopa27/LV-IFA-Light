@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useListBrokers } from '@/hooks/use-static-data';
 import type { Broker, ListBrokersParams } from '@/hooks/use-static-data';
 import { useApp } from '@/context/app-context';
 import { Fieldset, Button } from '@/components/shared/FormElements';
 
 import ClubModal from '@/components/shared/ClubModal';
-import { Search, Building, Check } from 'lucide-react';
+import { Building, Check } from 'lucide-react';
 
 const COLUMNS: { key: keyof Broker; header: string }[] = [
   { key: 'ifaRef', header: 'IFA_REF' },
@@ -89,7 +89,6 @@ export default function LookupsTab() {
   const toggleStatus = (key: string) => {
     setStatuses(prev => ({ ...prev, [key]: !prev[key] }));
   };
-  const [searchParams, setSearchParams] = useState<ListBrokersParams>({});
   const [showClubModal, setShowClubModal] = useState(false);
   const [selectedRowId, setSelectedRowId] = useState<number | null>(null);
 
@@ -98,9 +97,7 @@ export default function LookupsTab() {
     setActiveTab('ifa-detail');
   };
 
-  const { data: brokers = [], isLoading } = useListBrokers(searchParams);
-
-  const handleSearch = () => {
+  const searchParams = useMemo<ListBrokersParams>(() => {
     const params: ListBrokersParams = {};
     if (postcode) params.postcode = postcode;
     if (ifaReference) params.ifaReference = ifaReference;
@@ -109,8 +106,10 @@ export default function LookupsTab() {
     if (statuses['Cancelled']) params.cancelled = true;
     if (statuses['Duplicate Record']) params.duplicateRecord = true;
     if (statuses['Revoked']) params.revoked = true;
-    setSearchParams(params);
-  };
+    return params;
+  }, [postcode, ifaReference, ifaName, statuses]);
+
+  const { data: brokers = [], isLoading } = useListBrokers(searchParams);
 
   return (
     <div className="flex flex-col min-h-full pt-[12px]">

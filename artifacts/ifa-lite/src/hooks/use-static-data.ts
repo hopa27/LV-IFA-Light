@@ -26,10 +26,12 @@ export function useListBrokers(params?: ListBrokersParams, options?: QueryOption
       if (params.ifaReference && !b.ifaRef?.toLowerCase().includes(params.ifaReference.toLowerCase())) return false;
       if (params.ifaName && !b.brokerName?.toLowerCase().includes(params.ifaName.toLowerCase())) return false;
 
-      if (params.authorised && b.status !== 'Authorised') return false;
-      if (params.cancelled && b.status !== 'Cancelled') return false;
-      if (params.duplicateRecord && b.status !== 'Duplicate Record') return false;
-      if (params.revoked && b.status !== 'Revoked') return false;
+      const statusFilters: string[] = [];
+      if (params.authorised) statusFilters.push('Authorised');
+      if (params.cancelled) statusFilters.push('Cancelled');
+      if (params.duplicateRecord) statusFilters.push('Duplicate Record');
+      if (params.revoked) statusFilters.push('Revoked');
+      if (statusFilters.length > 0 && !statusFilters.includes(b.status || '')) return false;
 
       return true;
     });
