@@ -3,6 +3,84 @@ import { useGetEquityRelease } from '@/hooks/use-static-data';
 import { useApp } from '@/context/app-context';
 import { Fieldset, FormInput, FormRadioGroup, FormCheckbox, Button } from '@/components/shared/FormElements';
 
+const AGE_BANDS = ['60-65', '66-70', '71-75', '76-80', '81-85', '86-90', '91 +'];
+
+function AgeBandTable() {
+  return (
+    <Fieldset title="Age Band Details">
+      <table className="w-full text-[11px] text-center border-collapse font-[Mulish]">
+        <thead>
+          <tr>
+            <th className="p-1.5 text-left text-[#3d3d3d] font-sans font-semibold">Age Band</th>
+            <th className="p-1.5 text-[#3d3d3d] font-sans font-semibold">
+              <div className="flex items-center justify-center gap-1">
+                <input type="checkbox" className="w-3.5 h-3.5 accent-[#178830]" />
+                <span>Exclusive %</span>
+              </div>
+            </th>
+            <th className="p-1.5 text-[#3d3d3d] font-sans font-semibold">(+ / -)</th>
+            <th className="p-1.5 text-[#3d3d3d] font-sans font-semibold">
+              <div className="flex items-center justify-center gap-1">
+                <input type="checkbox" className="w-3.5 h-3.5 accent-[#178830]" />
+                <span>Discounted %</span>
+              </div>
+            </th>
+            <th className="p-1.5 text-[#3d3d3d] font-sans font-semibold">Cash Back</th>
+          </tr>
+        </thead>
+        <tbody>
+          {AGE_BANDS.map((band) => (
+            <tr key={band}>
+              <td className="p-1.5 text-left font-medium text-[#3d3d3d]">{band}</td>
+              <td className="p-1.5">
+                <input className="w-14 border border-[#BBBBBB] rounded px-1 text-center text-sm focus:border-[#178830] focus:border-2 focus:outline-none" />
+              </td>
+              <td className="p-1.5">
+                <input className="w-14 border border-[#BBBBBB] rounded px-1 text-center text-sm focus:border-[#178830] focus:border-2 focus:outline-none" />
+              </td>
+              <td className="p-1.5">
+                <input className="w-14 border border-[#BBBBBB] rounded px-1 text-center text-sm focus:border-[#178830] focus:border-2 focus:outline-none" />
+              </td>
+              <td className="p-1.5">
+                <input className="w-14 border border-[#BBBBBB] rounded px-1 text-center text-sm focus:border-[#178830] focus:border-2 focus:outline-none" />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </Fieldset>
+  );
+}
+
+function ValuationSection() {
+  return (
+    <Fieldset title="Valuation">
+      <div className="space-y-2">
+        <div className="flex items-center gap-2 flex-wrap">
+          <FormCheckbox label="Free Up to:" />
+          <div className="flex items-center gap-1">
+            <span className="text-xs font-semibold text-[#3d3d3d] font-sans">Amount</span>
+            <input className="w-20 border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none" />
+          </div>
+          <span className="text-xs text-[#3d3d3d] font-sans">or</span>
+          <div className="flex items-center gap-1">
+            <span className="text-xs font-semibold text-[#3d3d3d] font-sans">Max property Value</span>
+            <input className="w-20 border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none" />
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <FormCheckbox label="Fee discount:" />
+          <input className="w-20 border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none" />
+        </div>
+        <div className="flex items-center gap-4 flex-wrap">
+          <FormCheckbox label="Refund discount/fee amount on completion" />
+          <FormCheckbox label="Reduce fees upfront" />
+        </div>
+      </div>
+    </Fieldset>
+  );
+}
+
 export default function EquityReleaseTab() {
   const { activeBrokerId } = useApp();
 
@@ -18,31 +96,41 @@ export default function EquityReleaseTab() {
 
   return (
     <div className="flex flex-col min-h-full pb-8 pt-[12px]">
-      <div className="grid grid-cols-2 gap-6 mb-4">
-        <div className="space-y-4">
-          <Fieldset title="Permissions" className="h-full">
-            <FormRadioGroup 
-              label="Mortgage Permissions" 
-              name="mortgage" 
-              options={[{label: 'Yes', value: 'true'}, {label: 'No', value: 'false'}]} 
-              value={String(eq.mortgagePermissions)} 
-            />
-            <FormRadioGroup 
-              label="ERLM TOBA" 
-              name="erlm" 
-              options={[{label: 'Yes', value: 'true'}, {label: 'No', value: 'false'}]} 
-              value={String(eq.erlmToba)} 
-            />
-          </Fieldset>
-        </div>
-        
-        <Fieldset title="Club Membership" className="h-full">
-          <div className="border border-[#BBBBBB] rounded-lg overflow-hidden h-24 mb-2">
+      {/* Row 1: Mortgage Permissions + ERLM TOBA + Club Membership */}
+      <div className="grid grid-cols-[1fr_1fr_1fr] gap-4 mb-0">
+        <Fieldset title="Mortgage Permissions?">
+          <div className="flex gap-6">
+            <label className="flex items-center gap-1.5 text-sm font-[Mulish] text-[#3d3d3d] cursor-pointer">
+              <input type="radio" name="mortgage" value="true" defaultChecked={eq.mortgagePermissions === true} className="w-4 h-4 accent-[#006cf4]" />
+              Yes
+            </label>
+            <label className="flex items-center gap-1.5 text-sm font-[Mulish] text-[#3d3d3d] cursor-pointer">
+              <input type="radio" name="mortgage" value="false" defaultChecked={eq.mortgagePermissions === false} className="w-4 h-4 accent-[#006cf4]" />
+              No
+            </label>
+          </div>
+        </Fieldset>
+
+        <Fieldset title="ERLM TOBA?">
+          <div className="flex gap-6">
+            <label className="flex items-center gap-1.5 text-sm font-[Mulish] text-[#3d3d3d] cursor-pointer">
+              <input type="radio" name="erlm" value="true" defaultChecked={eq.erlmToba === true} className="w-4 h-4 accent-[#006cf4]" />
+              Yes
+            </label>
+            <label className="flex items-center gap-1.5 text-sm font-[Mulish] text-[#3d3d3d] cursor-pointer">
+              <input type="radio" name="erlm" value="false" defaultChecked={eq.erlmToba === false} className="w-4 h-4 accent-[#006cf4]" />
+              No
+            </label>
+          </div>
+        </Fieldset>
+
+        <Fieldset title="Club Membership">
+          <div className="border border-[#BBBBBB] rounded overflow-hidden h-16 mb-2">
             <table className="w-full text-xs font-[Mulish]">
-              <thead className="bg-[#eaf5f8]">
+              <thead className="bg-[#002f5c]">
                 <tr>
-                  <th className="px-2 py-2 text-left border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">Name</th>
-                  <th className="px-2 py-2 text-left border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">Ref</th>
+                  <th className="px-2 py-1.5 text-left text-white font-sans font-semibold">Name</th>
+                  <th className="px-2 py-1.5 text-left text-white font-sans font-semibold">Ref</th>
                 </tr>
               </thead>
               <tbody>
@@ -51,129 +139,71 @@ export default function EquityReleaseTab() {
             </table>
           </div>
           <div className="flex gap-2">
-            <Button variant="secondary" className="text-xs py-1 h-auto px-4">Add</Button>
-            <Button variant="secondary" className="text-xs py-1 h-auto px-4">Edit</Button>
-            <Button variant="secondary" className="text-xs py-1 h-auto px-4">View</Button>
-            <Button variant="outline" className="text-xs py-1 h-auto px-4">Remove</Button>
+            <Button variant="secondary" className="text-xs py-1 h-auto px-3 rounded-md">Add</Button>
+            <Button variant="secondary" className="text-xs py-1 h-auto px-3 rounded-md">Edit</Button>
+            <Button variant="secondary" className="text-xs py-1 h-auto px-3 rounded-md">View</Button>
+            <Button variant="outline" className="text-xs py-1 h-auto px-3 rounded-md">Remove</Button>
           </div>
         </Fieldset>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
-        <div className="space-y-4">
-          <Fieldset title="Flexible Commission">
-            <FormInput label="Broker Rate" value={eq.flexibleBrokerRate || ''} />
-            <FormInput label="Minimum Amount" value={eq.flexibleMinimumAmount || ''} />
-            <FormInput label="Network Rate" value={eq.flexibleNetworkRate || ''} />
-            <div className="pl-[33%] mt-3">
+      {/* Row 2: Flexible Commission + Lump Sum Commission */}
+      <div className="grid grid-cols-2 gap-4 mb-0">
+        <Fieldset title="Flexible Commission">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+            <FormInput label="Broker Rate" labelWidth="w-auto" value={eq.flexibleBrokerRate || ''} />
+            <FormInput label="Minimum Amount" labelWidth="w-auto" value={eq.flexibleMinimumAmount || ''} />
+            <FormInput label="Network Rate" labelWidth="w-auto" value={eq.flexibleNetworkRate || ''} />
+            <div className="flex items-center">
               <FormCheckbox label="Trail Commission" checked={eq.flexibleTrailCommission} />
             </div>
+          </div>
+        </Fieldset>
+
+        <Fieldset title="Lump Sum Commission">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+            <FormInput label="Broker Rate" labelWidth="w-auto" value={eq.lumpSumBrokerRate || ''} />
+            <FormInput label="Minimum Amount" labelWidth="w-auto" value={eq.lumpSumMinimumAmount || ''} />
+            <FormInput label="Network Rate" labelWidth="w-auto" value={eq.lumpSumNetworkRate || ''} />
+          </div>
+        </Fieldset>
+      </div>
+
+      {/* Row 3: Special Deals - parent fieldset */}
+      <Fieldset title="Special Deals">
+        <div className="grid grid-cols-2 gap-4">
+          {/* Left: Flexible */}
+          <Fieldset title="Flexible" className="mb-0">
+            <AgeBandTable />
+            <ValuationSection />
           </Fieldset>
 
-          <Fieldset title="Flexible Special Deals (Age Bands)">
-            <table className="w-full text-[11px] text-center border-collapse font-[Mulish]">
-              <thead className="bg-[#eaf5f8] border-b-2 border-[#04589b]">
-                <tr>
-                  <th className="p-1.5 border-r border-[#BBBBBB] text-[#002f5c] font-sans font-semibold">Age Band</th>
-                  <th className="p-1.5 border-r border-[#BBBBBB] text-[#002f5c] font-sans font-semibold">Exclusive %</th>
-                  <th className="p-1.5 border-r border-[#BBBBBB] text-[#002f5c] font-sans font-semibold">(+/-)</th>
-                  <th className="p-1.5 border-r border-[#BBBBBB] text-[#002f5c] font-sans font-semibold">Discounted %</th>
-                  <th className="p-1.5 text-[#002f5c] font-sans font-semibold">Cash Back</th>
-                </tr>
-              </thead>
-              <tbody>
-                {['60-65','66-70','71-75','76-80','81-85','86-90','91+'].map((band, i) => (
-                  <tr key={band} className={i % 2 === 0 ? 'bg-white' : 'bg-[#f4f7f8]'}>
-                    <td className="p-1.5 font-medium border-r border-[#BBBBBB]/50 text-[#3d3d3d]">{band}</td>
-                    <td className="p-1.5 border-r border-[#BBBBBB]/50"><input className="w-14 border border-[#BBBBBB] rounded-lg px-1 text-center text-sm focus:border-[#178830] focus:border-2 focus:outline-none" /></td>
-                    <td className="p-1.5 border-r border-[#BBBBBB]/50"><input type="checkbox" className="accent-[#178830]" /></td>
-                    <td className="p-1.5 border-r border-[#BBBBBB]/50"><input className="w-14 border border-[#BBBBBB] rounded-lg px-1 text-center text-sm focus:border-[#178830] focus:border-2 focus:outline-none" /></td>
-                    <td className="p-1.5"><input className="w-14 border border-[#BBBBBB] rounded-lg px-1 text-center text-sm focus:border-[#178830] focus:border-2 focus:outline-none" /></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </Fieldset>
-
-          <Fieldset title="Flexible Valuation">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <FormCheckbox label="Free Up to:" />
-                <input className="w-20 border border-[#BBBBBB] rounded-lg px-2 py-1 text-sm font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none" placeholder="Amount" />
-                <span className="text-xs text-[#979797]">or</span>
-                <input className="w-24 border border-[#BBBBBB] rounded-lg px-2 py-1 text-sm font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none" placeholder="Max property" />
-              </div>
-              <div className="flex items-center gap-2">
-                <FormCheckbox label="Fee discount:" />
-                <input className="w-20 border border-[#BBBBBB] rounded-lg px-2 py-1 text-sm font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none" />
-              </div>
-              <FormCheckbox label="Refund discount/fee amount on completion" />
-              <FormCheckbox label="Reduce fees upfront" />
-            </div>
-          </Fieldset>
-
-          <Fieldset title="Flexible Fees">
-            <FormInput label="Packaging Fee" value={eq.packagingFee || ''} />
-            <FormInput label="Application Fee" value={eq.applicationFee || ''} />
-            <FormInput label="LTV % (+ or -)" value={eq.ltvPercent || ''} />
+          {/* Right: Lump Sum */}
+          <Fieldset title="Lump Sum" className="mb-0">
+            <AgeBandTable />
+            <ValuationSection />
           </Fieldset>
         </div>
+      </Fieldset>
 
-        <div className="space-y-4">
-          <Fieldset title="Lump Sum Commission">
-            <FormInput label="Broker Rate" value={eq.lumpSumBrokerRate || ''} />
-            <FormInput label="Minimum Amount" value={eq.lumpSumMinimumAmount || ''} />
-            <FormInput label="Network Rate" value={eq.lumpSumNetworkRate || ''} />
-          </Fieldset>
-
-          <Fieldset title="Lump Sum Special Deals (Age Bands)">
-            <table className="w-full text-[11px] text-center border-collapse font-[Mulish]">
-              <thead className="bg-[#eaf5f8] border-b-2 border-[#04589b]">
-                <tr>
-                  <th className="p-1.5 border-r border-[#BBBBBB] text-[#002f5c] font-sans font-semibold">Age Band</th>
-                  <th className="p-1.5 border-r border-[#BBBBBB] text-[#002f5c] font-sans font-semibold">Exclusive %</th>
-                  <th className="p-1.5 border-r border-[#BBBBBB] text-[#002f5c] font-sans font-semibold">(+/-)</th>
-                  <th className="p-1.5 border-r border-[#BBBBBB] text-[#002f5c] font-sans font-semibold">Discounted %</th>
-                  <th className="p-1.5 text-[#002f5c] font-sans font-semibold">Cash Back</th>
-                </tr>
-              </thead>
-              <tbody>
-                {['60-65','66-70','71-75','76-80','81-85','86-90','91+'].map((band, i) => (
-                  <tr key={band} className={i % 2 === 0 ? 'bg-white' : 'bg-[#f4f7f8]'}>
-                    <td className="p-1.5 font-medium border-r border-[#BBBBBB]/50 text-[#3d3d3d]">{band}</td>
-                    <td className="p-1.5 border-r border-[#BBBBBB]/50"><input className="w-14 border border-[#BBBBBB] rounded-lg px-1 text-center text-sm focus:border-[#178830] focus:border-2 focus:outline-none" /></td>
-                    <td className="p-1.5 border-r border-[#BBBBBB]/50"><input type="checkbox" className="accent-[#178830]" /></td>
-                    <td className="p-1.5 border-r border-[#BBBBBB]/50"><input className="w-14 border border-[#BBBBBB] rounded-lg px-1 text-center text-sm focus:border-[#178830] focus:border-2 focus:outline-none" /></td>
-                    <td className="p-1.5"><input className="w-14 border border-[#BBBBBB] rounded-lg px-1 text-center text-sm focus:border-[#178830] focus:border-2 focus:outline-none" /></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </Fieldset>
-
-          <Fieldset title="Lump Sum Valuation">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <FormCheckbox label="Free Up to:" />
-                <input className="w-20 border border-[#BBBBBB] rounded-lg px-2 py-1 text-sm font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none" placeholder="Amount" />
-                <span className="text-xs text-[#979797]">or</span>
-                <input className="w-24 border border-[#BBBBBB] rounded-lg px-2 py-1 text-sm font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none" placeholder="Max property" />
-              </div>
-              <div className="flex items-center gap-2">
-                <FormCheckbox label="Fee discount:" />
-                <input className="w-20 border border-[#BBBBBB] rounded-lg px-2 py-1 text-sm font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none" />
-              </div>
-              <FormCheckbox label="Refund discount/fee amount on completion" />
-              <FormCheckbox label="Reduce fees upfront" />
-            </div>
-          </Fieldset>
-
-          <Fieldset title="Lump Sum Fees">
-            <FormInput label="Packaging Fee" value={eq.lumpSumPackagingFee || ''} />
-            <FormInput label="Application Fee" value={eq.lumpSumApplicationFee || ''} />
-            <FormInput label="LTV % (+ or -)" value={eq.lumpSumLtvPercent || ''} />
-          </Fieldset>
+      {/* Row 4: Packaging Fee / Application Fee / LTV */}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-1">
+          <FormInput label="Packaging Fee" labelWidth="w-auto" value={eq.packagingFee || ''} />
+          <FormInput label="Application Fee" labelWidth="w-auto" value={eq.applicationFee || ''} />
         </div>
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <FormInput label="Packaging Fee" labelWidth="w-auto" value={eq.lumpSumPackagingFee || ''} />
+          </div>
+          <div className="flex items-center gap-2">
+            <FormInput label="Application Fee" labelWidth="w-auto" value={eq.lumpSumApplicationFee || ''} />
+          </div>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-4 mt-1">
+        <FormInput label="LTV % (+ or -)" labelWidth="w-auto" value={eq.ltvPercent || ''} />
+        <FormInput label="LTV % (+ or -)" labelWidth="w-auto" value={eq.lumpSumLtvPercent || ''} />
       </div>
     </div>
   );
