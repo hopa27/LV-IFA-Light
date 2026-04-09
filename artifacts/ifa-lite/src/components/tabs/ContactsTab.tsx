@@ -268,9 +268,9 @@ export default function ContactsTab() {
                 <FormRadioGroup label="Network" name="network" options={[{label: 'Y', value: 'true'}, {label: 'N', value: 'false'}]} value={String(currentContact.network)} />
               </div>
             </div>
-            <div className="flex gap-4 items-start mt-3">
-              <span className="text-xs font-semibold text-[#3d3d3d] font-sans whitespace-nowrap pt-1">Default Distribution Channel</span>
-              <div className="flex-1 space-y-2">
+            <div className="mt-3">
+              <span className="text-xs font-semibold text-[#00263e] font-sans">Default Distribution Channel</span>
+              <div className="space-y-2 mt-2">
                 <FormSelect label="Restricted Advice" options={[{label: '', value: ''}]} labelWidth="w-auto" />
                 <FormSelect label="Simplified Advice" options={[{label: '', value: ''}]} labelWidth="w-auto" />
                 <FormSelect label="Non Advised" options={[{label: '', value: ''}]} labelWidth="w-auto" />
