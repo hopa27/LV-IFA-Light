@@ -11,15 +11,15 @@ const COLUMNS = ['Expense Discount', 'Marketing Allowance', 'Adviser Charge Amou
 function AdviceTypePricingModal({ productTitle, onClose }: { productTitle: string; onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={onClose} role="dialog" aria-label="Advice Type/Distribution Channel Pricing">
-      <div className="bg-[#f0f0f0] border border-[#BBBBBB] rounded-lg shadow-2xl w-[780px] max-h-[90vh] overflow-auto" onClick={e => e.stopPropagation()}>
-        <div className="bg-[#002f5c] text-white px-4 py-2.5 rounded-t-lg flex items-center justify-between">
+      <div className="bg-[#f0f0f0] border border-[#BBBBBB] rounded-lg shadow-2xl w-[780px] max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
+        <div className="bg-[#002f5c] text-white px-4 py-2.5 rounded-t-lg flex items-center justify-between sticky top-0 z-10 shrink-0">
           <span className="text-sm font-semibold font-sans">Advice Type/Distribution Channel Pricing</span>
           <button onClick={onClose} className="text-white/70 hover:text-white transition-colors" aria-label="Close">
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="p-5">
+        <div className="p-5 overflow-auto flex-1">
           <p className="text-sm font-semibold text-[#00263e] font-sans mb-4">Product: {productTitle}</p>
 
           <table className="w-full text-xs border-collapse">
