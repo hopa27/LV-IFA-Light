@@ -1,30 +1,105 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGetRetirementIncome } from '@/hooks/use-static-data';
 import { useApp } from '@/context/app-context';
 import { Fieldset, FormInput, Button } from '@/components/shared/FormElements';
-import { PlusCircle } from 'lucide-react';
+import { PlusCircle, X } from 'lucide-react';
 
-function ProductSection({ title, prefix, data }: { title: string, prefix: string, data: any }) {
+const ADVICE_TYPES = ['Restricted', 'Simplified', 'Non advised', 'Independent'] as const;
+const DISTRIBUTION_CHANNELS = ['Whole of Market', 'Tied', 'Multi-tied'] as const;
+const COLUMNS = ['Expense Discount', 'Marketing Allowance', 'Adviser Charge Amount', 'Adviser Charge %', 'Commission %'] as const;
+
+function AdviceTypePricingModal({ productTitle, onClose }: { productTitle: string; onClose: () => void }) {
   return (
-    <Fieldset title={title}>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="space-y-1">
-          <FormInput label="Default Adviser Charges %" value="" disabled />
-          <FormInput label="Amount" value={data[`${prefix}Amount`] || ''} />
-          <FormInput label="Default Commission %" value={data[`${prefix}Commission`] || ''} />
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={onClose} role="dialog" aria-label="Advice Type/Distribution Channel Pricing">
+      <div className="bg-[#f0f0f0] border border-[#BBBBBB] rounded-lg shadow-2xl w-[780px] max-h-[90vh] overflow-auto" onClick={e => e.stopPropagation()}>
+        <div className="bg-[#002f5c] text-white px-4 py-2.5 rounded-t-lg flex items-center justify-between">
+          <span className="text-sm font-semibold font-sans">Advice Type/Distribution Channel Pricing</span>
+          <button onClick={onClose} className="text-white/70 hover:text-white transition-colors" aria-label="Close">
+            <X className="w-4 h-4" />
+          </button>
         </div>
-        
-        <div className="space-y-1">
-          <FormInput label="Expense Discount" value={data[`${prefix}ExpenseDiscount`] || ''} />
-          <FormInput label="Marketing Allowance" value={data[`${prefix}MarketingAllowance`] || ''} />
-        </div>
-        
-        <div className="flex flex-col gap-2 justify-center border-l border-[#BBBBBB] pl-6">
-          <Button variant="secondary" className="justify-start text-xs"><PlusCircle className="w-4 h-4 text-[#178830]" /> Advice Type/Distribution Channel pricing</Button>
-          <Button variant="secondary" className="justify-start text-xs"><PlusCircle className="w-4 h-4 text-[#006cf4]" /> Special deals</Button>
+
+        <div className="p-5">
+          <p className="text-sm font-semibold text-[#00263e] font-sans mb-4">Product: {productTitle}</p>
+
+          <table className="w-full text-xs border-collapse">
+            <thead>
+              <tr>
+                <th className="px-2 py-2 text-left font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b] bg-[#eaf5f8]" colSpan={2}></th>
+                {COLUMNS.map(col => (
+                  <th key={col} className="px-2 py-2 text-center font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b] bg-[#eaf5f8] whitespace-nowrap">{col}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {ADVICE_TYPES.map((adviceType, atIdx) => (
+                <React.Fragment key={adviceType}>
+                  <tr className={atIdx > 0 ? 'border-t-2 border-[#BBBBBB]' : ''}>
+                    <td className="px-2 py-2 font-bold text-[#00263e] font-sans whitespace-nowrap align-top">Advice Type</td>
+                    <td className="px-2 py-2 font-semibold text-[#3d3d3d] font-sans">{adviceType}</td>
+                    {COLUMNS.map(col => (
+                      <td key={col} className="px-1 py-1">
+                        <input className="w-full border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none bg-white" />
+                      </td>
+                    ))}
+                  </tr>
+                  {DISTRIBUTION_CHANNELS.map((channel, chIdx) => (
+                    <tr key={`${adviceType}-${channel}`}>
+                      {chIdx === 0 ? (
+                        <td className="px-2 py-2 font-bold text-[#00263e] font-sans whitespace-nowrap align-top" rowSpan={3}>Distribution<br />Channel</td>
+                      ) : null}
+                      <td className="px-2 py-2 font-semibold text-[#3d3d3d] font-sans">{channel}</td>
+                      {COLUMNS.map(col => (
+                        <td key={col} className="px-1 py-1">
+                          <input className="w-full border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none bg-white" />
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </React.Fragment>
+              ))}
+            </tbody>
+          </table>
+
+          <div className="flex justify-center gap-3 pt-4 mt-4 border-t border-[#BBBBBB]">
+            <Button>Save</Button>
+            <Button variant="secondary" onClick={onClose}>Cancel</Button>
+          </div>
         </div>
       </div>
-    </Fieldset>
+    </div>
+  );
+}
+
+function ProductSection({ title, prefix, data }: { title: string, prefix: string, data: any }) {
+  const [showPricingModal, setShowPricingModal] = useState(false);
+
+  return (
+    <>
+      <Fieldset title={title}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="space-y-1">
+            <FormInput label="Default Adviser Charges %" value="" disabled />
+            <FormInput label="Amount" value={data[`${prefix}Amount`] || ''} />
+            <FormInput label="Default Commission %" value={data[`${prefix}Commission`] || ''} />
+          </div>
+          
+          <div className="space-y-1">
+            <FormInput label="Expense Discount" value={data[`${prefix}ExpenseDiscount`] || ''} />
+            <FormInput label="Marketing Allowance" value={data[`${prefix}MarketingAllowance`] || ''} />
+          </div>
+          
+          <div className="flex flex-col gap-2 justify-center border-l border-[#BBBBBB] pl-6">
+            <Button variant="secondary" className="justify-start text-xs" onClick={() => setShowPricingModal(true)}><PlusCircle className="w-4 h-4 text-[#178830]" /> Advice Type/Distribution Channel Pricing</Button>
+            <Button variant="secondary" className="justify-start text-xs"><PlusCircle className="w-4 h-4 text-[#006cf4]" /> Special Deals</Button>
+          </div>
+        </div>
+      </Fieldset>
+
+      {showPricingModal && (
+        <AdviceTypePricingModal productTitle={title} onClose={() => setShowPricingModal(false)} />
+      )}
+    </>
   );
 }
 
@@ -43,7 +118,7 @@ export default function RetirementTab() {
 
   return (
     <div className="flex flex-col gap-4 min-h-full pb-8 pt-[12px]">
-      <ProductSection title="Non profit Annuity" prefix="npa" data={ri} />
+      <ProductSection title="Non Profit Annuity" prefix="npa" data={ri} />
       <ProductSection title="PIPA" prefix="pipa" data={ri} />
       <ProductSection title="PRP" prefix="prp" data={ri} />
     </div>
