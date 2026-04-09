@@ -281,7 +281,7 @@ export default function ContactsTab() {
                     readOnly
                     className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none"
                   />
-                  <Button variant="outline" className="px-2 py-1 rounded-lg shrink-0" onClick={() => setShowNetworkLookup(true)}><Search className="w-3 h-3" /></Button>
+                  <Button variant="outline" className="w-7 h-7 !p-0 !rounded-full shrink-0" onClick={() => setShowNetworkLookup(true)}><Search className="w-3 h-3" /></Button>
                 </div>
               </div>
               <FormInput label="Network Name" value={networkName} readOnly className="bg-[#CCCCCC]" />
@@ -318,8 +318,8 @@ export default function ContactsTab() {
                   readOnly
                   className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none"
                 />
-                <Button variant="outline" className="px-2 py-1 rounded-lg shrink-0"><Search className="w-3 h-3" /></Button>
-                <Button variant="outline" className="px-2 py-1 rounded-lg shrink-0 text-xs">Clr</Button>
+                <Button variant="outline" className="w-7 h-7 !p-0 !rounded-full shrink-0"><Search className="w-3 h-3" /></Button>
+                <Button variant="outline" className="w-7 h-7 !p-0 !rounded-full shrink-0 text-xs">Clr</Button>
               </div>
             </div>
             <FormRadioGroup label="Principal" name="principalNY" options={[{label: 'N', value: 'false'}, {label: 'Y', value: 'true'}]} value={String(currentContact.isPrincipal)} />
