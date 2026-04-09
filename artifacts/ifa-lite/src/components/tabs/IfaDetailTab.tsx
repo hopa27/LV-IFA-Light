@@ -148,15 +148,15 @@ export default function IfaDetailTab() {
             <FormInput label="Next Diary Date" name="nextDiaryDate" value={formData.nextDiaryDate || ''} onChange={handleChange} />
 
             <FormInput label="Postcode" name="postcode" value={formData.postcode || ''} onChange={handleChange} />
-            <FormInput label="IFA Member No" name="ifaMemberNo" value={formData.ifaMemberNo || ''} onChange={handleChange} />
+            <FormInput label="IFA Member Number" name="ifaMemberNo" value={formData.ifaMemberNo || ''} onChange={handleChange} />
 
             <FormInput label="Telephone" name="telephone" value={formData.telephone || ''} onChange={handleChange} />
             <FormSelect label="Broker Manager" name="brokerManager" value={formData.brokerManager || ''} onChange={handleChange} options={[{label: 'Stuart Watson', value: 'Stuart Watson'},{label: 'Trudy Davidson', value: 'Trudy Davidson'},{label: 'Natalie Pye', value: 'Natalie Pye'},{label: 'Keith Harvey', value: 'Keith Harvey'},{label: 'Amit Mishra', value: 'Amit Mishra'},{label: 'Shaun King', value: 'Shaun King'},{label: 'Robot Machine', value: 'Robot Machine'},{label: 'Sarah Collins', value: 'Sarah Collins'},{label: 'David Thompson', value: 'David Thompson'},{label: 'James Whitaker', value: 'James Whitaker'},{label: 'Helen Carter', value: 'Helen Carter'},{label: 'Mark Reynolds', value: 'Mark Reynolds'},{label: 'Lisa Brennan', value: 'Lisa Brennan'},{label: 'Paul Henderson', value: 'Paul Henderson'}]} />
 
-            <FormInput label="Fax" name="fax" value={formData.fax || ''} onChange={handleChange} />
+            <FormInput label="Fax Number" name="fax" value={formData.fax || ''} onChange={handleChange} />
             <FormSelect label="Key Account" name="keyAccount" value={formData.keyAccount || ''} onChange={handleChange} options={[{label: '', value: ''},...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l => ({label: l, value: l}))]} />
 
-            <FormInput label="Email" name="email" value={formData.email || ''} onChange={handleChange} />
+            <FormInput label="Email Address" name="email" value={formData.email || ''} onChange={handleChange} />
             <FormInput label="Partner Code" name="partnerCode" value={formData.partnerCode || ''} onChange={handleChange} />
 
             <FormInput label="Initials" name="initials" value={formData.initials || ''} onChange={handleChange} />
@@ -167,10 +167,10 @@ export default function IfaDetailTab() {
 
           <hr className="border-t border-[#BBBBBB] mt-4 mb-2" />
           <div className="grid grid-cols-2 gap-x-8 gap-y-1">
-            <FormInput label="Created" name="createdBy" value={formData.createdBy || ''} disabled />
-            <FormInput label="" name="createdDate" value={formData.createdDate || ''} disabled />
-            <FormInput label="Amended" name="amendedBy" value={formData.amendedBy || ''} disabled />
-            <FormInput label="" name="amendedDate" value={formData.amendedDate || ''} disabled />
+            <FormInput label="Created By" name="createdBy" value={formData.createdBy || ''} disabled />
+            <FormInput label="Created Date" name="createdDate" value={formData.createdDate || ''} disabled />
+            <FormInput label="Amended By" name="amendedBy" value={formData.amendedBy || ''} disabled />
+            <FormInput label="Amended Date" name="amendedDate" value={formData.amendedDate || ''} disabled />
           </div>
         </div>
       </div>

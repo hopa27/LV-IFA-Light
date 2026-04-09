@@ -64,7 +64,7 @@ function ValuationSection() {
           </div>
           <span className="text-xs text-[#3d3d3d] font-sans">or</span>
           <div className="flex items-center gap-1">
-            <span className="text-xs font-semibold text-[#3d3d3d] font-sans">Max property Value</span>
+            <span className="text-xs font-semibold text-[#3d3d3d] font-sans">Max Property Value</span>
             <input className="w-20 border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] focus:border-[#178830] focus:border-2 focus:outline-none" />
           </div>
         </div>

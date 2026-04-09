@@ -230,12 +230,12 @@ export default function ContactsTab() {
             </div>
 
             <div className="grid grid-cols-[80px_1fr_80px_1fr] gap-x-2 gap-y-2 items-center mt-2">
-              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Home Tel</label>
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Home Telephone</label>
               <input value={currentContact.homeTelephone || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
-              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Mobile Tel</label>
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Mobile Telephone</label>
               <input value={currentContact.mobileTelephone || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
 
-              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Email</label>
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Email Address</label>
               <input type="email" value={currentContact.emailAddress || ''} className="col-span-3 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
             </div>
           </div>
@@ -250,7 +250,7 @@ export default function ContactsTab() {
               value={String(currentContact.paidByBacs)} 
             />
             <FormInput label="Bank Sort Code" value={currentContact.bankSortCode || ''} />
-            <FormInput label="Bank Account No." value={currentContact.bankAccountNo || ''} />
+            <FormInput label="Bank Account Number" value={currentContact.bankAccountNo || ''} />
             <FormInput label="Bank Account Name" value={currentContact.bankAccountName || ''} />
             <FormInput label="Bank Reference" value={currentContact.bankReference || ''} />
           </Fieldset>
