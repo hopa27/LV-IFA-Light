@@ -313,10 +313,8 @@ export default function ContactsTab() {
               <FormInput label="Principal Agent Ref" value={currentContact.principalAgentRef || ''} className="flex-1" />
               <Button variant="outline" className="px-2 py-1 rounded-lg"><Search className="w-3 h-3" /></Button>
               <Button variant="outline" className="px-2 py-1 rounded-lg text-xs">Clr</Button>
-              <div className="shrink-0">
-                <FormRadioGroup label="Principal" name="principalNY" options={[{label: 'N', value: 'false'}, {label: 'Y', value: 'true'}]} value={String(currentContact.isPrincipal)} />
-              </div>
             </div>
+            <FormRadioGroup label="Principal" name="principalNY" options={[{label: 'N', value: 'false'}, {label: 'Y', value: 'true'}]} value={String(currentContact.isPrincipal)} />
           </Fieldset>
 
           <Fieldset title="Quote Terms">
