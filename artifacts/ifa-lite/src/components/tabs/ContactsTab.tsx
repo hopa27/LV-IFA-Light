@@ -326,11 +326,12 @@ export default function ContactsTab() {
           </Fieldset>
 
           <Fieldset title="Quote Terms">
-            <p className="text-xs text-[#3d3d3d] font-[Mulish] mb-2">Best rate required for all quotes greater than or equal to:</p>
-            <div className="flex gap-4">
-              <FormInput label="Internal / LV.com" value={currentContact.quoteTermsInternal || '0'} labelWidth="w-auto" />
-              <FormInput label="Portals" value={currentContact.quoteTermsPortals || '0'} labelWidth="w-auto" />
+            <div className="flex items-center gap-3 mb-3">
+              <span className="w-1/3" />
+              <p className="flex-1 text-xs text-[#3d3d3d] font-[Mulish]">Best rate required for all quotes greater than or equal to:</p>
             </div>
+            <FormInput label="Internal / LV.com" value={currentContact.quoteTermsInternal || '0'} />
+            <FormInput label="Portals" value={currentContact.quoteTermsPortals || '0'} />
           </Fieldset>
         </div>
       </div>
