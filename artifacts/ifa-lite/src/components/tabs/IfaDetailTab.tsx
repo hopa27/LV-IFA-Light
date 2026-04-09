@@ -127,25 +127,28 @@ export default function IfaDetailTab() {
             <FormInput label="Broker Name" name="brokerName" value={formData.brokerName || ''} onChange={handleChange} />
             <FormInput label="FCA Reference" name="fcaReference" value={formData.fcaReference || ''} onChange={handleChange} />
 
-            <div className="flex items-start gap-3 mb-2 row-span-6">
+            <div className="flex items-start gap-3 mb-2 row-span-3">
               <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans pt-[7px]">Address</label>
               <div className="flex-1 flex flex-col">
                 <input name="addressLine1" value={formData.addressLine1 || ''} onChange={handleChange} placeholder="Line 1" className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-t-lg bg-white font-[Mulish] text-[#3d3d3d] placeholder:text-[#BBBBBB] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors border-b-0" />
                 <input name="addressLine2" value={formData.addressLine2 || ''} onChange={handleChange} placeholder="Line 2" className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] bg-white font-[Mulish] text-[#3d3d3d] placeholder:text-[#BBBBBB] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors border-b-0" />
-                <input name="addressLine3" value={formData.addressLine3 || ''} onChange={handleChange} placeholder="Line 3" className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] bg-white font-[Mulish] text-[#3d3d3d] placeholder:text-[#BBBBBB] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors border-b-0" />
-                <input name="town" value={formData.town || ''} onChange={handleChange} placeholder="Town" className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] bg-white font-[Mulish] text-[#3d3d3d] placeholder:text-[#BBBBBB] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors border-b-0" />
-                <input name="county" value={formData.county || ''} onChange={handleChange} placeholder="County" className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] bg-white font-[Mulish] text-[#3d3d3d] placeholder:text-[#BBBBBB] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors border-b-0" />
-                <input name="postcode" value={formData.postcode || ''} onChange={handleChange} placeholder="Postcode" className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-b-lg bg-white font-[Mulish] text-[#3d3d3d] placeholder:text-[#BBBBBB] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" />
+                <input name="addressLine3" value={formData.addressLine3 || ''} onChange={handleChange} placeholder="Line 3" className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-b-lg bg-white font-[Mulish] text-[#3d3d3d] placeholder:text-[#BBBBBB] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" />
               </div>
             </div>
-            <div className="flex flex-col gap-y-1 row-span-6">
+            <div className="flex flex-col gap-y-1 row-span-3">
               <FormRadioGroup label="Annuity TOBA" name="annuityToba" options={[{label: 'Yes', value: 'true'}, {label: 'No', value: 'false'}]} value={String(formData.annuityToba)} />
               <FormSelect label="Status" name="status" value={formData.status || ''} onChange={handleChange} options={[{label: 'Authorised', value: 'Authorised'},{label: 'Cancelled', value: 'Cancelled'},{label: 'Revoked', value: 'Revoked'},{label: 'Duplicate Record', value: 'Duplicate Record'}]} />
               <FormInput label="Sent Date" name="sentDate" value={formData.sentDate || ''} onChange={handleChange} />
-              <FormSelect label="Grade" name="grade" value={formData.grade || ''} onChange={handleChange} options={[{label: 'National Accounts', value: 'National Accounts'},{label: 'Major Accounts', value: 'Major Accounts'},{label: 'Nursery Accounts', value: 'Nursery Accounts'},{label: 'Others', value: 'Others'},{label: 'Networks', value: 'Networks'},{label: 'Annuity Accounts', value: 'Annuity Accounts'},{label: 'Regional', value: 'Regional'},{label: 'Standard', value: 'Standard'}]} />
-              <FormInput label="Next Diary Date" name="nextDiaryDate" value={formData.nextDiaryDate || ''} onChange={handleChange} />
-              <FormInput label="IFA Member No" name="ifaMemberNo" value={formData.ifaMemberNo || ''} onChange={handleChange} />
             </div>
+
+            <FormInput label="Town" name="town" value={formData.town || ''} onChange={handleChange} />
+            <FormSelect label="Grade" name="grade" value={formData.grade || ''} onChange={handleChange} options={[{label: 'National Accounts', value: 'National Accounts'},{label: 'Major Accounts', value: 'Major Accounts'},{label: 'Nursery Accounts', value: 'Nursery Accounts'},{label: 'Others', value: 'Others'},{label: 'Networks', value: 'Networks'},{label: 'Annuity Accounts', value: 'Annuity Accounts'},{label: 'Regional', value: 'Regional'},{label: 'Standard', value: 'Standard'}]} />
+
+            <FormInput label="County" name="county" value={formData.county || ''} onChange={handleChange} />
+            <FormInput label="Next Diary Date" name="nextDiaryDate" value={formData.nextDiaryDate || ''} onChange={handleChange} />
+
+            <FormInput label="Postcode" name="postcode" value={formData.postcode || ''} onChange={handleChange} />
+            <FormInput label="IFA Member No" name="ifaMemberNo" value={formData.ifaMemberNo || ''} onChange={handleChange} />
 
             <FormInput label="Telephone" name="telephone" value={formData.telephone || ''} onChange={handleChange} />
             <FormSelect label="Broker Manager" name="brokerManager" value={formData.brokerManager || ''} onChange={handleChange} options={[{label: 'Stuart Watson', value: 'Stuart Watson'},{label: 'Trudy Davidson', value: 'Trudy Davidson'},{label: 'Natalie Pye', value: 'Natalie Pye'},{label: 'Keith Harvey', value: 'Keith Harvey'},{label: 'Amit Mishra', value: 'Amit Mishra'},{label: 'Shaun King', value: 'Shaun King'},{label: 'Robot Machine', value: 'Robot Machine'},{label: 'Sarah Collins', value: 'Sarah Collins'},{label: 'David Thompson', value: 'David Thompson'},{label: 'James Whitaker', value: 'James Whitaker'},{label: 'Helen Carter', value: 'Helen Carter'},{label: 'Mark Reynolds', value: 'Mark Reynolds'},{label: 'Lisa Brennan', value: 'Lisa Brennan'},{label: 'Paul Henderson', value: 'Paul Henderson'}]} />
