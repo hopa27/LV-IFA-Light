@@ -63,27 +63,27 @@ function InsertIfaModal({ onClose, onCreate }: { onClose: () => void; onCreate: 
             />
           </div>
 
-          <div className="flex flex-col">
-            <input value={form.addressLine1} onChange={set('addressLine1')} placeholder="Address Line 1" className="w-full border border-[#BBBBBB] rounded-t-lg px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2 placeholder:text-[#BBBBBB] border-b-0" />
-            <input value={form.addressLine2} onChange={set('addressLine2')} placeholder="Address Line 2" className="w-full border border-[#BBBBBB] px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2 placeholder:text-[#BBBBBB] border-b-0" />
-            <input value={form.addressLine3 || ''} onChange={set('addressLine3')} placeholder="Address Line 3" className="w-full border border-[#BBBBBB] rounded-b-lg px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2 placeholder:text-[#BBBBBB]" />
+          <div>
+            <label className="text-xs font-semibold text-[#3d3d3d] font-sans block mb-1">Address</label>
+            <div className="flex flex-col">
+              <input value={form.addressLine1} onChange={set('addressLine1')} placeholder="Line 1" className="w-full border border-[#BBBBBB] rounded-t-lg px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2 placeholder:text-[#BBBBBB] border-b-0" />
+              <input value={form.addressLine2} onChange={set('addressLine2')} placeholder="Line 2" className="w-full border border-[#BBBBBB] px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2 placeholder:text-[#BBBBBB] border-b-0" />
+              <input value={form.addressLine3 || ''} onChange={set('addressLine3')} placeholder="Line 3" className="w-full border border-[#BBBBBB] rounded-b-lg px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2 placeholder:text-[#BBBBBB]" />
+            </div>
           </div>
 
-          <div className="flex gap-3">
-            <div className="flex-1" />
-            <div className="text-right space-y-1.5">
-              <div className="flex items-center gap-2">
-                <label className="text-[10px] font-semibold text-[#979797] font-sans whitespace-nowrap">(Town)</label>
-                <input value={form.town} onChange={set('town')} className="w-[180px] border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2" />
-              </div>
-              <div className="flex items-center gap-2">
-                <label className="text-[10px] font-semibold text-[#979797] font-sans whitespace-nowrap">(County)</label>
-                <input value={form.county} onChange={set('county')} className="w-[180px] border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2" />
-              </div>
-              <div className="flex items-center gap-2">
-                <label className="text-[10px] font-semibold text-[#979797] font-sans whitespace-nowrap">(Postcode)</label>
-                <input value={form.postcode} onChange={set('postcode')} className="w-[180px] border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2" />
-              </div>
+          <div className="grid grid-cols-3 gap-3">
+            <div>
+              <label className="text-xs font-semibold text-[#3d3d3d] font-sans block mb-1">Town</label>
+              <input value={form.town} onChange={set('town')} className="w-full border border-[#BBBBBB] rounded-lg px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2" />
+            </div>
+            <div>
+              <label className="text-xs font-semibold text-[#3d3d3d] font-sans block mb-1">County</label>
+              <input value={form.county} onChange={set('county')} className="w-full border border-[#BBBBBB] rounded-lg px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2" />
+            </div>
+            <div>
+              <label className="text-xs font-semibold text-[#3d3d3d] font-sans block mb-1">Postcode</label>
+              <input value={form.postcode} onChange={set('postcode')} className="w-full border border-[#BBBBBB] rounded-lg px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2" />
             </div>
           </div>
 
