@@ -27,7 +27,7 @@ function AdviceTypePricingModal({ productTitle, onClose }: { productTitle: strin
           <table className="w-full text-xs border-collapse">
             <thead className="sticky top-[32px] z-10">
               <tr>
-                <th className="px-2 py-2 text-left font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b] bg-[#eaf5f8]" colSpan={2}></th>
+                <th className="px-2 py-2 text-left font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b] bg-[#eaf5f8] sticky left-0 z-20" colSpan={2}></th>
                 {COLUMNS.map(col => (
                   <th key={col} className="px-2 py-2 text-center font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b] bg-[#eaf5f8] whitespace-nowrap">{col}</th>
                 ))}
@@ -37,8 +37,8 @@ function AdviceTypePricingModal({ productTitle, onClose }: { productTitle: strin
               {ADVICE_TYPES.map((adviceType, atIdx) => (
                 <React.Fragment key={adviceType}>
                   <tr className={atIdx > 0 ? 'border-t-2 border-[#BBBBBB]' : ''}>
-                    <td className="px-2 py-2 font-bold text-[#00263e] font-sans whitespace-nowrap align-top">Advice Type</td>
-                    <td className="px-2 py-2 font-semibold text-[#3d3d3d] font-sans">{adviceType}</td>
+                    <td className="px-2 py-2 font-bold text-[#00263e] font-sans whitespace-nowrap align-top sticky left-0 bg-[#f0f0f0] z-[5]">Advice Type</td>
+                    <td className="px-2 py-2 font-semibold text-[#3d3d3d] font-sans whitespace-nowrap sticky left-[100px] bg-[#f0f0f0] z-[5]">{adviceType}</td>
                     {COLUMNS.map(col => (
                       <td key={col} className="px-1 py-1">
                         <input className="w-full border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none bg-white" />
@@ -48,9 +48,9 @@ function AdviceTypePricingModal({ productTitle, onClose }: { productTitle: strin
                   {DISTRIBUTION_CHANNELS.map((channel, chIdx) => (
                     <tr key={`${adviceType}-${channel}`}>
                       {chIdx === 0 ? (
-                        <td className="px-2 py-2 font-bold text-[#00263e] font-sans whitespace-nowrap align-top" rowSpan={3}>Distribution<br />Channel</td>
+                        <td className="px-2 py-2 font-bold text-[#00263e] font-sans whitespace-nowrap align-top sticky left-0 bg-[#f0f0f0] z-[5]" rowSpan={3}>Distribution<br />Channel</td>
                       ) : null}
-                      <td className="px-2 py-2 font-semibold text-[#3d3d3d] font-sans">{channel}</td>
+                      <td className="px-2 py-2 font-semibold text-[#3d3d3d] font-sans whitespace-nowrap sticky left-[100px] bg-[#f0f0f0] z-[5]">{channel}</td>
                       {COLUMNS.map(col => (
                         <td key={col} className="px-1 py-1">
                           <input className="w-full border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none bg-white" />
