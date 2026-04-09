@@ -214,19 +214,16 @@ export default function ContactsTab() {
               <input value={currentContact.position || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
             </div>
 
-            <div className="grid grid-cols-[80px_1fr] gap-x-2 gap-y-2 items-center mt-2">
-              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Address Line 1</label>
-              <input value={currentContact.addressLine1 || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
-              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Address Line 2</label>
-              <input value={currentContact.addressLine2 || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
-              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Address Line 3</label>
-              <input value={currentContact.addressLine3 || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
-              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Address Line 4</label>
-              <input value={currentContact.addressLine4 || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
-              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Address Line 5</label>
-              <input value={currentContact.addressLine5 || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
-              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans">Address Line 6</label>
-              <input value={currentContact.addressLine6 || ''} className="px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+            <div className="grid grid-cols-[80px_1fr] gap-x-2 items-start mt-2">
+              <label className="text-xs font-semibold text-[#3d3d3d] text-right font-sans pt-2">Address</label>
+              <div>
+                <input value={currentContact.addressLine1 || ''} className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-t-lg border-b-0 bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+                <input value={currentContact.addressLine2 || ''} className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] border-b-0 bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+                <input value={currentContact.addressLine3 || ''} className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] border-b-0 bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+                <input value={currentContact.addressLine4 || ''} className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] border-b-0 bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+                <input value={currentContact.addressLine5 || ''} className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] border-b-0 bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+                <input value={currentContact.addressLine6 || ''} className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-b-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
+              </div>
             </div>
 
             <div className="grid grid-cols-[80px_1fr_80px_1fr] gap-x-2 gap-y-2 items-center mt-2">
