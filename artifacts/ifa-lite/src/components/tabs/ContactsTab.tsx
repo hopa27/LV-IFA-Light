@@ -259,15 +259,9 @@ export default function ContactsTab() {
             <div className="pl-[33%] mb-3">
               <FormCheckbox label="Use terms from principal agent/network" checked={currentContact.useNetworkTerms} />
             </div>
-            <div className="flex gap-4 items-start">
-              <div className="flex-1">
-                <FormSelect label="Default Advice Type" options={[{label: '', value: ''}, {label: 'Independent', value: 'Independent'}, {label: 'Restricted', value: 'Restricted'}]} value={currentContact.defaultAdviceType || ''} />
-                <FormSelect label="Default Remuneration Basis" options={[{label: '', value: ''}, {label: 'Fee', value: 'Fee'}, {label: 'Commission', value: 'Commission'}]} value={currentContact.defaultRemunerationBasis || ''} />
-              </div>
-              <div className="shrink-0">
-                <FormRadioGroup label="Network" name="network" options={[{label: 'Y', value: 'true'}, {label: 'N', value: 'false'}]} value={String(currentContact.network)} />
-              </div>
-            </div>
+            <FormRadioGroup label="Network" name="network" options={[{label: 'Y', value: 'true'}, {label: 'N', value: 'false'}]} value={String(currentContact.network)} />
+            <FormSelect label="Default Advice Type" options={[{label: '', value: ''}, {label: 'Independent', value: 'Independent'}, {label: 'Restricted', value: 'Restricted'}]} value={currentContact.defaultAdviceType || ''} />
+            <FormSelect label="Default Remuneration Basis" options={[{label: '', value: ''}, {label: 'Fee', value: 'Fee'}, {label: 'Commission', value: 'Commission'}]} value={currentContact.defaultRemunerationBasis || ''} />
             <div className="mt-3">
               <span className="text-xs font-semibold text-[#00263e] font-sans">Default Distribution Channel</span>
               <div className="space-y-2 mt-2">
