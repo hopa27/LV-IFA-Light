@@ -277,54 +277,54 @@ export default function ContactsTab() {
                 <FormSelect label="Non Advised" options={[{label: '', value: ''}]} labelWidth="w-20" />
               </div>
             </div>
-          </Fieldset>
-          
-          <Fieldset title="IFA Member Detail">
-            <div className="flex items-center gap-3 mb-2">
-              <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans">Network IFA</label>
-              <div className="flex-1 flex gap-2 items-center">
-                <input
-                  value={networkIfa}
-                  readOnly
-                  className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none"
-                />
-                <Button variant="outline" className="px-2 py-1 rounded-lg shrink-0" onClick={() => setShowNetworkLookup(true)}><Search className="w-3 h-3" /></Button>
+
+            <Fieldset title="IFA Member Detail" className="mt-4">
+              <div className="flex items-center gap-3 mb-2">
+                <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans">Network IFA</label>
+                <div className="flex-1 flex gap-2 items-center">
+                  <input
+                    value={networkIfa}
+                    readOnly
+                    className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none"
+                  />
+                  <Button variant="outline" className="px-2 py-1 rounded-lg shrink-0" onClick={() => setShowNetworkLookup(true)}><Search className="w-3 h-3" /></Button>
+                </div>
+              </div>
+              <FormInput label="Network Name" value={networkName} readOnly className="bg-[#CCCCCC]" />
+              <FormInput label="Postcode" value={networkPostcode} readOnly className="bg-[#CCCCCC]" />
+              <div className="flex justify-center mt-3">
+                <Fieldset title="Tied Agent" className="mb-0 px-6">
+                  <FormRadioGroup label="" name="tiedAgent" options={[{label: 'Yes', value: 'true'}, {label: 'No', value: 'false'}]} value={String(currentContact.tiedAgent)} />
+                </Fieldset>
+              </div>
+            </Fieldset>
+
+            <Fieldset title="Network Members" className="mt-4">
+              <div className="border border-[#BBBBBB] rounded-lg overflow-hidden">
+                <table className="w-full text-xs font-[Mulish]">
+                  <thead className="bg-[#eaf5f8]">
+                    <tr>
+                      <th className="px-2 py-2 text-left border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">IFA Ref</th>
+                      <th className="px-2 py-2 text-left border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">Broker Name</th>
+                      <th className="px-2 py-2 text-left border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">Post Code</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td className="px-2 py-3 text-[#979797] italic" colSpan={3}>No network members</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </Fieldset>
+
+            <div className="flex gap-3 items-center mt-4">
+              <FormInput label="Principal Agent Ref" value={currentContact.principalAgentRef || ''} className="flex-1" />
+              <Button variant="outline" className="px-2 py-1 rounded-lg"><Search className="w-3 h-3" /></Button>
+              <Button variant="outline" className="px-2 py-1 rounded-lg text-xs">Clr</Button>
+              <div className="shrink-0">
+                <FormRadioGroup label="Principal" name="principalNY" options={[{label: 'N', value: 'false'}, {label: 'Y', value: 'true'}]} value={String(currentContact.isPrincipal)} />
               </div>
             </div>
-            <FormInput label="Network Name" value={networkName} readOnly className="bg-[#CCCCCC]" />
-            <FormInput label="Postcode" value={networkPostcode} readOnly className="bg-[#CCCCCC]" />
-            <div className="flex justify-center mt-3">
-              <Fieldset title="Tied Agent" className="mb-0 px-6">
-                <FormRadioGroup label="" name="tiedAgent" options={[{label: 'Yes', value: 'true'}, {label: 'No', value: 'false'}]} value={String(currentContact.tiedAgent)} />
-              </Fieldset>
-            </div>
           </Fieldset>
-
-          <Fieldset title="Network Members">
-            <div className="border border-[#BBBBBB] rounded-lg overflow-hidden">
-              <table className="w-full text-xs font-[Mulish]">
-                <thead className="bg-[#eaf5f8]">
-                  <tr>
-                    <th className="px-2 py-2 text-left border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">IFA Ref</th>
-                    <th className="px-2 py-2 text-left border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">Broker Name</th>
-                    <th className="px-2 py-2 text-left border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">Post Code</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td className="px-2 py-3 text-[#979797] italic" colSpan={3}>No network members</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </Fieldset>
-
-          <div className="flex gap-3 items-center mb-4">
-            <FormInput label="Principal Agent Ref" value={currentContact.principalAgentRef || ''} className="flex-1" />
-            <Button variant="outline" className="px-2 py-1 rounded-lg"><Search className="w-3 h-3" /></Button>
-            <Button variant="outline" className="px-2 py-1 rounded-lg text-xs">Clr</Button>
-            <div className="shrink-0">
-              <FormRadioGroup label="Principal" name="principalNY" options={[{label: 'N', value: 'false'}, {label: 'Y', value: 'true'}]} value={String(currentContact.isPrincipal)} />
-            </div>
-          </div>
 
           <Fieldset title="Quote Terms">
             <p className="text-xs text-[#3d3d3d] font-[Mulish] mb-2">Best rate required for all quotes greater than or equal to:</p>
