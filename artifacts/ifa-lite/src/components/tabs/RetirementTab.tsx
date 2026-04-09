@@ -71,8 +71,54 @@ function AdviceTypePricingModal({ productTitle, onClose }: { productTitle: strin
   );
 }
 
+function SpecialDealsModal({ productTitle, onClose }: { productTitle: string; onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={onClose} role="dialog" aria-label="Special Deals">
+      <div className="bg-[#f0f0f0] border border-[#BBBBBB] rounded-lg shadow-2xl w-[780px] max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
+        <div className="bg-[#002f5c] text-white px-4 py-2.5 rounded-t-lg flex items-center justify-between shrink-0">
+          <span className="text-sm font-semibold font-sans">Special Deals</span>
+          <button onClick={onClose} className="text-white/70 hover:text-white transition-colors" aria-label="Close">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="p-5 flex flex-col flex-1 min-h-0">
+          <p className="text-sm font-semibold text-[#00263e] font-sans mb-2">Product: {productTitle}</p>
+          <p className="text-sm font-bold text-[#00263e] font-sans text-center mb-3">Adjustments</p>
+
+          <div className="border border-[#BBBBBB] rounded-lg overflow-hidden flex-1 min-h-[250px]">
+            <table className="w-full text-xs">
+              <thead className="bg-[#eaf5f8] sticky top-0">
+                <tr>
+                  <th className="px-3 py-2 text-left font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b]">Deal Name</th>
+                  <th className="px-3 py-2 text-left font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b]">Expense Discount</th>
+                  <th className="px-3 py-2 text-left font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b]">Marketing Allowance</th>
+                  <th className="px-3 py-2 text-left font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b]">Start Date (DD/MM/YYYY)</th>
+                  <th className="px-3 py-2 text-left font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b]">End Date (DD/MM/YYYY)</th>
+                  <th className="px-3 py-2 text-left font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b]">Active</th>
+                </tr>
+              </thead>
+              <tbody className="font-[Mulish]">
+                <tr><td colSpan={6} className="text-center py-8 text-[#979797] italic">No special deals</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div className="flex justify-center gap-3 pt-4 mt-4 border-t border-[#BBBBBB]">
+            <Button>Add</Button>
+            <Button>Save</Button>
+            <Button>Edit</Button>
+            <Button variant="secondary" onClick={onClose}>Cancel</Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ProductSection({ title, prefix, data }: { title: string, prefix: string, data: any }) {
   const [showPricingModal, setShowPricingModal] = useState(false);
+  const [showSpecialDealsModal, setShowSpecialDealsModal] = useState(false);
 
   return (
     <>
@@ -91,13 +137,16 @@ function ProductSection({ title, prefix, data }: { title: string, prefix: string
           
           <div className="flex flex-col gap-2 justify-center border-l border-[#BBBBBB] pl-6">
             <Button variant="secondary" className="justify-start text-xs" onClick={() => setShowPricingModal(true)}><PlusCircle className="w-4 h-4 text-[#178830]" /> Advice Type/Distribution Channel Pricing</Button>
-            <Button variant="secondary" className="justify-start text-xs"><PlusCircle className="w-4 h-4 text-[#006cf4]" /> Special Deals</Button>
+            <Button variant="secondary" className="justify-start text-xs" onClick={() => setShowSpecialDealsModal(true)}><PlusCircle className="w-4 h-4 text-[#006cf4]" /> Special Deals</Button>
           </div>
         </div>
       </Fieldset>
 
       {showPricingModal && (
         <AdviceTypePricingModal productTitle={title} onClose={() => setShowPricingModal(false)} />
+      )}
+      {showSpecialDealsModal && (
+        <SpecialDealsModal productTitle={title} onClose={() => setShowSpecialDealsModal(false)} />
       )}
     </>
   );
