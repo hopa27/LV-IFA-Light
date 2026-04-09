@@ -256,15 +256,16 @@ export default function ContactsTab() {
           </Fieldset>
 
           <Fieldset title="Network Related Detail">
-            <div className="pl-[33%] mb-3">
+            <div className="flex items-center gap-3 mb-2">
+              <span className="w-1/3" />
               <FormCheckbox label="Use terms from principal agent/network" checked={currentContact.useNetworkTerms} />
             </div>
             <FormRadioGroup label="Network" name="network" options={[{label: 'Y', value: 'true'}, {label: 'N', value: 'false'}]} value={String(currentContact.network)} />
             <FormSelect label="Default Advice Type" options={[{label: '', value: ''}, {label: 'Independent', value: 'Independent'}, {label: 'Restricted', value: 'Restricted'}]} value={currentContact.defaultAdviceType || ''} />
             <FormSelect label="Default Remuneration Basis" options={[{label: '', value: ''}, {label: 'Fee', value: 'Fee'}, {label: 'Commission', value: 'Commission'}]} value={currentContact.defaultRemunerationBasis || ''} />
-            <div className="mt-3">
-              <span className="text-xs font-semibold text-[#00263e] font-sans">Default Distribution Channel</span>
-              <div className="space-y-2 mt-2">
+            <div className="flex items-start gap-3 mt-3 mb-2">
+              <span className="w-1/3 text-xs font-semibold text-[#00263e] font-sans text-right pt-1">Default Distribution Channel</span>
+              <div className="flex-1 space-y-2">
                 <FormSelect label="Restricted Advice" options={[{label: '', value: ''}]} labelWidth="w-auto" />
                 <FormSelect label="Simplified Advice" options={[{label: '', value: ''}]} labelWidth="w-auto" />
                 <FormSelect label="Non Advised" options={[{label: '', value: ''}]} labelWidth="w-auto" />
@@ -309,10 +310,17 @@ export default function ContactsTab() {
               </div>
             </Fieldset>
 
-            <div className="flex gap-3 items-center mt-4">
-              <FormInput label="Principal Agent Ref" value={currentContact.principalAgentRef || ''} className="flex-1" />
-              <Button variant="outline" className="px-2 py-1 rounded-lg"><Search className="w-3 h-3" /></Button>
-              <Button variant="outline" className="px-2 py-1 rounded-lg text-xs">Clr</Button>
+            <div className="flex items-center gap-3 mt-4 mb-2">
+              <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans">Principal Agent Ref</label>
+              <div className="flex-1 flex gap-2 items-center">
+                <input
+                  value={currentContact.principalAgentRef || ''}
+                  readOnly
+                  className="flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none"
+                />
+                <Button variant="outline" className="px-2 py-1 rounded-lg shrink-0"><Search className="w-3 h-3" /></Button>
+                <Button variant="outline" className="px-2 py-1 rounded-lg shrink-0 text-xs">Clr</Button>
+              </div>
             </div>
             <FormRadioGroup label="Principal" name="principalNY" options={[{label: 'N', value: 'false'}, {label: 'Y', value: 'true'}]} value={String(currentContact.isPrincipal)} />
           </Fieldset>
