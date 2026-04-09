@@ -20,10 +20,12 @@ function AdviceTypePricingModal({ productTitle, onClose }: { productTitle: strin
         </div>
 
         <div className="p-5 overflow-auto flex-1">
-          <p className="text-sm font-semibold text-[#00263e] font-sans mb-4">Product: {productTitle}</p>
+          <div className="sticky top-0 z-10 bg-[#f0f0f0] pb-2">
+            <p className="text-sm font-semibold text-[#00263e] font-sans mb-2">Product: {productTitle}</p>
+          </div>
 
           <table className="w-full text-xs border-collapse">
-            <thead>
+            <thead className="sticky top-[32px] z-10">
               <tr>
                 <th className="px-2 py-2 text-left font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b] bg-[#eaf5f8]" colSpan={2}></th>
                 {COLUMNS.map(col => (
