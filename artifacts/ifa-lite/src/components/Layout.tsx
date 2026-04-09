@@ -355,7 +355,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       )}
       </div>
 
-      <main className="bg-[#f0f0f0] px-[142px] pb-4" style={{ '--sticky-header-h': `${stickyHeight}px` } as React.CSSProperties}>
+      <main className="bg-[#f0f0f0] px-[142px] pb-4 flex-1" style={{ '--sticky-header-h': `${stickyHeight}px` } as React.CSSProperties}>
         {children}
       </main>
       
