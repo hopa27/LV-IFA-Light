@@ -11,7 +11,7 @@ const COLUMNS = ['Expense Discount', 'Marketing Allowance', 'Adviser Charge Amou
 function AdviceTypePricingModal({ productTitle, onClose }: { productTitle: string; onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={onClose} role="dialog" aria-label="Advice Type/Distribution Channel Pricing">
-      <div className="bg-[#f0f0f0] border border-[#BBBBBB] rounded-lg shadow-2xl w-[780px] max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
+      <div className="bg-[#f0f0f0] border border-[#BBBBBB] rounded-lg shadow-2xl w-[95vw] max-w-[1100px] max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
         <div className="bg-[#002f5c] text-white px-4 py-2.5 rounded-t-lg flex items-center justify-between shrink-0">
           <span className="text-sm font-semibold font-sans">Advice Type/Distribution Channel Pricing</span>
           <button onClick={onClose} className="text-white/70 hover:text-white transition-colors" aria-label="Close">
@@ -23,42 +23,38 @@ function AdviceTypePricingModal({ productTitle, onClose }: { productTitle: strin
           <p className="text-sm font-semibold text-[#00263e] font-sans">Product: {productTitle}</p>
         </div>
 
-        <div className="px-5 shrink-0 bg-[#f0f0f0]">
-          <table className="w-full text-xs border-collapse">
-            <thead>
+        <div className="overflow-auto flex-1 min-h-0 px-5">
+          <table className="text-xs border-collapse min-w-[900px] w-full">
+            <thead className="sticky top-0 z-10">
               <tr>
-                <th className="px-2 py-2 text-left font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b] bg-[#eaf5f8]" colSpan={2}></th>
+                <th className="px-2 py-2 text-left font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b] bg-[#eaf5f8] sticky left-0 z-20 min-w-[100px]" colSpan={1}></th>
+                <th className="px-2 py-2 text-left font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b] bg-[#eaf5f8] sticky left-[100px] z-20 min-w-[120px]"></th>
                 {COLUMNS.map(col => (
                   <th key={col} className="px-2 py-2 text-center font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b] bg-[#eaf5f8] whitespace-nowrap">{col}</th>
                 ))}
               </tr>
             </thead>
-          </table>
-        </div>
-
-        <div className="px-5 overflow-auto flex-1 min-h-0">
-          <table className="w-full text-xs border-collapse">
             <tbody>
               {ADVICE_TYPES.map((adviceType, atIdx) => (
                 <React.Fragment key={adviceType}>
                   <tr className={atIdx > 0 ? 'border-t-2 border-[#BBBBBB]' : ''}>
-                    <td className="px-2 py-2 font-bold text-[#00263e] font-sans whitespace-nowrap align-top sticky left-0 bg-[#f0f0f0] z-[5]">Advice Type</td>
-                    <td className="px-2 py-2 font-semibold text-[#3d3d3d] font-sans whitespace-nowrap sticky left-[100px] bg-[#f0f0f0] z-[5]">{adviceType}</td>
+                    <td className="px-2 py-2 font-bold text-[#00263e] font-sans whitespace-nowrap align-top sticky left-0 bg-[#f0f0f0] z-[5] min-w-[100px]">Advice Type</td>
+                    <td className="px-2 py-2 font-semibold text-[#3d3d3d] font-sans whitespace-nowrap sticky left-[100px] bg-[#f0f0f0] z-[5] min-w-[120px]">{adviceType}</td>
                     {COLUMNS.map(col => (
                       <td key={col} className="px-1 py-1">
-                        <input className="w-full border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none bg-white" />
+                        <input className="w-full min-w-[100px] border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none bg-white" />
                       </td>
                     ))}
                   </tr>
                   {DISTRIBUTION_CHANNELS.map((channel, chIdx) => (
                     <tr key={`${adviceType}-${channel}`}>
                       {chIdx === 0 ? (
-                        <td className="px-2 py-2 font-bold text-[#00263e] font-sans whitespace-nowrap align-top sticky left-0 bg-[#f0f0f0] z-[5]" rowSpan={3}>Distribution<br />Channel</td>
+                        <td className="px-2 py-2 font-bold text-[#00263e] font-sans whitespace-nowrap align-top sticky left-0 bg-[#f0f0f0] z-[5] min-w-[100px]" rowSpan={3}>Distribution<br />Channel</td>
                       ) : null}
-                      <td className="px-2 py-2 font-semibold text-[#3d3d3d] font-sans whitespace-nowrap sticky left-[100px] bg-[#f0f0f0] z-[5]">{channel}</td>
+                      <td className="px-2 py-2 font-semibold text-[#3d3d3d] font-sans whitespace-nowrap sticky left-[100px] bg-[#f0f0f0] z-[5] min-w-[120px]">{channel}</td>
                       {COLUMNS.map(col => (
                         <td key={col} className="px-1 py-1">
-                          <input className="w-full border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none bg-white" />
+                          <input className="w-full min-w-[100px] border border-[#BBBBBB] rounded px-2 py-1 text-sm font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none bg-white" />
                         </td>
                       ))}
                     </tr>
