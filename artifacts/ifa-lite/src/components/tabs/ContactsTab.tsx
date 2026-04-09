@@ -262,19 +262,18 @@ export default function ContactsTab() {
             <div className="flex gap-4 items-start">
               <div className="flex-1">
                 <FormSelect label="Default Advice Type" options={[{label: '', value: ''}, {label: 'Independent', value: 'Independent'}, {label: 'Restricted', value: 'Restricted'}]} value={currentContact.defaultAdviceType || ''} />
-                <FormSelect label="Remuneration Basis" options={[{label: '', value: ''}, {label: 'Fee', value: 'Fee'}, {label: 'Commission', value: 'Commission'}]} value={currentContact.defaultRemunerationBasis || ''} />
-                <FormInput label="Distribution Channel" value={currentContact.defaultDistributionChannel || ''} />
+                <FormSelect label="Default Remuneration Basis" options={[{label: '', value: ''}, {label: 'Fee', value: 'Fee'}, {label: 'Commission', value: 'Commission'}]} value={currentContact.defaultRemunerationBasis || ''} />
               </div>
               <div className="shrink-0">
                 <FormRadioGroup label="Network" name="network" options={[{label: 'Y', value: 'true'}, {label: 'N', value: 'false'}]} value={String(currentContact.network)} />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4 mt-2">
-              <div />
-              <div className="space-y-2">
-                <FormSelect label="Restricted" options={[{label: '', value: ''}]} labelWidth="w-20" />
-                <FormSelect label="Simplified" options={[{label: '', value: ''}]} labelWidth="w-20" />
-                <FormSelect label="Non Advised" options={[{label: '', value: ''}]} labelWidth="w-20" />
+            <div className="flex gap-4 items-start mt-3">
+              <span className="text-xs font-semibold text-[#3d3d3d] font-sans whitespace-nowrap pt-1">Default Distribution Channel</span>
+              <div className="flex-1 space-y-2">
+                <FormSelect label="Restricted Advice" options={[{label: '', value: ''}]} labelWidth="w-auto" />
+                <FormSelect label="Simplified Advice" options={[{label: '', value: ''}]} labelWidth="w-auto" />
+                <FormSelect label="Non Advised" options={[{label: '', value: ''}]} labelWidth="w-auto" />
               </div>
             </div>
 
