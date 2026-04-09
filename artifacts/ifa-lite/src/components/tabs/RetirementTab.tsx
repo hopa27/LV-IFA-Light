@@ -63,7 +63,7 @@ function AdviceTypePricingModal({ productTitle, onClose }: { productTitle: strin
             </tbody>
           </table>
 
-          <div className="sticky bottom-0 z-10 bg-[#f0f0f0] pt-4 mt-4 border-t border-[#BBBBBB]">
+          <div className="sticky bottom-0 left-0 right-0 z-10 bg-[#f0f0f0] pt-4 mt-4 border-t border-[#BBBBBB]">
             <div className="flex justify-center gap-3 pb-1">
               <Button>Save</Button>
               <Button variant="secondary" onClick={onClose}>Cancel</Button>
