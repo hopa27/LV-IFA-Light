@@ -19,6 +19,7 @@ function InsertIfaModal({ onClose, onCreate }: { onClose: () => void; onCreate: 
     brokerName: '',
     addressLine1: '',
     addressLine2: '',
+    addressLine3: '',
     town: '',
     county: '',
     postcode: '',
@@ -62,9 +63,10 @@ function InsertIfaModal({ onClose, onCreate }: { onClose: () => void; onCreate: 
             />
           </div>
 
-          <div className="space-y-1.5">
-            <input value={form.addressLine1} onChange={set('addressLine1')} placeholder="Address Line 1" className="w-full border border-[#BBBBBB] rounded px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2 placeholder:text-[#BBBBBB]" />
-            <input value={form.addressLine2} onChange={set('addressLine2')} placeholder="Address Line 2" className="w-full border border-[#BBBBBB] rounded px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2 placeholder:text-[#BBBBBB]" />
+          <div className="flex flex-col">
+            <input value={form.addressLine1} onChange={set('addressLine1')} placeholder="Address Line 1" className="w-full border border-[#BBBBBB] rounded-t-lg px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2 placeholder:text-[#BBBBBB] border-b-0" />
+            <input value={form.addressLine2} onChange={set('addressLine2')} placeholder="Address Line 2" className="w-full border border-[#BBBBBB] px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2 placeholder:text-[#BBBBBB] border-b-0" />
+            <input value={form.addressLine3 || ''} onChange={set('addressLine3')} placeholder="Address Line 3" className="w-full border border-[#BBBBBB] rounded-b-lg px-3 py-1.5 text-sm font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2 placeholder:text-[#BBBBBB]" />
           </div>
 
           <div className="flex gap-3">
