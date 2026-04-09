@@ -12,27 +12,32 @@ function AdviceTypePricingModal({ productTitle, onClose }: { productTitle: strin
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={onClose} role="dialog" aria-label="Advice Type/Distribution Channel Pricing">
       <div className="bg-[#f0f0f0] border border-[#BBBBBB] rounded-lg shadow-2xl w-[780px] max-h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
-        <div className="bg-[#002f5c] text-white px-4 py-2.5 rounded-t-lg flex items-center justify-between sticky top-0 z-10 shrink-0">
+        <div className="bg-[#002f5c] text-white px-4 py-2.5 rounded-t-lg flex items-center justify-between shrink-0">
           <span className="text-sm font-semibold font-sans">Advice Type/Distribution Channel Pricing</span>
           <button onClick={onClose} className="text-white/70 hover:text-white transition-colors" aria-label="Close">
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="p-5 overflow-auto flex-1">
-          <div className="sticky top-0 z-10 bg-[#f0f0f0] pb-2">
-            <p className="text-sm font-semibold text-[#00263e] font-sans mb-2">Product: {productTitle}</p>
-          </div>
+        <div className="px-5 pt-4 pb-2 shrink-0 bg-[#f0f0f0]">
+          <p className="text-sm font-semibold text-[#00263e] font-sans">Product: {productTitle}</p>
+        </div>
 
+        <div className="px-5 shrink-0 bg-[#f0f0f0]">
           <table className="w-full text-xs border-collapse">
-            <thead className="sticky top-[32px] z-10">
+            <thead>
               <tr>
-                <th className="px-2 py-2 text-left font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b] bg-[#eaf5f8] sticky left-0 z-20" colSpan={2}></th>
+                <th className="px-2 py-2 text-left font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b] bg-[#eaf5f8]" colSpan={2}></th>
                 {COLUMNS.map(col => (
                   <th key={col} className="px-2 py-2 text-center font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b] bg-[#eaf5f8] whitespace-nowrap">{col}</th>
                 ))}
               </tr>
             </thead>
+          </table>
+        </div>
+
+        <div className="px-5 overflow-auto flex-1 min-h-0">
+          <table className="w-full text-xs border-collapse">
             <tbody>
               {ADVICE_TYPES.map((adviceType, atIdx) => (
                 <React.Fragment key={adviceType}>
@@ -62,12 +67,12 @@ function AdviceTypePricingModal({ productTitle, onClose }: { productTitle: strin
               ))}
             </tbody>
           </table>
+        </div>
 
-          <div className="sticky bottom-0 left-0 right-0 z-10 bg-[#f0f0f0] pt-4 mt-4 border-t border-[#BBBBBB]">
-            <div className="flex justify-center gap-3 pb-1">
-              <Button>Save</Button>
-              <Button variant="secondary" onClick={onClose}>Cancel</Button>
-            </div>
+        <div className="px-5 pb-4 pt-3 shrink-0 bg-[#f0f0f0] border-t border-[#BBBBBB]">
+          <div className="flex justify-center gap-3">
+            <Button>Save</Button>
+            <Button variant="secondary" onClick={onClose}>Cancel</Button>
           </div>
         </div>
       </div>
