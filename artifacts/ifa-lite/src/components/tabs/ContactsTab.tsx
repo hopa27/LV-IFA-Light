@@ -205,7 +205,7 @@ export default function ContactsTab() {
             </div>
 
             <div className="flex items-start gap-3 mt-2 mb-2">
-              <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right font-sans pt-2 shrink-0">Address</label>
+              <label className="w-1/6 text-xs font-semibold text-[#3d3d3d] text-right font-sans pt-2 shrink-0">Address</label>
               <div className="flex-1">
                 <input value={currentContact.addressLine1 || ''} className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-t-lg border-b-0 bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
                 <input value={currentContact.addressLine2 || ''} className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] border-b-0 bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" readOnly />
@@ -220,7 +220,7 @@ export default function ContactsTab() {
               <FormInput label="Home Telephone" value={currentContact.homeTelephone || ''} readOnly />
               <FormInput label="Mobile Telephone" value={currentContact.mobileTelephone || ''} readOnly />
             </div>
-            <FormInput label="Email Address" value={currentContact.emailAddress || ''} readOnly />
+            <FormInput label="Email Address" value={currentContact.emailAddress || ''} readOnly labelWidth="w-1/6" />
           </div>
         </div>
 
