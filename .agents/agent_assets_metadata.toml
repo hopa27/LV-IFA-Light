@@ -24,3 +24,9 @@ id = "RjSs1iomUNn23J4rrxuNF"
 uri = "file://IFA-Lite-Screen-Flow.md"
 type = "text"
 title = "IFA Lite — Screen Flow (ASCII Layout)"
+
+[[outputs]]
+id = "CBXh1Rx1KAZNQy4LLpUXw"
+uri = "file://IFA-Lite-Screen-Digest.md"
+type = "text"
+title = "IFA Lite — Screen Digest (Full Application)"
