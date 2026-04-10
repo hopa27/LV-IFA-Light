@@ -7,8 +7,29 @@ import {
   UpdateRetirementIncomeParams,
   UpdateRetirementIncomeBody,
 } from "@workspace/api-zod";
-
 const router: IRouter = Router();
+
+function toRetirementIncomeDbFields(body: ReturnType<typeof UpdateRetirementIncomeBody.parse>) {
+  const { id: _id, brokerId: _brokerId, ...rest } = body;
+  return {
+    ...rest,
+    npaAdviserCharges: rest.npaAdviserCharges?.toString(),
+    npaAmount: rest.npaAmount?.toString(),
+    npaCommission: rest.npaCommission?.toString(),
+    npaExpenseDiscount: rest.npaExpenseDiscount?.toString(),
+    npaMarketingAllowance: rest.npaMarketingAllowance?.toString(),
+    pipaAdviserCharges: rest.pipaAdviserCharges?.toString(),
+    pipaAmount: rest.pipaAmount?.toString(),
+    pipaCommission: rest.pipaCommission?.toString(),
+    pipaExpenseDiscount: rest.pipaExpenseDiscount?.toString(),
+    pipaMarketingAllowance: rest.pipaMarketingAllowance?.toString(),
+    prpAdviserCharges: rest.prpAdviserCharges?.toString(),
+    prpAmount: rest.prpAmount?.toString(),
+    prpCommission: rest.prpCommission?.toString(),
+    prpExpenseDiscount: rest.prpExpenseDiscount?.toString(),
+    prpMarketingAllowance: rest.prpMarketingAllowance?.toString(),
+  };
+}
 
 router.get("/brokers/:brokerId/retirement-income", async (req, res) => {
   try {
@@ -42,17 +63,18 @@ router.put("/brokers/:brokerId/retirement-income", async (req, res) => {
       .from(retirementIncomeTable)
       .where(eq(retirementIncomeTable.brokerId, brokerId));
 
+    const dbFields = toRetirementIncomeDbFields(body);
     if (existing) {
       const [updated] = await db
         .update(retirementIncomeTable)
-        .set(body)
+        .set(dbFields)
         .where(eq(retirementIncomeTable.brokerId, brokerId))
         .returning();
       res.json(updated);
     } else {
       const [created] = await db
         .insert(retirementIncomeTable)
-        .values({ ...body, brokerId })
+        .values({ ...dbFields, brokerId })
         .returning();
       res.json(created);
     }

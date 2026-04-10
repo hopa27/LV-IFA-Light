@@ -7,8 +7,26 @@ import {
   UpdateEquityReleaseParams,
   UpdateEquityReleaseBody,
 } from "@workspace/api-zod";
-
 const router: IRouter = Router();
+
+function toEquityReleaseDbFields(body: ReturnType<typeof UpdateEquityReleaseBody.parse>) {
+  const { id: _id, brokerId: _brokerId, ...rest } = body;
+  return {
+    ...rest,
+    flexibleBrokerRate: rest.flexibleBrokerRate?.toString(),
+    flexibleMinimumAmount: rest.flexibleMinimumAmount?.toString(),
+    flexibleNetworkRate: rest.flexibleNetworkRate?.toString(),
+    lumpSumBrokerRate: rest.lumpSumBrokerRate?.toString(),
+    lumpSumMinimumAmount: rest.lumpSumMinimumAmount?.toString(),
+    lumpSumNetworkRate: rest.lumpSumNetworkRate?.toString(),
+    packagingFee: rest.packagingFee?.toString(),
+    applicationFee: rest.applicationFee?.toString(),
+    ltvPercent: rest.ltvPercent?.toString(),
+    lumpSumPackagingFee: rest.lumpSumPackagingFee?.toString(),
+    lumpSumApplicationFee: rest.lumpSumApplicationFee?.toString(),
+    lumpSumLtvPercent: rest.lumpSumLtvPercent?.toString(),
+  };
+}
 
 router.get("/brokers/:brokerId/equity-release", async (req, res) => {
   try {
@@ -42,17 +60,18 @@ router.put("/brokers/:brokerId/equity-release", async (req, res) => {
       .from(equityReleaseTable)
       .where(eq(equityReleaseTable.brokerId, brokerId));
 
+    const dbFields = toEquityReleaseDbFields(body);
     if (existing) {
       const [updated] = await db
         .update(equityReleaseTable)
-        .set(body)
+        .set(dbFields)
         .where(eq(equityReleaseTable.brokerId, brokerId))
         .returning();
       res.json(updated);
     } else {
       const [created] = await db
         .insert(equityReleaseTable)
-        .values({ ...body, brokerId })
+        .values({ ...dbFields, brokerId })
         .returning();
       res.json(created);
     }
