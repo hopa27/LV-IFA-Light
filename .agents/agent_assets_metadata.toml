@@ -18,3 +18,9 @@ id = "XZZVCFhcUzr3ksVKttQS_"
 uri = "file://ifa-lite-screen-digest.md"
 type = "text"
 title = "IFA Lite — Screen Digest V1 (Crew360-style YAML)"
+
+[[outputs]]
+id = "RjSs1iomUNn23J4rrxuNF"
+uri = "file://IFA-Lite-Screen-Flow.md"
+type = "text"
+title = "IFA Lite — Screen Flow (ASCII Layout)"
