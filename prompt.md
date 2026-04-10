@@ -371,3 +371,5 @@ For brokers 1, 2, 4, 6, 7, 10, 11, 12, 13. Fields: mortgage permissions, ERLM TO
 5. **Cross-tab Navigation**: Clicking a contact ref in the IFA Detail sidebar switches to the Contacts tab.
 6. **Layout Version Toggle**: Footer combobox switches between V1 (simpler form) and V2 (card-based with section headers) for the IFA Detail tab.
 7. **All dropdowns are Combobox**: No native `<select>` elements anywhere — every dropdown uses the custom searchable Combobox built with cmdk.
+
+
