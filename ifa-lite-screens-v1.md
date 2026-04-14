@@ -36,53 +36,59 @@
 
 ```
 +--------------------------------------------------------------------------------------------+
-| |Broker: A G S-001 | [Appointment v] | [|<] [<] 1 of 13 [>] [>|] | [New IFA] [Locate IFA] | [Save Changes] |
+| |Broker: AGEPA-003 | [Appointment v] | [|<] [<] 1 of 6 [>] [>|] | (New) (Locate) (Search) (Save) |
 +--------------------------------------------------------------------------------------------+
 |                                                                                            |
-|  GENERAL INFORMATION                                                                       |
-|  ______________________________________________________________________________________    |
-|                                                                                            |
-|  LEFT COLUMN                              |  RIGHT COLUMN                                  |
-|  ─────────────────────────────────────────|──────────────────────────────────────────────── |
-|       Broker Name  [________________]     |    Trading Name  [________________]             |
-|    Address Line 1  [________________]     |   FCA Reference  [________________]             |
-|    Address Line 2  [________________]     |   Annuity TOBA   (o) Yes  (o) No               |
-|             Town   [________________]     |         Status   [Authorised      v]            |
-|           County   [________________]     |      Sent Date   [________________]             |
-|         Postcode   [________________]     |          Grade   [National Accts  v]            |
-|        Telephone   [________________]     | Next Diary Date  [________________]             |
-|              Fax   [________________]     |  IFA Member No   [________________]             |
-|            Email   [________________]     | Broker Manager   [Keith Harvey    v]            |
-|         Initials   [________________]     |    Key Account   [-- Select --    v]            |
-|     Date Checked   [________________]     |   Partner Code   [________________]             |
-|                                           |         Region   [-- Select --    v]            |
-|  ─────────────────────────────────────────|────────────────────────────────────────────     |
-|  Created By: SYSTEM on 01/01/2020         |  Amended By: — on —                            |
-|  ─────────────────────────────────────────|────────────────────────────────────────────     |
-|                                                                                            |
-|                                           |  +================================+            |
-|                                           |  | ASSOCIATED CONTACTS            |            |
-|                                           |  +--------------------------------+            |
-|                                           |  | Ref  | Name          | Position|            |
-|                                           |  |------|---------------|---------|            |
-|                                           |  | 001  | Mr RG Green   | Director|            |
-|                                           |  | 002  | Mrs LG Green  | Compl.. |            |
-|                                           |  +================================+            |
+|  LEFT COLUMN                              |  RIGHT COLUMN         | ASSOCIATED CONTACTS    |
+|  ─────────────────────────────────────────|───────────────────────|────────────────────────|
+|                       ┌────────────────┐  |                       | +====================+ |
+|  Broker Name          │ Age Partner... │  |  FCA Reference [____] | | Ref | Name   | Pos  | |
+|                       │ (line 2)       │  |  Annuity TOBA  (o)(o) | |-----|--------|------| |
+|  Address              │ 2200 Century.. │  |  Status  [Authorised] | | 001 | Mr RG  | Dir  | |
+|                       │ Thorpe Park    │  |  Sent Date     [____] | | 002 | Mrs LG | Com  | |
+|                       └────────────────┘  |                       | +====================+ |
+|          Town  [________________]         |          Grade  [___v] |                        |
+|        County  [________________]         | Next Diary Date [____] |                        |
+|      Postcode  [________________]         | IFA Member No   [____] |                        |
+|     Telephone  [________________]         | Broker Manager  [___v] |                        |
+|    Fax Number  [________________]         |    Key Account  [___v] |                        |
+|  Email Address [________________]         |   Partner Code  [____] |                        |
+|      Initials  [________________]         |         Region  [___v] |                        |
+|  Date Checked  [________________]         |                        |                        |
+|  ─────────────────────────────────────────|────────────────────────|                        |
+|     Created By [LORDXT ]                  |  Created Date [14/11/..] |                      |
+|     Amended By [_______]                  |  Amended Date [________] |                      |
+|  ─────────────────────────────────────────|──────────────────────────|                      |
 +--------------------------------------------------------------------------------------------+
 ```
 
+**Layout Notes:**
+- Three-panel layout: left form fields, right form fields, Associated Contacts sidebar (350px fixed width)
+- Broker Name and Address are **connected fields** — a single bordered block with 5 stacked inputs:
+  - Line 1: Broker Name (primary)
+  - Line 2: Broker Name overflow (for long names)
+  - Line 3: Address Line 1 (with "Address" label appearing to the left)
+  - Line 4: Address Line 2
+  - Line 5: Address Line 3
+  - Top has rounded-t-lg corners, bottom has rounded-b-lg corners, internal borders are shared (no border-bottom except on last)
+
 **Toolbar Behavior (IFA Detail tab only):**
-- Broker reference badge with blue accent bar
+- Broker reference badge with blue accent bar on left
 - Combobox dropdown: Appointment / Broker Pack Follow Up / Duplicate / Hold
-- Navigation: First / Prev / "N of M" / Next / Last (circular pill buttons)
-- [New IFA] opens Insert IFA modal (see 1b)
-- [Locate IFA] opens Locate IFA modal (see 1c)
-- [Save Changes] enabled only when form has unsaved edits; saves in-memory + creates audit note
+- Navigation: First / Prev / "N of M" / Next / Last (circular pill buttons, 44x44px, rounded-[30px])
+- 4 circular action buttons on right:
+  - (New IFA) — opens Insert IFA modal (see 1b)
+  - (Locate IFA) — scan search modal (see 1c)
+  - (Search) — Lookup IFA modal with filters & Amendable Details (see 1d)
+  - (Save) — floppy disk icon, enabled only when form has unsaved edits
 
 **Form Behavior:**
-- Two-column grid layout
-- All fields are editable text inputs or dropdowns
-- On save, changed fields generate system notes visible in the Notes tab
+- Two-column grid layout (`grid-cols-2 gap-x-8 gap-y-1`), with Associated Contacts panel to the right
+- All fields are editable text inputs or combobox dropdowns
+- Dropdowns: Status, Grade, Broker Manager, Key Account (A–Z), Region (with code prefix e.g. "BIR - Birmingham")
+- Annuity TOBA is a Yes/No radio group
+- Created By / Created Date / Amended By / Amended Date are disabled (read-only, greyed out) below a horizontal rule
+- On save, each changed field generates a SYS note with old/new values visible in the Notes tab
 - "No Broker Selected" placeholder shown if no broker is active
 
 ---
