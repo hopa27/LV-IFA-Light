@@ -1,6 +1,6 @@
 # IFA Lite — Screen Digest
 
-> **Version:** 1.0.0
+> **Version:** 1.1.0
 > **Type:** Internal Broker/IFA Management Tool
 > **Description:** Fully static (no backend/database) React/Vite web application for internal users to manage brokers/IFAs. Replicates a legacy Citrix-based Windows desktop EXE. All data is embedded in-memory via React context. Features 6 tabs covering IFA details, contacts, lookups, retirement income, equity release, and audit notes.
 
@@ -98,7 +98,7 @@
 |---|---|---|---|
 | **Brokers** | `Broker[]` | 6 | `id`, `ifaRef`, `brokerName`, `postcode`, `status`, `telephone`, `fcaReference`, `grade`, `brokerManager`, `region`, `partnerCode`, + 60 more legacy columns |
 | **Contacts** | `Contact[]` | 0 | `id`, `brokerId`, `reference`, `title`, `forename`, `surname`, `addressLine1-6`, `homeTelephone`, `mobileTelephone`, `emailAddress`, `bankSortCode`, `networkIfa`, `principalAgentRef`, etc. |
-| **Notes** | `Note[]` | 0 | `id`, `brokerId`, `noteType`, `description`, `oldValue`, `newValue`, `updatedBy`, `updatedDate` |
+| **Notes** | `Note[]` | 30 | `id`, `brokerId`, `noteType`, `description`, `oldValue`, `newValue`, `updatedBy`, `updatedDate`, `label` |
 | **Retirement Income** | `RetirementIncome[]` | 0 | `id`, `brokerId`, prefixed fields: `{npa\|pipa\|prp}Amount`, `...Commission`, `...ExpenseDiscount`, `...MarketingAllowance` |
 | **Equity Release** | `EquityRelease[]` | 0 | `id`, `brokerId`, `mortgagePermissions`, `erlmToba`, `flexibleBrokerRate`, `lumpSumBrokerRate`, `packagingFee`, `ltvPercent`, etc. |
 
@@ -162,7 +162,7 @@ Common: `min-w-[140px]`, `px-6 py-3`, `15px semibold font-sans`, `rounded-t-lg`.
 | Record Navigator | `\|<<` `<` **1 of 6** `>` `>>\|` — circular 44x44 buttons; counter: 14px bold Mulish `#4a4a49` |
 | +New Button | Icon: FilePlus2, tooltip: "New IFA" → opens **Insert IFA Modal** |
 | Locate Button | Icon: ScanSearch, tooltip: "Locate IFA" → opens **Locate IFA Modal** |
-| Search Button | Icon: Search, tooltip: "Lookup IFA" → opens **Locate IFA Modal** |
+| Search Button | Icon: Search, tooltip: "Lookup IFA" → opens **Lookup IFA Modal** |
 | Save Button | Icon: Save (or RefreshCw spinning), `44x44`, bg `#006cf4` / disabled `#979797`; enabled when `isDirty && !isSaving` |
 
 ### 4.4 Contacts Toolbar (visible on Contacts tab only)
@@ -240,10 +240,11 @@ Common: `min-w-[140px]`, `px-6 py-3`, `15px semibold font-sans`, `rounded-t-lg`.
 
 | Left Column | Right Column |
 |---|---|
-| Broker Name | FCA Reference |
-| Address (3-line connected block) | Annuity TOBA (radio: Yes / No) |
-| *(address spans 3 rows)* | Status (combobox: Authorised, Cancelled, Revoked, Duplicate Record) |
+| Broker Name + Address (5-line connected block: Name, Name 2 overflow, Address 1, Address 2, Address 3) | FCA Reference |
+| *(connected block spans 5 rows)* | Annuity TOBA (radio: Yes / No) |
+| — | Status (combobox: Authorised, Cancelled, Revoked, Duplicate Record) |
 | — | Sent Date |
+| — | — |
 | Town | Grade (combobox: 8 options) |
 | County | Next Diary Date |
 | Postcode | IFA Member Number |
@@ -260,7 +261,7 @@ Common: `min-w-[140px]`, `px-6 py-3`, `15px semibold font-sans`, `rounded-t-lg`.
 #### Right Panel — Associated Contacts (350px)
 
 - Header: `bg-#002f5c`, "ASSOCIATED CONTACTS" (white, xs, bold, uppercase)
-- Table columns: Ref, Name, Position
+- Table columns: Ref, Title, Initials, Surname, Position
 - Header: `bg-#eaf5f8`, border `2px solid #04589b`
 - Row hover: `bg-#05579B text-white`
 - Empty: "No contacts found"
@@ -307,7 +308,7 @@ Common: `min-w-[140px]`, `px-6 py-3`, `15px semibold font-sans`, `rounded-t-lg`.
 
 | Field | Type |
 |---|---|
-| Paid By BACS | Radio: Yes / No |
+| Paid By BACS | Nested fieldset card (centered), Radio: Yes / No |
 | Bank Sort Code | Input |
 | Bank Account Number | Input |
 | Bank Account Name | Input |
@@ -318,9 +319,9 @@ Common: `min-w-[140px]`, `px-6 py-3`, `15px semibold font-sans`, `rounded-t-lg`.
 | Field | Type |
 |---|---|
 | *(spacer)* Use terms from principal agent/network | Checkbox (indented with `w-1/3` spacer) |
-| Network | Radio: Y / N |
-| Default Advice Type | Combobox: Independent, Restricted |
-| Default Remuneration Basis | Combobox: Fee, Commission |
+| Network | FormRadioGroup: Y / N (own row above Default Advice Type) |
+| Default Advice Type | FormSelect: Independent, Restricted |
+| Default Remuneration Basis | FormSelect: Fee, Commission |
 | **Default Distribution Channel** *(heading, navy `#00263e`)* | — |
 | &emsp; Restricted Advice | Combobox |
 | &emsp; Simplified Advice | Combobox |
@@ -483,7 +484,7 @@ Each sub-fieldset contains:
 **No Notes State:** "No notes found for this record." (centered, bordered, rounded)
 
 **Layout:**
-- Header: `+ Add Note` button (primary, right-aligned) — placeholder, not wired
+- No header/toolbar — notes list renders directly
 - Notes list: vertical stack of note cards
 
 **Note Card Layout:**
@@ -491,7 +492,7 @@ Each sub-fieldset contains:
 | Left Stripe (w-10) | Body (flex-1) |
 |---|---|
 | `bg-#eaf5f8`, border-right `#BBBBBB` | `px-4 py-3`, min-h `80px` |
-| Note type letters stacked vertically (e.g. S/Y/S) | **Description** (sm, semibold, `#00263e`) |
+| Note type letters stacked vertically (e.g. S/Y/S) | **Label** (bold, inline, e.g. "NPA :") if `note.label` exists, followed by **Description** (sm, semibold, `#00263e`) |
 | `11px bold #00263e font-sans` | OLD VALUE : `{oldValue}` / NEW VALUE : `{newValue}` (shown when `oldValue` exists) |
 
 **Empty Placeholders:** `max(0, 6 - notes.length)` greyed-out slots (`bg-#d8d8d8`, `min-h-60px`)
@@ -534,7 +535,36 @@ Each sub-fieldset contains:
 
 ---
 
-### 6.3 Add / Search Clubs
+### 6.3 Lookup IFA
+
+| Property | Value |
+|---|---|
+| Trigger | IFA Detail toolbar → [Search] button |
+| Width | `95vw` / `max-w-1100px`, max-h `90vh` |
+| Title Bar | `bg-#002f5c`, "IFA Lookup" |
+
+**Search Filters (horizontal row):**
+- IFA Ref. (text, flex-1)
+- Postcode (text, flex-1)
+- Broker Name (text, flex-1)
+
+**Status Checkboxes:** Authorised (checked by default), Cancelled, Duplicate Record, Revoked
+
+**Action Buttons (vertical, right-aligned):**
+- **OK** (primary, disabled when nothing selected) — selects broker and closes
+- **Cancel** (secondary) — closes modal
+- **New** (secondary) — closes Lookup and opens **Insert IFA Modal**
+
+**Results Table:** max-h `280px`, scrollable. Columns: IFA_REF, POST_CODE, BROKER_NAME. Row click selects; double-click confirms & closes. Selected: `bg-#05579B text-white`. Alternating row tint.
+
+**Amendable Details (footer fieldset, blue legend):** 2-column grid of read-only fields populated from selected row:
+- Address (3 lines), SIB No, Authorised By, Authorised On, IFA Portfolio (checkbox), Post Code
+
+**Footer Status:** `"{count} record(s) found"` (10px, `#979797`, Mulish).
+
+---
+
+### 6.4 Add / Search Clubs
 
 | Property | Value |
 |---|---|
@@ -553,7 +583,7 @@ Each sub-fieldset contains:
 
 ---
 
-### 6.4 IFA Network Lookup
+### 6.5 IFA Network Lookup
 
 | Property | Value |
 |---|---|
@@ -575,7 +605,7 @@ Each sub-fieldset contains:
 
 ---
 
-### 6.5 Advice Type/Distribution Channel Pricing
+### 6.6 Advice Type/Distribution Channel Pricing
 
 | Property | Value |
 |---|---|
@@ -609,7 +639,7 @@ Separator: `border-t-2 #BBBBBB` between advice type groups.
 
 ---
 
-### 6.6 Special Deals
+### 6.7 Special Deals
 
 | Property | Value |
 |---|---|
@@ -662,8 +692,8 @@ IFA Detail toolbar: click [+New]
 ### 7.4 Locate Existing IFA
 
 ```
-IFA Detail toolbar: click [Locate] or [Search]
-  → LocateIfaModal opens
+IFA Detail toolbar: click [Locate]
+  → LocateIfaModal opens (simple text search)
     → User types reference, clicks [Find] or presses Enter
       → Results table shows matching brokers
         → User clicks a row
@@ -671,7 +701,20 @@ IFA Detail toolbar: click [Locate] or [Search]
             → IFA Detail loads with selected broker
 ```
 
-### 7.5 Save Changes (with Audit Trail)
+### 7.5 Lookup IFA (Advanced)
+
+```
+IFA Detail toolbar: click [Search]
+  → LookupIfaModal opens (full Citrix-style with filters + Amendable Details)
+    → User filters by IFA Ref / Postcode / Broker Name + status checkboxes
+      → Results table updates in real-time
+        → Click selects row (populates Amendable Details); double-click confirms
+          → setActiveBrokerId(broker.id), modal closes
+            → IFA Detail loads with selected broker
+  → [New] button → closes Lookup, opens InsertIfaModal
+```
+
+### 7.6 Save Changes (with Audit Trail)
 
 ```
 IFA Detail toolbar: click [Save] (enabled when isDirty)
@@ -684,7 +727,7 @@ IFA Detail toolbar: click [Save] (enabled when isDirty)
           → isDirty reset to false, originalData updated
 ```
 
-### 7.6 Network Lookup (Contacts)
+### 7.7 Network Lookup (Contacts)
 
 ```
 Contacts Tab: click circular search button next to Network IFA
@@ -695,7 +738,7 @@ Contacts Tab: click circular search button next to Network IFA
           → Modal closes, Contacts form updates read-only fields
 ```
 
-### 7.7 Contact Navigation
+### 7.8 Contact Navigation
 
 ```
 Contacts toolbar: click |<<, <, >, >>|
