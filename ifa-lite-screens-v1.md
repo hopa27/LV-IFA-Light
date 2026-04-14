@@ -42,10 +42,10 @@
 |  LEFT COLUMN                              |  RIGHT COLUMN         | ASSOCIATED CONTACTS    |
 |  ─────────────────────────────────────────|───────────────────────|────────────────────────|
 |                       ┌────────────────┐  |                       | +====================+ |
-|  Broker Name          │ Age Partner... │  |  FCA Reference [____] | | Ref | Name   | Pos  | |
-|                       │ (line 2)       │  |  Annuity TOBA  (o)(o) | |-----|--------|------| |
-|  Address              │ 2200 Century.. │  |  Status  [Authorised] | | 001 | Mr RG  | Dir  | |
-|                       │ Thorpe Park    │  |  Sent Date     [____] | | 002 | Mrs LG | Com  | |
+|  Broker Name          │ Age Partner... │  |  FCA Reference [____] | |Ref|Ttl|Init|Surn|Pos| |
+|                       │ (line 2)       │  |  Annuity TOBA  (o)(o) | |---|---|----|----|---| |
+|  Address              │ 2200 Century.. │  |  Status  [Authorised] | |001|Mr |RG  |Grn |Dir| |
+|                       │ Thorpe Park    │  |  Sent Date     [____] | |002|Mrs|LG  |Grn |Com| |
 |                       └────────────────┘  |                       | +====================+ |
 |          Town  [________________]         |          Grade  [___v] |                        |
 |        County  [________________]         | Next Diary Date [____] |                        |
@@ -67,7 +67,7 @@
 - Left/right fields arranged in a 2-column CSS grid (`grid-cols-2 gap-x-8 gap-y-1`)
 - Broker Name and Address are **connected fields** — a single bordered block with 5 stacked single-line inputs:
   - Line 1: Broker Name (primary) — `rounded-t-lg`, no bottom border
-  - Line 2: Broker Name overflow (for long names) — no bottom border
+  - Line 2: Broker Name 2 overflow (for long names) — no bottom border
   - Line 3: Address Line 1 — "Address" label floats to the left via negative margin, no bottom border
   - Line 4: Address Line 2 — no bottom border
   - Line 5: Address Line 3 — `rounded-b-lg`
@@ -121,7 +121,7 @@
 **Associated Contacts Panel:**
 - Fixed 350px width sidebar on the right
 - Navy header (`bg-[#002f5c]`): "ASSOCIATED CONTACTS" (uppercase, bold, white, tracked)
-- Table with 3 columns: Ref, Name, Position
+- Table with 5 columns: Ref, Title, Initials, Surname, Position
 - Sticky header row with light blue bg (`bg-[#eaf5f8]`), blue bottom border
 - Alternating row backgrounds; hover highlights row in blue (`bg-[#05579B]`) with white text
 - Shows "No contacts found" when broker has no contacts
@@ -302,69 +302,133 @@ Note {
 
 **Note Types:**
 - **SYS** notes: system-generated when fields are saved (see Save Flow above). Always have `oldValue`/`newValue`. Labels like "NPA", "PIPA", "PRP" rendered inline before description
-- **USR** notes: user-entered notes with free-text description. No old/new values. No "Add Note" button (notes are system-generated only)
-- Seed data includes 31 pre-populated notes across all 6 brokers, mixing SYS and USR types
-- Old/new values pattern in seed data: always `"0"` vs a digit `"1"–"9"` for SYS notes; USR notes have no old/new values
+- **USR** notes: user-entered notes with free-text description. No old/new values
+- Seed data includes 30 pre-populated notes across all 6 brokers, mixing SYS and USR types
+- Old/new values pattern in seed data: always `"0"` vs a digit `"1"–`"9"` for SYS notes; USR notes have no old/new values
 
 ---
 
 ## 2. CONTACTS TAB
 
+### 2a. Main Screen (with Toolbar)
+
 ```
 +--------------------------------------------------------------------------------------------+
-|  Contact 1 of 2  [<] [>]                                    [Add New]  [Save Contact]      |
+| | Reference: 001 | [|<] [<] 1 of 2 [>] [>|]                              [+ Add New]      |
 +--------------------------------------------------------------------------------------------+
 |                                                                                            |
-|  LEFT COLUMN                              |  RIGHT COLUMN                                  |
-|                                           |                                                |
-|  +== PERSONAL DETAILS =================+ |  +== IFA BANK DETAIL ================+         |
-|  |     Reference  [001_____________]    | |  |  Paid By BACS  (o) Yes  (o) No   |         |
-|  |   Title [Mr v] Initials [RG]         | |  |  Bank Sort Code [_____________]  |         |
-|  |      Forename  [Robert__________]    | |  |  Bank Account No [____________]  |         |
-|  |       Surname  [Green___________]    | |  |  Bank Acct Name  [____________]  |         |
-|  |    Salutation  [Mr Green________]    | |  |  Bank Reference  [____________]  |         |
-|  |      Position  [Director________]    | |  +===================================+         |
-|  +======================================+ |                                                |
-|                                           |  +== NETWORK RELATED DETAIL ========+          |
-|  +== CONTACT INFORMATION ==============+ |  |  [x] Use terms from principal..  |          |
-|  |  Address Line 1 [__________________]| |  |  Default Advice Type [_______v]  |          |
-|  |  Address Line 2 [__________________]| |  |  Remuneration Basis  [_______v]  |          |
-|  |  Address Line 3 [__________________]| |  |  Distribution Channel [______]   |          |
-|  |  Address Line 4 [__________________]| |  |                                  |          |
-|  |  ──────────────────────────────────  | |  |  Network  (o) Y (o) N  Restricted [v]      |
-|  |      Home Tel   [__________________]| |  |  Tied Agt (o) Y (o) N  Simplified [v]      |
-|  |    Mobile Tel   [__________________]| |  |  Principal(o) Y (o) N  Non Advsd  [v]      |
-|  |         Email   [__________________]| |  +===================================+         |
-|  +======================================+ |                                                |
-|                                           |  +== IFA MEMBER DETAIL =============+         |
-|                                           |  |  Network IFA  [____________] [Q] |         |
-|                                           |  |  Network Name [____________]     |         |
-|                                           |  |      Postcode [____________]     |         |
-|                                           |  +===================================+         |
-|                                           |                                                |
-|                                           |  +== NETWORK MEMBERS ===============+         |
-|                                           |  | IFA Ref | Broker Name | Post Code|         |
-|                                           |  |---------|-------------|----------|         |
-|                                           |  | (No network members)             |         |
-|                                           |  +===================================+         |
-|                                           |                                                |
-|                                           |  +== PRINCIPAL AGENT ===============+         |
-|                                           |  | Principal Agent Ref [______] [Q] [Clr]     |
-|                                           |  +===================================+         |
+|  LEFT COLUMN (sticky)                    |  RIGHT COLUMN (scrollable)                      |
+|                                          |                                                 |
+|  Title [Mr v] Initials [RG]             |  +== IFA BANK DETAIL ====================+      |
+|  Forename [Robert____] Surname [Green__] |  |  +-- Paid By BACS -------+            |      |
+|  Salutation [Mr Green] Position [Dir___] |  |  | (o) Yes  (o) No      |            |      |
+|                                          |  |  +-----------------------+            |      |
+|  Address                                 |  |  Bank Sort Code  [_____________]     |      |
+|  ┌──────────────────────────────────┐    |  |  Bank Account No [_____________]     |      |
+|  │ Line 1                           │    |  |  Bank Acct Name  [_____________]     |      |
+|  │ Line 2                           │    |  |  Bank Reference  [_____________]     |      |
+|  │ Line 3                           │    |  +========================================+      |
+|  │ Line 4                           │    |                                                 |
+|  │ Line 5                           │    |  +== NETWORK RELATED DETAIL ===========+       |
+|  │ Line 6                           │    |  |  [x] Use terms from principal..     |       |
+|  └──────────────────────────────────┘    |  |  Network       (o) Y  (o) N         |       |
+|                                          |  |  Default Advice Type  [_________v]  |       |
+|  Home Tel [__________] Mobile [________] |  |  Default Remuneration [_________v]  |       |
+|  Email Address [_________________________]|  |  Default Distribution Channel:     |       |
+|                                          |  |    Restricted Advice  [_________v]  |       |
+|                                          |  |    Simplified Advice  [_________v]  |       |
+|                                          |  |    Non Advised        [_________v]  |       |
+|                                          |  |                                     |       |
+|                                          |  |  +-- IFA MEMBER DETAIL --------+    |       |
+|                                          |  |  | Network IFA [________] [Q]  |    |       |
+|                                          |  |  | Network Name [______](grey) |    |       |
+|                                          |  |  | Postcode     [______](grey) |    |       |
+|                                          |  |  | +- Tied Agent -+            |    |       |
+|                                          |  |  | | (o) Yes (o) No|            |    |       |
+|                                          |  |  | +--------------+            |    |       |
+|                                          |  |  +-----------------------------+    |       |
+|                                          |  |                                     |       |
+|                                          |  |  +-- NETWORK MEMBERS ----------+    |       |
+|                                          |  |  | IFA Ref | Broker | PostCode |    |       |
+|                                          |  |  |---------|--------|----------|    |       |
+|                                          |  |  | (No network members)        |    |       |
+|                                          |  |  +-----------------------------+    |       |
+|                                          |  |                                     |       |
+|                                          |  |  Principal Agent Ref [____] [Q][Clr]|       |
+|                                          |  |  Principal  (o) N  (o) Y            |       |
+|                                          |  +=====================================+       |
+|                                          |                                                 |
+|                                          |  +== QUOTE TERMS =====================+        |
+|                                          |  |  Best rate required for all quotes |        |
+|                                          |  |  greater than or equal to:         |        |
+|                                          |  |  Internal / LV.com  [0___]         |        |
+|                                          |  |  Portals            [0___]         |        |
+|                                          |  +=====================================+        |
 +--------------------------------------------------------------------------------------------+
 ```
 
+**Toolbar:**
+- Rendered inside a white card with border (`#BBBBBB`), rounded corners, shadow
+- Left group:
+  - **Reference badge**: blue accent bar (4px) + "Reference: {reference}" text (ref in blue `#006cf4`)
+  - Vertical divider
+  - **Navigation buttons**: First / Prev / "X of Y" label / Next / Last — circular 44×44 buttons, same style as IFA Detail toolbar
+- Right group:
+  - **[+ Add New]** — secondary button with Plus icon (placeholder, not wired)
+- No Save Contact button on this toolbar
+
+**Left Column Layout:**
+- Sticky positioning (stays visible while right column scrolls)
+- Uses a 4-column CSS grid (`grid-cols-[auto_1fr_auto_1fr]`) — no fieldset wrappers
+- Fields (top to bottom):
+  - Row 1: Title (Combobox: Mr/Mrs/Ms/Dr) + Initials (read-only)
+  - Row 2: Forename (read-only) + Surname (read-only)
+  - Row 3: Salutation (read-only) + Position (read-only)
+  - Address: label aligned to top (`self-start pt-2`), 6-line connected input block spanning remaining columns — rounded-t on first line, rounded-b on last, `border-b-0` between
+  - Row 5: Home Telephone + Mobile Telephone (read-only)
+  - Row 6: Email Address — label + input spanning full remaining width (`col-span-3`)
+- All fields except Title Combobox are read-only
+
+**Right Column Layout (scrollable):**
+- **Fieldset: IFA Bank Detail**
+  - Paid By BACS: rendered as a **nested fieldset card** (centered, with its own border and title) containing Yes/No radio group
+  - Bank Sort Code, Bank Account Number, Bank Account Name, Bank Reference — standard inputs
+- **Fieldset: Network Related Detail**
+  - Checkbox: "Use terms from principal agent/network" (indented with `w-1/3` spacer)
+  - Network: FormRadioGroup Y/N (own row above Default Advice Type)
+  - Default Advice Type: FormSelect (Independent, Restricted)
+  - Default Remuneration Basis: FormSelect (Fee, Commission)
+  - Default Distribution Channel heading (navy `#00263e`, bold)
+    - Restricted Advice: FormSelect
+    - Simplified Advice: FormSelect
+    - Non Advised: FormSelect
+  - **Nested Fieldset: IFA Member Detail**
+    - Network IFA: input + circular Search button → opens Network Lookup Modal (see 2b)
+    - Network Name: read-only input (grey bg `#CCCCCC`)
+    - Postcode: read-only input (grey bg `#CCCCCC`)
+    - Tied Agent: nested fieldset card with Yes/No radio (centered)
+  - **Nested Fieldset: Network Members**
+    - Table: IFA Ref, Broker Name, Post Code
+    - Header: `bg-#eaf5f8`, border `2px solid #04589b`
+    - Empty state: "No network members" (italic)
+  - Principal Agent Ref: input + circular Search button + circular Clr (clear) button
+  - Principal: Radio N/Y
+- **Fieldset: Quote Terms**
+  - Description: "Best rate required for all quotes greater than or equal to:"
+  - Internal / LV.com: input (default "0")
+  - Portals: input (default "0")
+
 **Behavior:**
-- Contact navigation: [<] [>] arrows cycle through contacts for the active broker
-- Network IFA [Q] search button opens the IFA Network Lookup modal (see 2a)
+- Contact navigation: [|<] [<] [>] [>|] arrows cycle through contacts for the active broker
+- Network IFA [Q] search button opens the IFA Network Lookup modal (see 2b)
 - On selecting a network IFA, the Network Name and Postcode fields auto-fill (read-only, grey background)
 - Network overrides reset when switching contacts
-- [Add New] / [Save Contact] buttons (stub)
+- [+ Add New] button is a placeholder (not wired)
 - "Please select a broker first" placeholder if no broker active
 
 ---
 
-### 2a. IFA Network Lookup Modal (triggered by Network IFA search button)
+### 2b. IFA Network Lookup Modal (triggered by Network IFA search button)
 
 ```
 +================================================================+
@@ -402,14 +466,17 @@ Note {
 +--------------------------------------------------------------------------------------------+
 |  +== SEARCH CRITERIA ====================================================================+ |
 |  |  Postcode       IFA Reference    IFA Name           Status                            | |
-|  |  [__________]   [__________]     [______________]   [Authorised  v]  [Search] [Club]  | |
+|  |  [__________]   [__________]     [______________]   [x] Authorised                    | |
+|  |                                                     [ ] Cancelled       [✓ Select]     | |
+|  |                                                     [ ] Duplicate Rec   [🏢 Club ]     | |
+|  |                                                     [ ] Revoked                        | |
 |  +=========================================================================================+
 |                                                                                            |
 |  +========================================================================================+
 |  | SEARCH RESULTS (13)                          Click a row to view details               |
 |  +----------------------------------------------------------------------------------------+
-|  | IFA_REF | BROKER_NO | FIMBRA_NO | BROKER_NAME | BUILDING | NO_STREET | ... (75 cols)  |
-|  |---------|-----------|-----------|-------------|----------|-----------|                 |
+|  | IFA_REF | BROKER_NO | FIMBRA_NO | BROKER_NAME | BUILDING | NO_STREET | ... (64 cols) |
+|  |---------|-----------|-----------|-------------|----------|-----------|                |
 |  | A G S-001| 1001     |           | AF          | 5 Eaton  | Bray Road | ...            |
 |  | B K L-002| 1002     |           | Baker Ltd   | 10 High  | Street    | ...            |
 |  | ...     | ...       | ...       | ...         | ...      | ...       | ...            |
@@ -417,12 +484,16 @@ Note {
 ```
 
 **Behavior:**
-- Search filters: Postcode, IFA Reference, IFA Name (text), Status (dropdown)
-- [Search] executes the search with current filter values
-- [Club] opens the Club modal (see 3a)
-- Results table: horizontally scrollable, 75 columns covering all broker fields
-- Click any row to navigate to that broker (sets active broker ID, switches to IFA Detail)
-- IFA_REF column is styled as a blue underlined link
+- Search filters: Postcode, IFA Reference, IFA Name (text inputs), Status (checkbox group — not a dropdown)
+- Status checkboxes: Authorised (checked by default), Cancelled, Duplicate Record, Revoked — arranged vertically
+- No explicit "Search" button — filtering is live/reactive as the user types or toggles checkboxes
+- **[Select]** button (primary, with Check icon): enabled when a row is selected → loads broker, switches to IFA Detail tab
+- **[Club]** button (secondary, with Building icon): opens the Club modal (see 3a)
+- Results table: horizontally scrollable, 64 columns covering all broker fields
+- Click any row to highlight it (`bg-[#05579B]`, white text); double-click selects broker and navigates to IFA Detail
+- IFA_REF column is styled as a blue underlined link (`text-#005a9c underline`)
+- Results header: navy bg (`#002f5c`), white text, "Search Results ({count})" with subtitle "Click a row to view details"
+- Table header: `bg-#eaf5f8`, sticky, `3px #04589b` underline
 
 ---
 
@@ -460,8 +531,6 @@ Note {
 
 ```
 +--------------------------------------------------------------------------------------------+
-|  +-- Retirement Income Commission & Fee Configuration --+                                  |
-+--------------------------------------------------------------------------------------------+
 |                                                                                            |
 |  +== NON PROFIT ANNUITY ===============================================================+  |
 |  |  Default adviser charges %  [____]  | Expense Discount     [____] |                 |  |
@@ -481,19 +550,89 @@ Note {
 |  |  Default Commission %       [____]  |                             | [+ Special deals]|  |
 |  +=====================================================================================+  |
 |                                                                                            |
-|                                                               [Save Configuration]         |
 +--------------------------------------------------------------------------------------------+
 ```
 
 **Behavior:**
-- Banner at top: "Retirement Income Commission & Fee Configuration"
-- Three identical product sections: Non Profit Annuity, PIPA, PRP
+- Three identical product sections (fieldsets): Non Profit Annuity, PIPA, PRP
 - Each section has a 3-column layout:
-  - Col 1: Default adviser charges %, Amount, Default Commission %
+  - Col 1: Default adviser charges % (disabled), Amount, Default Commission %
   - Col 2: Expense Discount, Marketing allowance
-  - Col 3: Two action buttons (Advice Type/Distribution Channel pricing, Special deals)
-- [Save Configuration] button at bottom right
+  - Col 3: Two action buttons — "Advice Type/Distribution Channel Pricing" (green PlusCircle icon), "Special Deals" (blue PlusCircle icon)
+- No banner at top, no Save Configuration button at bottom (each modal has its own Save)
 - "Please select a broker first" placeholder if no broker active
+
+---
+
+### 4a. Advice Type/Distribution Channel Pricing Modal
+
+```
++===================================================================================+
+| Advice Type/Distribution Channel Pricing                                      [X] |  <- Navy (#002f5c)
++-----------------------------------------------------------------------------------+
+|  Product: Non Profit Annuity                                                      |
+|                                                                                   |
+|  (sticky)   | (sticky)        | Expense  | Marketing | Adviser  | Adviser | Comm  |
+|  Type       | Name            | Discount | Allowance | Chg Amt  | Chg %   |  %    |
+|  -----------|-----------------|----------|-----------|----------|---------|-------|
+|  Advice     | Independent     | [______] | [_______] | [______] | [_____] |[____] |
+|  Type       |                 |          |           |          |         |       |
+|  -----------|-----------------|----------|-----------|----------|---------|-------|
+|  Dist.      | Whole of Market | [______] | [_______] | [______] | [_____] |[____] |
+|  Channel    | Tied            | [______] | [_______] | [______] | [_____] |[____] |
+|  (rowSpan3) | Multi-tied      | [______] | [_______] | [______] | [_____] |[____] |
+|  ===========|=================|==========|===========|==========|=========|=======|
+|  Advice     | Non advised     | [______] | [_______] | [______] | [_____] |[____] |
+|  Type       |                 |          |           |          |         |       |
+|  -----------|-----------------|----------|-----------|----------|---------|-------|
+|  Dist.      | Whole of Market | [______] | [_______] | [______] | [_____] |[____] |
+|  Channel    | Tied            | [______] | [_______] | [______] | [_____] |[____] |
+|  (rowSpan3) | Multi-tied      | [______] | [_______] | [______] | [_____] |[____] |
+|  ===========|=================|==========|===========|==========|=========|=======|
+|  ... (Simplified, Restricted — same pattern)                                      |
+|                                                                                   |
+|                           [Save]  [Cancel]                                        |
++===================================================================================+
+```
+
+**Behavior:**
+- Modal width: 95vw / max 1100px, max height: 90vh
+- Product label shown at top ("Product: {productTitle}")
+- Scrollable table with sticky columns 1–2 (Advice Type and Name) and sticky header
+- 4 advice type groups (Independent, Non advised, Simplified, Restricted), each with:
+  - 1 "Advice Type" row
+  - 3 "Distribution Channel" rows (Whole of Market, Tied, Multi-tied) — Distribution Channel label spans 3 rows
+- Separator (`border-t-2 #BBBBBB`) between advice type groups
+- 5 data columns: Expense Discount, Marketing Allowance, Adviser Charge Amount, Adviser Charge %, Commission %
+- All data cells are editable text inputs (min-width 100px)
+- Footer: [Save] (primary) and [Cancel] (secondary), centered
+
+---
+
+### 4b. Special Deals Modal
+
+```
++=======================================================================+
+| Special Deals                                                     [X] |  <- Navy (#002f5c)
++-----------------------------------------------------------------------+
+|  Product: Non Profit Annuity                                          |
+|                                                                       |
+|                          Adjustments                                  |
+|                                                                       |
+|  Deal Name | Expense Disc | Mktg Allow | Start Date | End Date | Act |
+|  ----------|--------------|------------|------------|----------|-----|
+|  (No special deals)                                                   |
+|                                                                       |
+|                    [Add]  [Save]  [Edit]  [Cancel]                    |
++=======================================================================+
+```
+
+**Behavior:**
+- Modal width: 780px, max height: 90vh
+- Product label and "Adjustments" section title (centered, bold)
+- Table columns: Deal Name, Expense Discount, Marketing Allowance, Start Date (DD/MM/YYYY), End Date (DD/MM/YYYY), Active
+- Empty state: "No special deals" (italic)
+- Footer: [Add], [Save], [Edit] (primary), [Cancel] (secondary)
 
 ---
 
@@ -502,56 +641,58 @@ Note {
 ```
 +--------------------------------------------------------------------------------------------+
 |                                                                                            |
-|  LEFT COLUMN                                   |  RIGHT COLUMN                             |
-|                                                |                                           |
-|  +== PERMISSIONS ========================+     |  +== CLUB MEMBERSHIP ===============+    |
-|  |  Mortgage Permissions  (o) Yes (o) No |     |  | Name              | Ref           |    |
-|  |  ERLM TOBA            (o) Yes (o) No |     |  |-------------------|---------------|    |
-|  +========================================+     |  | (No memberships)                 |    |
-|                                                |  +-----------------------------------+    |
-|                                                |  [Add] [Edit] [View] [Remove]             |
-|                                                |                                           |
-|  +== FLEXIBLE COMMISSION ===============+      |  +== LUMP SUM COMMISSION ============+   |
-|  |    Broker Rate     [_________]       |      |  |    Broker Rate     [_________]     |   |
-|  |  Minimum Amount    [_________]       |      |  |  Minimum Amount    [_________]     |   |
-|  |   Network Rate     [_________]       |      |  |   Network Rate     [_________]     |   |
-|  |  [x] Trail Commission               |      |  +=====================================+   |
-|  +======================================+      |                                           |
-|                                                |  +== LUMP SUM SPECIAL DEALS ==========+  |
-|  +== FLEXIBLE SPECIAL DEALS (AGE BANDS)=+     |  | Age Band|Excl%|(+/-)|Disc%|CashBack|  |
-|  | Age Band|Excl%|(+/-)|Disc%|CashBack  |     |  |---------|-----|-----|-----|--------|  |
-|  |---------|-----|-----|-----|---------- |     |  | 60-65   |[   ]|[ ]  |[   ]|[     ] |  |
-|  | 60-65   |[   ]|[ ]  |[   ]|[     ]  |     |  | 66-70   |[   ]|[ ]  |[   ]|[     ] |  |
-|  | 66-70   |[   ]|[ ]  |[   ]|[     ]  |     |  | 71-75   |[   ]|[ ]  |[   ]|[     ] |  |
-|  | 71-75   |[   ]|[ ]  |[   ]|[     ]  |     |  | 76-80   |[   ]|[ ]  |[   ]|[     ] |  |
-|  | 76-80   |[   ]|[ ]  |[   ]|[     ]  |     |  | 81-85   |[   ]|[ ]  |[   ]|[     ] |  |
-|  | 81-85   |[   ]|[ ]  |[   ]|[     ]  |     |  | 86-90   |[   ]|[ ]  |[   ]|[     ] |  |
-|  | 86-90   |[   ]|[ ]  |[   ]|[     ]  |     |  | 91+     |[   ]|[ ]  |[   ]|[     ] |  |
-|  | 91+     |[   ]|[ ]  |[   ]|[     ]  |     |  +=========================================+
-|  +======================================+      |                                           |
-|                                                |  +== LUMP SUM VALUATION ==============+  |
-|  +== FLEXIBLE VALUATION ================+      |  |  [x] Free Up to: [___] or [______] |  |
-|  |  [x] Free Up to: [___] or [______]  |      |  |  [x] Fee discount: [___]            |  |
-|  |  [x] Fee discount: [___]            |      |  |  [x] Refund discount/fee on compl.  |  |
-|  |  [x] Refund discount/fee on compl.  |      |  |  [x] Reduce fees upfront            |  |
-|  |  [x] Reduce fees upfront            |      |  +=====================================+  |
-|  +======================================+      |                                           |
-|                                                |  +== LUMP SUM FEES ==================+   |
-|  +== FLEXIBLE FEES =====================+      |  |   Packaging Fee   [_________]      |   |
-|  |   Packaging Fee   [_________]        |      |  | Application Fee   [_________]      |   |
-|  | Application Fee   [_________]        |      |  |   LTV % (+ or -)  [_________]      |   |
-|  |   LTV % (+ or -)  [_________]        |      |  +=====================================+  |
-|  +======================================+      |                                           |
+|  +== MORTGAGE PERMISSIONS ====+ +== ERLM TOBA ===============+ +== CLUB MEMBERSHIP ====+  |
+|  | (o) Yes  (o) No            | | (o) Yes  (o) No            | | Name         | Ref     |  |
+|  +============================+ +=============================+ |-------------|---------|  |
+|                                                                 | (No memberships)      |  |
+|                                                                 +========================+  |
+|                                                                 [Add] [Edit] [View] [Remove]|
+|                                                                                            |
+|  +== FLEXIBLE COMMISSION ===============+  +== LUMP SUM COMMISSION ==================+    |
+|  |    Broker Rate     [_________]       |  |    Broker Rate     [_________]           |    |
+|  |  Minimum Amount    [_________]       |  |  Minimum Amount    [_________]           |    |
+|  |   Network Rate     [_________]       |  |   Network Rate     [_________]           |    |
+|  |  [x] Trail Commission               |  +==========================================+    |
+|  +======================================+                                                  |
+|                                                                                            |
+|  +== SPECIAL DEALS =================================================================+     |
+|  |                                                                                   |     |
+|  |  +-- FLEXIBLE -------------------------+  +-- LUMP SUM -------------------------+ |     |
+|  |  | Age Band|Excl%|(+/-)|Disc%|CashBack |  | Age Band|Excl%|(+/-)|Disc%|CashBack | |     |
+|  |  |---------|-----|-----|-----|---------|  |---------|-----|-----|-----|---------|  |     |
+|  |  | 60-65   |[   ]|[ ]  |[   ]|[     ] |  | 60-65   |[   ]|[ ]  |[   ]|[     ] |  |     |
+|  |  | 66-70   |[   ]|[ ]  |[   ]|[     ] |  | 66-70   |[   ]|[ ]  |[   ]|[     ] |  |     |
+|  |  | 71-75   |[   ]|[ ]  |[   ]|[     ] |  | 71-75   |[   ]|[ ]  |[   ]|[     ] |  |     |
+|  |  | 76-80   |[   ]|[ ]  |[   ]|[     ] |  | 76-80   |[   ]|[ ]  |[   ]|[     ] |  |     |
+|  |  | 81-85   |[   ]|[ ]  |[   ]|[     ] |  | 81-85   |[   ]|[ ]  |[   ]|[     ] |  |     |
+|  |  | 86-90   |[   ]|[ ]  |[   ]|[     ] |  | 86-90   |[   ]|[ ]  |[   ]|[     ] |  |     |
+|  |  | 91+     |[   ]|[ ]  |[   ]|[     ] |  | 91+     |[   ]|[ ]  |[   ]|[     ] |  |     |
+|  |  +----------------------------------------+  +--------------------------------------+ |     |
+|  |                                                                                   |     |
+|  |  +-- FLEXIBLE VALUATION --------+         +-- LUMP SUM VALUATION --------+        |     |
+|  |  | [x] Free Up to: [___]/[____] |         | [x] Free Up to: [___]/[____] |        |     |
+|  |  | [x] Fee discount: [___]      |         | [x] Fee discount: [___]      |        |     |
+|  |  | [x] Refund disc/fee on compl.|         | [x] Refund disc/fee on compl.|        |     |
+|  |  | [x] Reduce fees upfront      |         | [x] Reduce fees upfront      |        |     |
+|  |  +-------------------------------+         +-------------------------------+        |     |
+|  |                                                                                   |     |
+|  |  Packaging Fee   [_________]              Packaging Fee   [_________]             |     |
+|  |  Application Fee [_________]              Application Fee [_________]             |     |
+|  |  LTV % (+ or -)  [_________]              LTV % (+ or -)  [_________]             |     |
+|  +====================================================================================+    |
+|                                                                                            |
 +--------------------------------------------------------------------------------------------+
 ```
 
 **Behavior:**
-- Two-column symmetrical layout: Flexible (left) vs Lump Sum (right)
-- Top row: Permissions (left) and Club Membership table (right) with Add/Edit/View/Remove buttons
-- Age Band tables: 7 rows (60-65 through 91+), each with Exclusive %, (+/-) checkbox, Discounted %, Cash Back
-- Valuation sections: checkboxes with associated amount inputs
-- Fees sections: Packaging Fee, Application Fee, LTV %
-- Flexible Commission has an extra "Trail Commission" checkbox
+- **Row 1** (3-column grid): Mortgage Permissions (radio Yes/No), ERLM TOBA (radio Yes/No), Club Membership (table + Add/Edit/View/Remove buttons)
+- **Row 2** (2-column grid): Flexible Commission and Lump Sum Commission fieldsets
+  - Each has: Broker Rate, Minimum Amount, Network Rate
+  - Flexible Commission has an extra "Trail Commission" checkbox
+- **Row 3**: Special Deals parent fieldset containing 2-column grid (Flexible left, Lump Sum right)
+  - **Age Band tables**: 7 rows (60-65 through 91+), each with Exclusive % (header checkbox), (+/-), Discounted % (header checkbox), Cash Back
+  - **Valuation sub-fieldsets**: checkboxes with Free Up To (Amount or Max Property Value), Fee discount, Refund discount/fee on completion, Reduce fees upfront
+  - **Fees** (inline fields below valuation): Packaging Fee, Application Fee, LTV % (+ or -)
 - "Please select a broker first" placeholder if no broker active
 
 ---
@@ -560,38 +701,47 @@ Note {
 
 ```
 +--------------------------------------------------------------------------------------------+
-|  [History icon] Audit Trail & Notes                                          [Add Note]    |
-+--------------------------------------------------------------------------------------------+
 |                                                                                            |
-|  +========================================================================================+
-|  |     |                                                                                  |
-|  | SYS | Broker Name updated by SYSTEM on 15/01/2024                                     |
-|  |     | OLD VALUE : AF Holdings                                                         |
-|  |     | NEW VALUE : AF                                                                   |
-|  |     |                                                                                  |
-|  |-----|--------------------------------------------------------------------------------|
-|  |     |                                                                                  |
-|  | SYS | Status updated by SYSTEM on 15/01/2024                                         |
-|  |     | OLD VALUE : Cancelled                                                           |
-|  |     | NEW VALUE : Authorised                                                          |
-|  |     |                                                                                  |
-|  |-----|--------------------------------------------------------------------------------|
-|  |     |                                                                                  |
-|  | SYS | Grade updated by SYSTEM on 10/01/2024                                          |
-|  |     | OLD VALUE : Standard                                                            |
-|  |     | NEW VALUE : National Accounts                                                   |
-|  |     |                                                                                  |
-|  +========================================================================================+
+|  ┌────┬──────────────────────────────────────────────────────────────────────┐              |
+|  │ S  │  NPA : Broker Name updated by SYSTEM on 15/01/2024                  │              |
+|  │ Y  │                                                                     │              |
+|  │ S  │  OLD VALUE  : AF Holdings                                          │              |
+|  │    │  NEW VALUE  : AF                                                    │              |
+|  └────┴──────────────────────────────────────────────────────────────────────┘              |
+|                                                                                            |
+|  ┌────┬──────────────────────────────────────────────────────────────────────┐              |
+|  │ S  │  Status updated by SYSTEM on 15/01/2024                             │              |
+|  │ Y  │                                                                     │              |
+|  │ S  │  OLD VALUE  : Cancelled                                             │              |
+|  │    │  NEW VALUE  : Authorised                                            │              |
+|  └────┴──────────────────────────────────────────────────────────────────────┘              |
+|                                                                                            |
+|  ┌────┬──────────────────────────────────────────────────────────────────────┐              |
+|  │ U  │  Called broker to discuss terms — follow up next week               │              |
+|  │ S  │                                                                     │              |
+|  │ R  │                                                                     │              |
+|  └────┴──────────────────────────────────────────────────────────────────────┘              |
+|                                                                                            |
+|  ┌─────────────────────────────────────────────────────────────────────────────┐            |
+|  │  (empty grey placeholder row)                                              │            |
+|  └─────────────────────────────────────────────────────────────────────────────┘            |
+|  ┌─────────────────────────────────────────────────────────────────────────────┐            |
+|  │  (empty grey placeholder row)                                              │            |
+|  └─────────────────────────────────────────────────────────────────────────────┘            |
+|  ┌─────────────────────────────────────────────────────────────────────────────┐            |
+|  │  (empty grey placeholder row)                                              │            |
+|  └─────────────────────────────────────────────────────────────────────────────┘            |
 |                                                                                            |
 +--------------------------------------------------------------------------------------------+
 ```
 
 **Behavior:**
-- Header: "Audit Trail & Notes" with history icon, [Add Note] button (right)
-- Note list: vertical scrollable list, each entry is a card-like row
-- Left gutter: note type badge displayed vertically (e.g. "SYS")
-- Note body: description text, followed by OLD VALUE / NEW VALUE when applicable
-- Notes are auto-created when fields are saved on the IFA Detail tab
+- No header or toolbar — notes list renders directly in the tab content area
+- No "Add Note" button — notes are system-generated only (via Save flow on IFA Detail tab)
+- Note list: vertical scrollable stack of note cards
+- Left gutter: note type badge displayed vertically (e.g. "SYS", "USR"), 40px wide, light blue bg
+- Note body: optional **label** prefix in bold (e.g. "NPA :") followed by description text, then OLD VALUE / NEW VALUE when applicable
+- Empty placeholder rows: grey background (`bg-[#d8d8d8]`), 60px min height, fills up to 6 total visible rows
 - Rows have hover highlight
 - "No notes found for this record" placeholder when empty
 - "Please select a broker first" placeholder if no broker active
