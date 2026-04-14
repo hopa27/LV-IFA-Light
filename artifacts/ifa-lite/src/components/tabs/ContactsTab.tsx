@@ -250,40 +250,9 @@ export default function ContactsTab() {
               <span className="w-1/3" />
               <FormCheckbox label="Use terms from principal agent/network" checked={currentContact.useNetworkTerms} />
             </div>
-            <div className="flex items-center gap-3 mb-2">
-              <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans">Default Advice Type</label>
-              <div className="flex items-center flex-1">
-                <div className="flex-1">
-                  <Combobox value={currentContact.defaultAdviceType || ''} onChange={() => {}} options={[{label: '', value: ''}, {label: 'Independent', value: 'Independent'}, {label: 'Restricted', value: 'Restricted'}]} />
-                </div>
-                <div className="flex flex-col items-center shrink-0 ml-5">
-                  <span className="text-xs font-semibold text-[#3d3d3d] font-sans mb-1">Network</span>
-                  <div className="flex items-center gap-1">
-                    {[{label: 'Y', value: 'true'}, {label: 'N', value: 'false'}].map(opt => (
-                      <label key={opt.value} className="flex items-center gap-0.5 text-sm font-[Mulish] text-[#3d3d3d] cursor-pointer">
-                        <input type="radio" name="network" value={opt.value} checked={String(currentContact.network) === opt.value} readOnly className="w-4 h-4 border-[#979797] text-[#006cf4] focus:ring-[#006cf4] accent-[#006cf4]" />
-                        {opt.label}
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 mb-2">
-              <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans">Default Remuneration Basis</label>
-              <div className="flex items-center flex-1">
-                <div className="flex-1">
-                  <Combobox value={currentContact.defaultRemunerationBasis || ''} onChange={() => {}} options={[{label: '', value: ''}, {label: 'Fee', value: 'Fee'}, {label: 'Commission', value: 'Commission'}]} />
-                </div>
-                <div className="flex flex-col items-center shrink-0 ml-5 invisible">
-                  <span className="text-xs font-semibold font-sans mb-1">Network</span>
-                  <div className="flex items-center gap-1">
-                    <span className="flex items-center gap-0.5 text-sm"><span className="w-4 h-4" />Y</span>
-                    <span className="flex items-center gap-0.5 text-sm"><span className="w-4 h-4" />N</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <FormRadioGroup label="Network" name="network" options={[{label: 'Y', value: 'true'}, {label: 'N', value: 'false'}]} value={String(currentContact.network)} />
+            <FormSelect label="Default Advice Type" options={[{label: '', value: ''}, {label: 'Independent', value: 'Independent'}, {label: 'Restricted', value: 'Restricted'}]} value={currentContact.defaultAdviceType || ''} />
+            <FormSelect label="Default Remuneration Basis" options={[{label: '', value: ''}, {label: 'Fee', value: 'Fee'}, {label: 'Commission', value: 'Commission'}]} value={currentContact.defaultRemunerationBasis || ''} />
             <div className="flex items-start gap-3 mt-3 mb-2">
               <span className="w-1/3 text-xs font-semibold text-[#00263e] font-sans text-right pt-1">Default Distribution Channel</span>
               <div className="flex-1 space-y-2">
