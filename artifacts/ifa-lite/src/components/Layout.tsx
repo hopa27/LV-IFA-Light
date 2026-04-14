@@ -3,7 +3,7 @@ import { useApp } from '@/context/app-context';
 import { useListBrokers, useCreateBroker } from '@/hooks/use-static-data';
 import { Button } from '@/components/shared/FormElements';
 import { Combobox } from '@/components/shared/Combobox';
-import { Search, FileText, Users, Briefcase, Home, Database, ChevronFirst, ChevronLeft, ChevronRight, ChevronLast, Save, RefreshCw, FilePlus2, ScanSearch, X, Check } from 'lucide-react';
+import { Search, FileText, Users, Briefcase, Home, Database, ChevronFirst, ChevronLeft, ChevronRight, ChevronLast, Save, RefreshCw, FilePlus2, ScanSearch, X, Check, Plus } from 'lucide-react';
 
 const TABS = [
   { id: 'ifa-detail', label: 'IFA Detail', icon: FileText },
@@ -204,11 +204,195 @@ function LocateIfaModal({ onClose, onSelect }: { onClose: () => void; onSelect: 
   );
 }
 
+function LookupIfaModal({ onClose, onSelect, onNew }: { onClose: () => void; onSelect: (id: number) => void; onNew: () => void }) {
+  const [ifaRef, setIfaRef] = useState('');
+  const [postcode, setPostcode] = useState('');
+  const [brokerName, setBrokerName] = useState('');
+  const [statusFilters, setStatusFilters] = useState({ authorised: true, cancelled: false, duplicateRecord: false, revoked: false });
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+
+  const { data: allBrokers = [] } = useListBrokers();
+
+  const filtered = React.useMemo(() => {
+    return allBrokers.filter(b => {
+      if (ifaRef && !b.ifaRef?.toLowerCase().includes(ifaRef.toLowerCase())) return false;
+      if (postcode && !b.postcode?.toLowerCase().includes(postcode.toLowerCase())) return false;
+      if (brokerName && !b.brokerName?.toLowerCase().includes(brokerName.toLowerCase())) return false;
+      const s = (b.status || '').toLowerCase();
+      const anyStatus = statusFilters.authorised || statusFilters.cancelled || statusFilters.duplicateRecord || statusFilters.revoked;
+      if (anyStatus) {
+        if (s === 'authorised' && !statusFilters.authorised) return false;
+        if (s === 'cancelled' && !statusFilters.cancelled) return false;
+        if (s === 'duplicate record' && !statusFilters.duplicateRecord) return false;
+        if (s === 'revoked' && !statusFilters.revoked) return false;
+      }
+      return true;
+    });
+  }, [allBrokers, ifaRef, postcode, brokerName, statusFilters]);
+
+  const selectedBroker = allBrokers.find(b => b.id === selectedId);
+
+  const handleOk = () => {
+    if (selectedId) { onSelect(selectedId); onClose(); }
+  };
+
+  const toggleStatus = (key: keyof typeof statusFilters) =>
+    setStatusFilters(prev => ({ ...prev, [key]: !prev[key] }));
+
+  const inputCls = "w-full border border-[#BBBBBB] rounded-lg px-2 py-1.5 text-xs font-[Mulish] text-[#3d3d3d] outline-none focus:border-[#178830] focus:border-2";
+  const labelCls = "text-[10px] font-semibold text-[#3d3d3d] font-sans block mb-0.5";
+  const readOnlyCls = "w-full border border-[#ACACAC] bg-[#CCCCCC] rounded-lg px-2 py-1 text-xs font-[Mulish] text-[#3d3d3d] outline-none cursor-default";
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={onClose} role="dialog" aria-label="IFA Lookup">
+      <div className="bg-[#f0f0f0] border border-[#BBBBBB] rounded-lg shadow-2xl w-[780px] flex flex-col max-h-[85vh]" onClick={e => e.stopPropagation()}>
+        <div className="bg-[#002f5c] text-white px-4 py-2.5 rounded-t-lg flex items-center justify-between shrink-0">
+          <span className="text-sm font-semibold font-sans">IFA Lookup</span>
+          <button onClick={onClose} className="text-white/70 hover:text-white transition-colors" aria-label="Close">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="p-4 shrink-0">
+          <div className="flex items-end gap-3">
+            <div className="flex-1">
+              <label className={labelCls}>IFA Ref</label>
+              <input autoFocus value={ifaRef} onChange={e => setIfaRef(e.target.value)} className={inputCls} />
+            </div>
+            <div className="flex-1">
+              <label className={labelCls}>Postcode</label>
+              <input value={postcode} onChange={e => setPostcode(e.target.value)} className={inputCls} />
+            </div>
+            <div className="flex-1">
+              <label className={labelCls}>Broker Name</label>
+              <input value={brokerName} onChange={e => setBrokerName(e.target.value)} className={inputCls} />
+            </div>
+
+            <div className="flex flex-col gap-0.5 text-[10px] font-[Mulish] text-[#3d3d3d] shrink-0">
+              <label className="flex items-center gap-1 cursor-pointer">
+                <input type="checkbox" checked={statusFilters.authorised} onChange={() => toggleStatus('authorised')} className="w-3 h-3 accent-[#178830]" />
+                Authorised
+              </label>
+              <label className="flex items-center gap-1 cursor-pointer">
+                <input type="checkbox" checked={statusFilters.cancelled} onChange={() => toggleStatus('cancelled')} className="w-3 h-3 accent-[#178830]" />
+                Cancelled
+              </label>
+              <label className="flex items-center gap-1 cursor-pointer">
+                <input type="checkbox" checked={statusFilters.duplicateRecord} onChange={() => toggleStatus('duplicateRecord')} className="w-3 h-3 accent-[#178830]" />
+                Duplicate Record
+              </label>
+              <label className="flex items-center gap-1 cursor-pointer">
+                <input type="checkbox" checked={statusFilters.revoked} onChange={() => toggleStatus('revoked')} className="w-3 h-3 accent-[#178830]" />
+                Revoked
+              </label>
+            </div>
+
+            <div className="flex flex-col gap-1.5 shrink-0">
+              <Button onClick={handleOk} disabled={!selectedId} className="text-xs px-3 py-1 h-7">
+                <Check className="w-3 h-3" /> OK
+              </Button>
+              <Button variant="secondary" onClick={onClose} className="text-xs px-3 py-1 h-7">
+                <X className="w-3 h-3" /> Cancel
+              </Button>
+              <Button variant="secondary" onClick={() => { onClose(); onNew(); }} className="text-xs px-3 py-1 h-7">
+                <Plus className="w-3 h-3" /> New
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex-1 overflow-auto px-4 min-h-[180px] max-h-[280px]">
+          <div className="border border-[#BBBBBB] rounded-lg overflow-hidden">
+            <table className="w-full text-xs text-left">
+              <thead className="bg-[#eaf5f8] sticky top-0 z-10">
+                <tr>
+                  <th className="px-3 py-2 font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b] whitespace-nowrap">IFA_REF</th>
+                  <th className="px-3 py-2 font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b] whitespace-nowrap">POST_CODE</th>
+                  <th className="px-3 py-2 font-semibold text-[#002f5c] font-sans border-b-2 border-[#04589b] whitespace-nowrap">BROKER_NAME</th>
+                </tr>
+              </thead>
+              <tbody className="font-[Mulish]">
+                {filtered.length === 0 ? (
+                  <tr><td colSpan={3} className="text-center py-6 text-[#979797] italic">No records found</td></tr>
+                ) : (
+                  filtered.map((broker, i) => (
+                    <tr
+                      key={broker.id}
+                      onClick={() => setSelectedId(broker.id!)}
+                      onDoubleClick={() => { onSelect(broker.id!); onClose(); }}
+                      className={`cursor-pointer transition-colors ${
+                        selectedId === broker.id
+                          ? 'bg-[#05579B] text-white'
+                          : i % 2 === 1
+                            ? 'bg-[#e7ebec]/30 hover:bg-[#05579B] hover:text-white'
+                            : 'bg-white hover:bg-[#05579B] hover:text-white'
+                      }`}
+                    >
+                      <td className={`px-3 py-1.5 ${selectedId === broker.id ? 'text-white' : 'font-medium text-[#005a9c]'}`}>{broker.ifaRef}</td>
+                      <td className="px-3 py-1.5">{broker.postcode}</td>
+                      <td className="px-3 py-1.5">{broker.brokerName}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="px-4 py-3 border-t border-[#BBBBBB] shrink-0">
+          <fieldset className="border border-[#BBBBBB] rounded-lg p-3">
+            <legend className="text-xs font-bold text-[#006cf4] font-sans px-2 uppercase tracking-wider">Amendable Details</legend>
+            <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
+              <div className="flex items-center gap-2">
+                <label className="text-[10px] font-semibold text-[#3d3d3d] font-sans w-20 text-right shrink-0">Address</label>
+                <input readOnly value={selectedBroker?.addressLine1 || ''} className={readOnlyCls} />
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="text-[10px] font-semibold text-[#3d3d3d] font-sans w-24 text-right shrink-0">SIB No</label>
+                <input readOnly value={(selectedBroker as any)?.sibReference || ''} className={readOnlyCls} />
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="text-[10px] font-semibold text-[#3d3d3d] font-sans w-20 text-right shrink-0"></label>
+                <input readOnly value={selectedBroker?.addressLine2 || ''} className={readOnlyCls} />
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="text-[10px] font-semibold text-[#3d3d3d] font-sans w-24 text-right shrink-0">Authorised By</label>
+                <input readOnly value={(selectedBroker as any)?.sibInitials || ''} className={readOnlyCls} />
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="text-[10px] font-semibold text-[#3d3d3d] font-sans w-20 text-right shrink-0"></label>
+                <input readOnly value={selectedBroker?.town || ''} className={readOnlyCls} />
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="text-[10px] font-semibold text-[#3d3d3d] font-sans w-24 text-right shrink-0">Authorised On</label>
+                <input readOnly value={(selectedBroker as any)?.sibAuthorisationDate || ''} className={readOnlyCls} />
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="text-[10px] font-semibold text-[#3d3d3d] font-sans w-20 text-right shrink-0"></label>
+                <input readOnly value={selectedBroker?.county || ''} className={readOnlyCls} />
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="text-[10px] font-semibold text-[#3d3d3d] font-sans w-24 text-right shrink-0">IFA Portfolio</label>
+                <input type="checkbox" readOnly checked={!!(selectedBroker as any)?.ifaPortfolio} className="w-3.5 h-3.5 accent-[#178830]" />
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="text-[10px] font-semibold text-[#3d3d3d] font-sans w-20 text-right shrink-0">Post Code</label>
+                <input readOnly value={selectedBroker?.postcode || ''} className={readOnlyCls} />
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { activeTab, setActiveTab, activeBrokerId, setActiveBrokerId, activeIfaRef, isDirty, setIsDirty, isSaving, triggerSave } = useApp();
   const { data: brokers = [] } = useListBrokers();
   const createBrokerMutation = useCreateBroker();
   const [showLocateModal, setShowLocateModal] = useState(false);
+  const [showLookupModal, setShowLookupModal] = useState(false);
   const [showInsertModal, setShowInsertModal] = useState(false);
   const [toolbarAction, setToolbarAction] = useState('Appointment');
 
@@ -338,7 +522,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <ScanSearch className="w-5 h-5" />
               <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-[#002f5c] text-white text-[10px] font-sans px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">Locate IFA</span>
             </button>
-            <button onClick={() => setShowLocateModal(true)} className="group relative w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] transition-colors">
+            <button onClick={() => setShowLookupModal(true)} className="group relative w-[44px] h-[44px] flex items-center justify-center rounded-[30px] border border-[#04589b] bg-white text-[#04589b] shadow-sm hover:bg-[#003578] hover:text-white hover:border-[#003578] transition-colors">
               <Search className="w-5 h-5" />
               <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-[#002f5c] text-white text-[10px] font-sans px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">Lookup IFA</span>
             </button>
@@ -378,6 +562,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <InsertIfaModal
           onClose={() => setShowInsertModal(false)}
           onCreate={handleInsertIfa}
+        />
+      )}
+
+      {showLookupModal && (
+        <LookupIfaModal
+          onClose={() => setShowLookupModal(false)}
+          onSelect={(id) => setActiveBrokerId(id)}
+          onNew={() => setShowInsertModal(true)}
         />
       )}
     </div>
