@@ -124,10 +124,11 @@ export default function IfaDetailTab() {
       <div className="flex-1 flex flex-col min-w-[600px]">
         <div className="flex-1 overflow-auto pr-2 pb-4">
           <div className="grid grid-cols-2 gap-x-8 gap-y-1">
-            <div className="flex items-start gap-3 mb-2 row-span-4">
+            <div className="flex items-start gap-3 mb-2 row-span-5">
               <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans pt-[7px]">Broker Name</label>
               <div className="flex-1 flex flex-col">
-                <textarea name="brokerName" value={formData.brokerName || ''} onChange={handleChange} rows={2} className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-t-lg bg-white font-[Mulish] text-[#3d3d3d] placeholder:text-[#BBBBBB] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors border-b-0 resize-none" />
+                <input name="brokerName" value={formData.brokerName || ''} onChange={handleChange} className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-t-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors border-b-0" />
+                <input name="brokerName2" value={formData.brokerName2 || ''} onChange={handleChange} className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors border-b-0" />
                 <div className="flex items-center">
                   <label className="w-0 -ml-[calc(33.333%+12px)] pr-3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans w-1/3 box-content">Address</label>
                   <input name="addressLine1" value={formData.addressLine1 || ''} onChange={handleChange} placeholder="Line 1" className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] bg-white font-[Mulish] text-[#3d3d3d] placeholder:text-[#BBBBBB] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors border-b-0" />

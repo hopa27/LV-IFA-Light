@@ -4,6 +4,7 @@ export interface Broker {
   brokerNo: string;
   fimbraNo: string;
   brokerName: string;
+  brokerName2?: string;
   tradingName?: string;
   addressLine1?: string;
   addressLine2?: string;
