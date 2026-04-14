@@ -267,7 +267,19 @@ export default function ContactsTab() {
                 </div>
               </div>
             </div>
-            <FormSelect label="Default Remuneration Basis" options={[{label: '', value: ''}, {label: 'Fee', value: 'Fee'}, {label: 'Commission', value: 'Commission'}]} value={currentContact.defaultRemunerationBasis || ''} />
+            <div className="flex items-center gap-3 mb-2">
+              <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans">Default Remuneration Basis</label>
+              <div className="flex items-center flex-1">
+                <div className="flex-1">
+                  <Combobox value={currentContact.defaultRemunerationBasis || ''} onChange={() => {}} options={[{label: '', value: ''}, {label: 'Fee', value: 'Fee'}, {label: 'Commission', value: 'Commission'}]} />
+                </div>
+                <div className="flex items-center gap-1 shrink-0 ml-5 invisible">
+                  <span className="text-xs font-semibold font-sans mr-1">Network</span>
+                  <span className="flex items-center gap-0.5 text-sm"><span className="w-4 h-4" />Y</span>
+                  <span className="flex items-center gap-0.5 text-sm"><span className="w-4 h-4" />N</span>
+                </div>
+              </div>
+            </div>
             <div className="flex items-start gap-3 mt-3 mb-2">
               <span className="w-1/3 text-xs font-semibold text-[#00263e] font-sans text-right pt-1">Default Distribution Channel</span>
               <div className="flex-1 space-y-2">
