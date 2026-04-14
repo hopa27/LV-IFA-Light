@@ -234,12 +234,11 @@ export default function ContactsTab() {
 
         <div>
           <Fieldset title="IFA Bank Detail">
-            <FormRadioGroup 
-              label="Paid By BACS" 
-              name="paidByBacs" 
-              options={[{label: 'Yes', value: 'true'}, {label: 'No', value: 'false'}]} 
-              value={String(currentContact.paidByBacs)} 
-            />
+            <div className="flex justify-center mb-3">
+              <Fieldset title="Paid By BACS" className="mb-0 px-6">
+                <FormRadioGroup label="" name="paidByBacs" options={[{label: 'Yes', value: 'true'}, {label: 'No', value: 'false'}]} value={String(currentContact.paidByBacs)} />
+              </Fieldset>
+            </div>
             <FormInput label="Bank Sort Code" value={currentContact.bankSortCode || ''} />
             <FormInput label="Bank Account Number" value={currentContact.bankAccountNo || ''} />
             <FormInput label="Bank Account Name" value={currentContact.bankAccountName || ''} />
