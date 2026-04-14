@@ -33,6 +33,11 @@ export default function NotesTab() {
                 ))}
               </div>
               <div className="flex-1 px-4 py-3 font-[Mulish] text-sm text-[#3d3d3d] min-h-[80px]">
+                <div className="flex items-center gap-2 mb-1">
+                  {note.label && (
+                    <span className="inline-block px-2 py-0.5 text-[10px] font-bold font-sans rounded bg-[#eaf5f8] text-[#002f5c] border border-[#04589b]/30 uppercase tracking-wide">{note.label}</span>
+                  )}
+                </div>
                 <p className="font-semibold text-[#00263e]">{note.description}</p>
                 {(note.oldValue !== undefined && note.oldValue !== null) && (
                   <div className="mt-2 text-xs font-[Mulish] text-[#3d3d3d]">

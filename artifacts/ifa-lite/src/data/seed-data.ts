@@ -78,6 +78,7 @@ export interface Note {
   newValue?: string;
   updatedBy?: string;
   updatedDate?: string;
+  label?: string;
   [key: string]: string | number | boolean | null | undefined;
 }
 
@@ -240,42 +241,42 @@ const contactRaw: any[] = [];
 export const initialContacts: Contact[] = contactRaw.map((c, i) => ({ ...c, id: i + 1 }) as Contact);
 
 const notesRaw: any[] = [
-  { brokerId: 1, noteType: "SYS", description: "Grade updated by SYSTEM on 10/01/2024", oldValue: "Standard", newValue: "National Accounts", updatedBy: "SYSTEM", updatedDate: "10/01/2024 09:15:32" },
-  { brokerId: 1, noteType: "SYS", description: "Broker Manager updated by SYSTEM on 10/01/2024", oldValue: "Unassigned", newValue: "Sarah Jenkins", updatedBy: "SYSTEM", updatedDate: "10/01/2024 09:15:32" },
-  { brokerId: 1, noteType: "USR", description: "Broker pack sent via recorded delivery. Confirmed receipt by phone.", updatedBy: "LOPCXT", updatedDate: "15/01/2024 14:22:10" },
-  { brokerId: 1, noteType: "SYS", description: "Key Account updated by SYSTEM on 22/02/2024", oldValue: "No", newValue: "Yes", updatedBy: "SYSTEM", updatedDate: "22/02/2024 11:05:44" },
-  { brokerId: 1, noteType: "USR", description: "Annual review completed. All compliance documentation up to date.", updatedBy: "LV17716", updatedDate: "01/03/2024 16:30:00" },
-  { brokerId: 1, noteType: "SYS", description: "Region updated by SYSTEM on 15/03/2024", oldValue: "Yorkshire", newValue: "Yorkshire & Humber", updatedBy: "SYSTEM", updatedDate: "15/03/2024 08:45:12" },
+  { brokerId: 1, noteType: "SYS", label: "NPA", description: "Grade updated by SYSTEM on 10/01/2024", oldValue: "Standard", newValue: "National Accounts", updatedBy: "SYSTEM", updatedDate: "10/01/2024 09:15:32" },
+  { brokerId: 1, noteType: "SYS", label: "PIPA", description: "Broker Manager updated by SYSTEM on 10/01/2024", oldValue: "Unassigned", newValue: "Sarah Jenkins", updatedBy: "SYSTEM", updatedDate: "10/01/2024 09:15:32" },
+  { brokerId: 1, noteType: "USR", label: "NPA", description: "Broker pack sent via recorded delivery. Confirmed receipt by phone.", updatedBy: "LOPCXT", updatedDate: "15/01/2024 14:22:10" },
+  { brokerId: 1, noteType: "SYS", label: "PRP", description: "Key Account updated by SYSTEM on 22/02/2024", oldValue: "No", newValue: "Yes", updatedBy: "SYSTEM", updatedDate: "22/02/2024 11:05:44" },
+  { brokerId: 1, noteType: "USR", label: "PIPA", description: "Annual review completed. All compliance documentation up to date.", updatedBy: "LV17716", updatedDate: "01/03/2024 16:30:00" },
+  { brokerId: 1, noteType: "SYS", label: "NPA", description: "Region updated by SYSTEM on 15/03/2024", oldValue: "Yorkshire", newValue: "Yorkshire & Humber", updatedBy: "SYSTEM", updatedDate: "15/03/2024 08:45:12" },
 
-  { brokerId: 2, noteType: "SYS", description: "Status updated by SYSTEM on 05/11/2023", oldValue: "Pending", newValue: "Authorised", updatedBy: "SYSTEM", updatedDate: "05/11/2023 10:00:15" },
-  { brokerId: 2, noteType: "USR", description: "Initial broker setup completed. TOBA signed and returned.", updatedBy: "LOPCXT", updatedDate: "06/11/2023 09:30:22" },
-  { brokerId: 2, noteType: "SYS", description: "Telephone updated by SYSTEM on 12/12/2023", oldValue: "0113 265 8800", newValue: "0113 265 8888", updatedBy: "SYSTEM", updatedDate: "12/12/2023 14:18:05" },
-  { brokerId: 2, noteType: "USR", description: "Cashback arrangement confirmed with head office. See email ref CB-2024-0012.", updatedBy: "LV24283", updatedDate: "20/01/2024 11:42:33" },
-  { brokerId: 2, noteType: "SYS", description: "Email updated by SYSTEM on 28/01/2024", oldValue: "", newValue: "WITH CASHBACK", updatedBy: "SYSTEM", updatedDate: "28/01/2024 15:10:00" },
+  { brokerId: 2, noteType: "SYS", label: "NPA", description: "Status updated by SYSTEM on 05/11/2023", oldValue: "Pending", newValue: "Authorised", updatedBy: "SYSTEM", updatedDate: "05/11/2023 10:00:15" },
+  { brokerId: 2, noteType: "USR", label: "PIPA", description: "Initial broker setup completed. TOBA signed and returned.", updatedBy: "LOPCXT", updatedDate: "06/11/2023 09:30:22" },
+  { brokerId: 2, noteType: "SYS", label: "PRP", description: "Telephone updated by SYSTEM on 12/12/2023", oldValue: "0113 265 8800", newValue: "0113 265 8888", updatedBy: "SYSTEM", updatedDate: "12/12/2023 14:18:05" },
+  { brokerId: 2, noteType: "USR", label: "NPA", description: "Cashback arrangement confirmed with head office. See email ref CB-2024-0012.", updatedBy: "LV24283", updatedDate: "20/01/2024 11:42:33" },
+  { brokerId: 2, noteType: "SYS", label: "PIPA", description: "Email updated by SYSTEM on 28/01/2024", oldValue: "", newValue: "WITH CASHBACK", updatedBy: "SYSTEM", updatedDate: "28/01/2024 15:10:00" },
 
-  { brokerId: 3, noteType: "SYS", description: "IFA Commission updated by SYSTEM on 14/11/2023", oldValue: "2.0", newValue: "2.5", updatedBy: "SYSTEM", updatedDate: "14/11/2023 10:35:00" },
-  { brokerId: 3, noteType: "USR", description: "Broker confirmed new telephone number for equity release queries only.", updatedBy: "NW", updatedDate: "20/11/2023 13:25:18" },
-  { brokerId: 3, noteType: "SYS", description: "Network updated by SYSTEM on 03/01/2024", oldValue: "", newValue: "No", updatedBy: "SYSTEM", updatedDate: "03/01/2024 09:50:30" },
-  { brokerId: 3, noteType: "USR", description: "Compliance check passed. FCA reference verified against register.", updatedBy: "LV17716", updatedDate: "15/02/2024 10:15:45" },
+  { brokerId: 3, noteType: "SYS", label: "NPA", description: "IFA Commission updated by SYSTEM on 14/11/2023", oldValue: "2.0", newValue: "2.5", updatedBy: "SYSTEM", updatedDate: "14/11/2023 10:35:00" },
+  { brokerId: 3, noteType: "USR", label: "PRP", description: "Broker confirmed new telephone number for equity release queries only.", updatedBy: "NW", updatedDate: "20/11/2023 13:25:18" },
+  { brokerId: 3, noteType: "SYS", label: "PIPA", description: "Network updated by SYSTEM on 03/01/2024", oldValue: "", newValue: "No", updatedBy: "SYSTEM", updatedDate: "03/01/2024 09:50:30" },
+  { brokerId: 3, noteType: "USR", label: "NPA", description: "Compliance check passed. FCA reference verified against register.", updatedBy: "LV17716", updatedDate: "15/02/2024 10:15:45" },
 
-  { brokerId: 4, noteType: "SYS", description: "Broker Name updated by SYSTEM on 27/03/2014", oldValue: "Age Partnership", newValue: "Age Partnership Ltd", updatedBy: "SYSTEM", updatedDate: "27/03/2014 10:59:18" },
-  { brokerId: 4, noteType: "USR", description: "Company rebranded from Age Partnership to Age Partnership Ltd. Updated all records.", updatedBy: "LV17716", updatedDate: "27/03/2014 11:05:00" },
-  { brokerId: 4, noteType: "SYS", description: "IFA Commission updated by SYSTEM on 15/06/2023", oldValue: "2.5", newValue: "1", updatedBy: "SYSTEM", updatedDate: "15/06/2023 08:20:10" },
-  { brokerId: 4, noteType: "USR", description: "Commission rate reduced per new network agreement effective July 2023.", updatedBy: "CG", updatedDate: "15/06/2023 08:25:00" },
-  { brokerId: 4, noteType: "SYS", description: "Bank Account Name updated by SYSTEM on 01/09/2023", oldValue: "Age Partnership", newValue: "Age Partnership Lt", updatedBy: "SYSTEM", updatedDate: "01/09/2023 14:30:22" },
+  { brokerId: 4, noteType: "SYS", label: "PRP", description: "Broker Name updated by SYSTEM on 27/03/2014", oldValue: "Age Partnership", newValue: "Age Partnership Ltd", updatedBy: "SYSTEM", updatedDate: "27/03/2014 10:59:18" },
+  { brokerId: 4, noteType: "USR", label: "NPA", description: "Company rebranded from Age Partnership to Age Partnership Ltd. Updated all records.", updatedBy: "LV17716", updatedDate: "27/03/2014 11:05:00" },
+  { brokerId: 4, noteType: "SYS", label: "PIPA", description: "IFA Commission updated by SYSTEM on 15/06/2023", oldValue: "2.5", newValue: "1", updatedBy: "SYSTEM", updatedDate: "15/06/2023 08:20:10" },
+  { brokerId: 4, noteType: "USR", label: "PRP", description: "Commission rate reduced per new network agreement effective July 2023.", updatedBy: "CG", updatedDate: "15/06/2023 08:25:00" },
+  { brokerId: 4, noteType: "SYS", label: "NPA", description: "Bank Account Name updated by SYSTEM on 01/09/2023", oldValue: "Age Partnership", newValue: "Age Partnership Lt", updatedBy: "SYSTEM", updatedDate: "01/09/2023 14:30:22" },
 
-  { brokerId: 5, noteType: "SYS", description: "Status updated by SYSTEM on 01/09/2015", oldValue: "Pending", newValue: "Authorised", updatedBy: "SYSTEM", updatedDate: "01/09/2015 11:03:03" },
-  { brokerId: 5, noteType: "USR", description: "Wealth management division registered. Separate IFA reference created.", updatedBy: "LV24283", updatedDate: "01/09/2015 11:10:00" },
-  { brokerId: 5, noteType: "SYS", description: "SIB Reference updated by SYSTEM on 01/11/2017", oldValue: "425432", newValue: "670493", updatedBy: "SYSTEM", updatedDate: "01/11/2017 09:00:00" },
-  { brokerId: 5, noteType: "USR", description: "New SIB authorisation received. Initials updated to CG.", updatedBy: "CG", updatedDate: "01/11/2017 09:15:30" },
-  { brokerId: 5, noteType: "USR", description: "Quarterly review — no issues raised. Next review scheduled for Q2 2024.", updatedBy: "LV24283", updatedDate: "18/12/2023 16:00:00" },
+  { brokerId: 5, noteType: "SYS", label: "NPA", description: "Status updated by SYSTEM on 01/09/2015", oldValue: "Pending", newValue: "Authorised", updatedBy: "SYSTEM", updatedDate: "01/09/2015 11:03:03" },
+  { brokerId: 5, noteType: "USR", label: "PIPA", description: "Wealth management division registered. Separate IFA reference created.", updatedBy: "LV24283", updatedDate: "01/09/2015 11:10:00" },
+  { brokerId: 5, noteType: "SYS", label: "PRP", description: "SIB Reference updated by SYSTEM on 01/11/2017", oldValue: "425432", newValue: "670493", updatedBy: "SYSTEM", updatedDate: "01/11/2017 09:00:00" },
+  { brokerId: 5, noteType: "USR", label: "NPA", description: "New SIB authorisation received. Initials updated to CG.", updatedBy: "CG", updatedDate: "01/11/2017 09:15:30" },
+  { brokerId: 5, noteType: "USR", label: "PIPA", description: "Quarterly review — no issues raised. Next review scheduled for Q2 2024.", updatedBy: "LV24283", updatedDate: "18/12/2023 16:00:00" },
 
-  { brokerId: 6, noteType: "SYS", description: "Status updated by SYSTEM on 15/07/2022", oldValue: "Pending", newValue: "Authorised", updatedBy: "SYSTEM", updatedDate: "15/07/2022 08:58:45" },
-  { brokerId: 6, noteType: "USR", description: "New broker onboarded. Contact: Frances. Specialises in mortgage solutions.", updatedBy: "LV31066", updatedDate: "15/07/2022 09:05:00" },
-  { brokerId: 6, noteType: "SYS", description: "Paid By BACS updated by SYSTEM on 20/08/2022", oldValue: "Y", newValue: "N", updatedBy: "SYSTEM", updatedDate: "20/08/2022 10:30:15" },
-  { brokerId: 6, noteType: "USR", description: "Broker requested cheque payments. BACS details removed.", updatedBy: "LD", updatedDate: "20/08/2022 10:35:00" },
-  { brokerId: 6, noteType: "SYS", description: "IFA Commission updated by SYSTEM on 10/01/2023", oldValue: "0", newValue: "1", updatedBy: "SYSTEM", updatedDate: "10/01/2023 14:20:00" },
-  { brokerId: 6, noteType: "USR", description: "First year review completed. Commission rate agreed at 1%. Broker pack not yet sent.", updatedBy: "LD", updatedDate: "15/07/2023 11:00:00" },
+  { brokerId: 6, noteType: "SYS", label: "NPA", description: "Status updated by SYSTEM on 15/07/2022", oldValue: "Pending", newValue: "Authorised", updatedBy: "SYSTEM", updatedDate: "15/07/2022 08:58:45" },
+  { brokerId: 6, noteType: "USR", label: "PRP", description: "New broker onboarded. Contact: Frances. Specialises in mortgage solutions.", updatedBy: "LV31066", updatedDate: "15/07/2022 09:05:00" },
+  { brokerId: 6, noteType: "SYS", label: "PIPA", description: "Paid By BACS updated by SYSTEM on 20/08/2022", oldValue: "Y", newValue: "N", updatedBy: "SYSTEM", updatedDate: "20/08/2022 10:30:15" },
+  { brokerId: 6, noteType: "USR", label: "NPA", description: "Broker requested cheque payments. BACS details removed.", updatedBy: "LD", updatedDate: "20/08/2022 10:35:00" },
+  { brokerId: 6, noteType: "SYS", label: "PRP", description: "IFA Commission updated by SYSTEM on 10/01/2023", oldValue: "0", newValue: "1", updatedBy: "SYSTEM", updatedDate: "10/01/2023 14:20:00" },
+  { brokerId: 6, noteType: "USR", label: "PIPA", description: "First year review completed. Commission rate agreed at 1%. Broker pack not yet sent.", updatedBy: "LD", updatedDate: "15/07/2023 11:00:00" },
 ];
 
 export const initialNotes: Note[] = notesRaw.map((n, i) => ({ ...n, id: i + 1 }) as Note);
