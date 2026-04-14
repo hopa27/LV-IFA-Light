@@ -1,8 +1,8 @@
 import React from 'react';
 import { useListNotes } from '@/hooks/use-static-data';
 import { useApp } from '@/context/app-context';
-import { Button } from '@/components/shared/FormElements';
-import { Plus } from 'lucide-react';
+
+
 
 export default function NotesTab() {
   const { activeBrokerId } = useApp();
@@ -17,10 +17,6 @@ export default function NotesTab() {
 
   return (
     <div className="flex flex-col min-h-full pt-[12px]">
-      <div className="flex justify-end items-center mb-4">
-        <Button><Plus className="w-4 h-4" /> Add Note</Button>
-      </div>
-
       <div className="flex-1 overflow-auto">
         {notes.length === 0 ? (
           <div className="text-center py-12 text-[#979797] font-[Mulish] bg-white border border-[#BBBBBB] rounded-lg">No notes found for this record.</div>
