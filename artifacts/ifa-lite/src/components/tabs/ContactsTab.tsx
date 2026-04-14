@@ -256,7 +256,7 @@ export default function ContactsTab() {
                 <div className="flex-1">
                   <Combobox value={currentContact.defaultAdviceType || ''} onChange={() => {}} options={[{label: '', value: ''}, {label: 'Independent', value: 'Independent'}, {label: 'Restricted', value: 'Restricted'}]} />
                 </div>
-                <div className="flex items-center gap-1 shrink-0 ml-2">
+                <div className="flex items-center gap-1 shrink-0 ml-5">
                   <span className="text-xs font-semibold text-[#3d3d3d] font-sans mr-1">Network</span>
                   {[{label: 'Y', value: 'true'}, {label: 'N', value: 'false'}].map(opt => (
                     <label key={opt.value} className="flex items-center gap-0.5 text-sm font-[Mulish] text-[#3d3d3d] cursor-pointer">
