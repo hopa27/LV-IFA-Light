@@ -187,19 +187,23 @@ export default function IfaDetailTab() {
             <thead className="bg-[#eaf5f8] sticky top-0">
               <tr>
                 <th className="px-2 py-2 border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">Ref</th>
-                <th className="px-2 py-2 border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">Name</th>
+                <th className="px-2 py-2 border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">Title</th>
+                <th className="px-2 py-2 border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">Initials</th>
+                <th className="px-2 py-2 border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">Surname</th>
                 <th className="px-2 py-2 border-b-2 border-[#04589b] text-[#002f5c] font-sans font-semibold">Position</th>
               </tr>
             </thead>
             <tbody>
               {contacts.length === 0 ? (
-                <tr><td colSpan={3} className="text-center py-4 text-[#979797]">No contacts found</td></tr>
+                <tr><td colSpan={5} className="text-center py-4 text-[#979797]">No contacts found</td></tr>
               ) : (
                 contacts.map((c, i) => (
                   <tr key={c.id} className={`border-b border-[#BBBBBB]/30 hover:bg-[#05579B] hover:text-white group cursor-pointer ${i % 2 === 1 ? 'bg-[#e7ebec]/20' : ''}`}>
                     <td className="px-2 py-2 text-[#005a9c] font-semibold group-hover:text-white">{c.reference}</td>
-                    <td className="px-2 py-2 group-hover:text-white">{c.title} {c.initials} {c.surname}</td>
-                    <td className="px-2 py-2 truncate max-w-[100px] group-hover:text-white" title={c.position || ''}>{c.position}</td>
+                    <td className="px-2 py-2 group-hover:text-white">{c.title}</td>
+                    <td className="px-2 py-2 group-hover:text-white">{c.initials}</td>
+                    <td className="px-2 py-2 group-hover:text-white">{c.surname}</td>
+                    <td className="px-2 py-2 truncate max-w-[80px] group-hover:text-white" title={c.position || ''}>{c.position}</td>
                   </tr>
                 ))
               )}
