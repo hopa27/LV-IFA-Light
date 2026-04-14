@@ -35,7 +35,7 @@ export default function NotesTab() {
               <div className="flex-1 px-4 py-3 font-[Mulish] text-sm text-[#3d3d3d] min-h-[80px]">
                 <p className="font-semibold text-[#00263e]">
                   {note.label && (
-                    <span className="inline-block px-2 py-0.5 mr-2 text-[10px] font-bold font-sans rounded bg-[#eaf5f8] text-[#002f5c] border border-[#04589b]/30 uppercase tracking-wide align-middle">{note.label}</span>
+                    <span className="font-bold mr-1">{note.label} :</span>
                   )}
                   {note.description}
                 </p>
