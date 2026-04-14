@@ -252,18 +252,18 @@ export default function ContactsTab() {
             </div>
             <div className="flex items-center gap-3 mb-2">
               <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans">Default Advice Type</label>
-              <div className="flex items-center gap-3 flex-1">
-                <div className="flex items-center gap-1.5 shrink-0">
-                  <span className="text-xs font-semibold text-[#3d3d3d] font-sans">Network</span>
+              <div className="flex items-center flex-1">
+                <div className="flex-1">
+                  <Combobox value={currentContact.defaultAdviceType || ''} onChange={() => {}} options={[{label: '', value: ''}, {label: 'Independent', value: 'Independent'}, {label: 'Restricted', value: 'Restricted'}]} />
+                </div>
+                <div className="flex items-center gap-1 shrink-0 ml-2">
+                  <span className="text-xs font-semibold text-[#3d3d3d] font-sans mr-1">Network</span>
                   {[{label: 'Y', value: 'true'}, {label: 'N', value: 'false'}].map(opt => (
-                    <label key={opt.value} className="flex items-center gap-1 text-sm font-[Mulish] text-[#3d3d3d] cursor-pointer">
+                    <label key={opt.value} className="flex items-center gap-0.5 text-sm font-[Mulish] text-[#3d3d3d] cursor-pointer">
                       <input type="radio" name="network" value={opt.value} checked={String(currentContact.network) === opt.value} readOnly className="w-4 h-4 border-[#979797] text-[#006cf4] focus:ring-[#006cf4] accent-[#006cf4]" />
                       {opt.label}
                     </label>
                   ))}
-                </div>
-                <div className="flex-1">
-                  <Combobox value={currentContact.defaultAdviceType || ''} onChange={() => {}} options={[{label: '', value: ''}, {label: 'Independent', value: 'Independent'}, {label: 'Restricted', value: 'Restricted'}]} />
                 </div>
               </div>
             </div>
