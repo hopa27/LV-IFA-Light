@@ -124,17 +124,19 @@ export default function IfaDetailTab() {
       <div className="flex-1 flex flex-col min-w-[600px]">
         <div className="flex-1 overflow-auto pr-2 pb-4">
           <div className="grid grid-cols-2 gap-x-8 gap-y-1">
-            <FormInput label="Broker Name" name="brokerName" value={formData.brokerName || ''} onChange={handleChange} />
-            <FormInput label="FCA Reference" name="fcaReference" value={formData.fcaReference || ''} onChange={handleChange} />
-
-            <div className="flex items-start gap-3 mb-2 row-span-3">
-              <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans pt-[7px]">Address</label>
+            <div className="flex items-start gap-3 mb-2 row-span-4">
+              <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans pt-[7px]">Broker Name</label>
               <div className="flex-1 flex flex-col">
-                <input name="addressLine1" value={formData.addressLine1 || ''} onChange={handleChange} placeholder="Line 1" className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-t-lg bg-white font-[Mulish] text-[#3d3d3d] placeholder:text-[#BBBBBB] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors border-b-0" />
+                <input name="brokerName" value={formData.brokerName || ''} onChange={handleChange} className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-t-lg bg-white font-[Mulish] text-[#3d3d3d] placeholder:text-[#BBBBBB] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors border-b-0" />
+                <div className="flex items-center">
+                  <label className="w-0 -ml-[calc(33.333%+12px)] pr-3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans w-1/3 box-content">Address</label>
+                  <input name="addressLine1" value={formData.addressLine1 || ''} onChange={handleChange} placeholder="Line 1" className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] bg-white font-[Mulish] text-[#3d3d3d] placeholder:text-[#BBBBBB] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors border-b-0" />
+                </div>
                 <input name="addressLine2" value={formData.addressLine2 || ''} onChange={handleChange} placeholder="Line 2" className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] bg-white font-[Mulish] text-[#3d3d3d] placeholder:text-[#BBBBBB] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors border-b-0" />
                 <input name="addressLine3" value={formData.addressLine3 || ''} onChange={handleChange} placeholder="Line 3" className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-b-lg bg-white font-[Mulish] text-[#3d3d3d] placeholder:text-[#BBBBBB] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors" />
               </div>
             </div>
+            <FormInput label="FCA Reference" name="fcaReference" value={formData.fcaReference || ''} onChange={handleChange} />
             <div className="flex flex-col gap-y-1 row-span-3">
               <FormRadioGroup label="Annuity TOBA" name="annuityToba" options={[{label: 'Yes', value: 'true'}, {label: 'No', value: 'false'}]} value={String(formData.annuityToba)} />
               <FormSelect label="Status" name="status" value={formData.status || ''} onChange={handleChange} options={[{label: 'Authorised', value: 'Authorised'},{label: 'Cancelled', value: 'Cancelled'},{label: 'Revoked', value: 'Revoked'},{label: 'Duplicate Record', value: 'Duplicate Record'}]} />
