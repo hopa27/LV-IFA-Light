@@ -36,7 +36,7 @@
 
 ```
 +--------------------------------------------------------------------------------------------+
-| |Broker: AGEPA-003 | [Appointment v] | [|<] [<] 1 of 6 [>] [>|] | (New) (Locate) (Search) (Save) |
+| |Broker: AGEPA-003 | [Appointment v] | [|<] [<] 1 of 6 [>] [>|] | (New) (Locate) (Search) | (Save) |
 +--------------------------------------------------------------------------------------------+
 |                                                                                            |
 |  LEFT COLUMN                              |  RIGHT COLUMN         | ASSOCIATED CONTACTS    |
@@ -56,100 +56,255 @@
 |      Initials  [________________]         |         Region  [___v] |                        |
 |  Date Checked  [________________]         |                        |                        |
 |  ─────────────────────────────────────────|────────────────────────|                        |
-|     Created By [LORDXT ]                  |  Created Date [14/11/..] |                      |
-|     Amended By [_______]                  |  Amended Date [________] |                      |
+|     Created By [LORDXT ] (disabled)       |  Created Date [14/11/..] (disabled)              |
+|     Amended By [_______] (disabled)       |  Amended Date [________] (disabled)              |
 |  ─────────────────────────────────────────|──────────────────────────|                      |
 +--------------------------------------------------------------------------------------------+
 ```
 
 **Layout Notes:**
 - Three-panel layout: left form fields, right form fields, Associated Contacts sidebar (350px fixed width)
-- Broker Name and Address are **connected fields** — a single bordered block with 5 stacked inputs:
-  - Line 1: Broker Name (primary)
-  - Line 2: Broker Name overflow (for long names)
-  - Line 3: Address Line 1 (with "Address" label appearing to the left)
-  - Line 4: Address Line 2
-  - Line 5: Address Line 3
-  - Top has rounded-t-lg corners, bottom has rounded-b-lg corners, internal borders are shared (no border-bottom except on last)
+- Left/right fields arranged in a 2-column CSS grid (`grid-cols-2 gap-x-8 gap-y-1`)
+- Broker Name and Address are **connected fields** — a single bordered block with 5 stacked single-line inputs:
+  - Line 1: Broker Name (primary) — `rounded-t-lg`, no bottom border
+  - Line 2: Broker Name overflow (for long names) — no bottom border
+  - Line 3: Address Line 1 — "Address" label floats to the left via negative margin, no bottom border
+  - Line 4: Address Line 2 — no bottom border
+  - Line 5: Address Line 3 — `rounded-b-lg`
+  - All inputs share continuous side borders; only the top and bottom have rounded corners
+- The connected block spans `row-span-5` in the grid, with FCA Reference, Annuity TOBA, Status, and Sent Date aligned to its right
 
-**Toolbar Behavior (IFA Detail tab only):**
-- Broker reference badge with blue accent bar on left
-- Combobox dropdown: Appointment / Broker Pack Follow Up / Duplicate / Hold
-- Navigation: First / Prev / "N of M" / Next / Last (circular pill buttons, 44x44px, rounded-[30px])
-- 4 circular action buttons on right:
-  - (New IFA) — opens Insert IFA modal (see 1b)
-  - (Locate IFA) — scan search modal (see 1c)
-  - (Search) — Lookup IFA modal with filters & Amendable Details (see 1d)
-  - (Save) — floppy disk icon, enabled only when form has unsaved edits
+**Toolbar (IFA Detail tab only):**
+- Rendered inside a white card with border, rounded corners, and shadow (`bg-white border border-[#BBBBBB] rounded-lg`)
+- Left group:
+  - **Broker badge**: blue accent bar (4px, `bg-[#006cf4]`) + "Broker: AGEPA-003" text (ref in blue)
+  - Vertical divider
+  - **Action combobox** (200px wide): Appointment / Broker Pack Follow Up / Duplicate / Hold
+  - Vertical divider
+  - **Navigation buttons** (5): First (`ChevronFirst`) / Prev (`ChevronLeft`) / "N of M" label / Next (`ChevronRight`) / Last (`ChevronLast`)
+    - All circular: `w-[44px] h-[44px] rounded-[30px]`
+    - Style: white bg, `border-[#04589b]`, hover fills `bg-[#003578]` + white text
+    - Disabled at boundaries (first/last), `opacity-30`
+- Right group (separated by gap):
+  - **(New IFA)** — `FilePlus2` icon, opens Insert IFA modal (see 1b). Tooltip: "New IFA"
+  - **(Locate IFA)** — `ScanSearch` icon, opens Locate IFA modal (see 1c). Tooltip: "Locate IFA"
+  - **(Lookup IFA)** — `Search` icon, opens Lookup IFA modal (see 1d). Tooltip: "Lookup IFA"
+  - Vertical divider
+  - **(Save)** — `Save` icon (or spinning `RefreshCw` while saving). Solid blue bg (`bg-[#006cf4]`), disabled grey (`bg-[#979797]`) when form is clean. Tooltip: "Save Changes"
+- All action buttons share the same circular 44×44 pill style with hover tooltips (navy bg, white text, 10px font)
 
 **Form Behavior:**
-- Two-column grid layout (`grid-cols-2 gap-x-8 gap-y-1`), with Associated Contacts panel to the right
-- All fields are editable text inputs or combobox dropdowns
-- Dropdowns: Status, Grade, Broker Manager, Key Account (A–Z), Region (with code prefix e.g. "BIR - Birmingham")
+- All fields are editable text inputs or Combobox dropdowns (custom component with search, keyboard nav, green focus border)
+- Combobox dropdowns used for: Status, Grade, Broker Manager, Key Account (A–Z), Region (code prefix e.g. "BIR - Birmingham")
 - Annuity TOBA is a Yes/No radio group
-- Created By / Created Date / Amended By / Amended Date are disabled (read-only, greyed out) below a horizontal rule
-- On save, each changed field generates a SYS note with old/new values visible in the Notes tab
-- "No Broker Selected" placeholder shown if no broker is active
+- Created By / Created Date / Amended By / Amended Date are disabled (read-only, grey background `bg-[#CCCCCC]`) below a horizontal rule separator
+- "No Broker Selected" placeholder shown if no broker is active — centered message with dashed border and alert icon
+- On load, form state is initialised from the broker record; `isDirty` is set to false
+- Editing any field sets `isDirty = true`, enabling the Save button
+
+**Save Flow:**
+1. User edits one or more fields, Save button becomes enabled (blue)
+2. User clicks Save → for each changed field (compared against `originalData`):
+   - A SYS note is created with:
+     - `noteType: "SYS"`
+     - `description: "{Field Label} updated by SYSTEM on {dd/mm/yyyy}"`
+     - `oldValue`: previous value (string)
+     - `newValue`: new value (string)
+     - `updatedBy: "SYSTEM"`
+     - `updatedDate: "{dd/mm/yyyy}"`
+   - Field labels come from `FIELD_LABELS` map (e.g. `brokerName` → "Broker Name", `fcaReference` → "FCA Reference")
+3. Tracked fields: `brokerName`, `addressLine1`, `addressLine2`, `town`, `county`, `postcode`, `telephone`, `fax`, `email`, `initials`, `dateChecked`, `fcaReference`, `annuityToba`, `status`, `sentDate`, `grade`, `nextDiaryDate`, `ifaMemberNo`, `brokerManager`, `keyAccount`, `partnerCode`, `region`
+4. After successful save, `originalData` is updated to match current form, `isDirty` resets to false
+5. Save button shows spinning icon while saving, then returns to floppy disk icon
+6. Generated notes appear in the Notes tab (see section 6)
+
+**Associated Contacts Panel:**
+- Fixed 350px width sidebar on the right
+- Navy header (`bg-[#002f5c]`): "ASSOCIATED CONTACTS" (uppercase, bold, white, tracked)
+- Table with 3 columns: Ref, Name, Position
+- Sticky header row with light blue bg (`bg-[#eaf5f8]`), blue bottom border
+- Alternating row backgrounds; hover highlights row in blue (`bg-[#05579B]`) with white text
+- Shows "No contacts found" when broker has no contacts
 
 ---
 
-### 1b. Insert IFA Modal (triggered by [New IFA])
+### 1b. Insert IFA Modal (triggered by New IFA button)
 
 ```
 +========================================+
-| Insert IFA                         [X] |
+| Insert IFA                         [X] |  <- Navy header (#002f5c)
 +----------------------------------------+
 |                                        |
 |  Broker Name                           |
 |  [________________________________]   |
 |                                        |
-|  [________________________________]   |  <- Address Line 1
-|  [________________________________]   |  <- Address Line 2
+|  Address                               |
+|  ┌────────────────────────────────┐   |
+|  │ Line 1                         │   |
+|  │ Line 2                         │   |
+|  │ Line 3                         │   |
+|  └────────────────────────────────┘   |
 |                                        |
-|                   (Town)  [________]   |
-|                 (County)  [________]   |
-|               (Postcode)  [________]   |
+|  (Town) [______] (County) [______] (Postcode) [______]   <- 3-column grid
 |                                        |
-|  Telephone         Fax                 |
-|  [______________]  [______________]    |
+|  Telephone           Fax               |
+|  [______________]    [______________]  |  <- 2-column, equal width
 |                                        |
-|  ─────────────────────────────────     |
-|                      [Ok]  [Cancel]    |
+|  ─────────────────────────────────     |  <- border-t separator
+|                  [✓ Ok]  [✕ Cancel]    |  <- right-aligned buttons
 +========================================+
 ```
 
 **Behavior:**
-- Broker Name is required — shows alert if empty on OK
-- On OK: creates new broker with status "Authorised", navigates to it, closes modal
+- Modal width: 420px, background: `#f0f0f0`
+- Broker Name is required — shows browser `alert()` if empty on OK
+- Address: 3 connected inputs (rounded-t on first, rounded-b on last, shared borders)
+- Town / County / Postcode: 3-column grid layout (`grid-cols-3 gap-3`)
+- Telephone / Fax: 2 equal columns side by side
+- Buttons: primary "Ok" (with ✓ icon) and secondary "Cancel" (with ✕ icon), right-aligned below separator
+- On OK: creates new broker with `status: "Authorised"`, navigates to it, closes modal
 - On Cancel / Escape / backdrop click: closes without action
+- All inputs use green focus border (`focus:border-[#178830]`)
 
 ---
 
-### 1c. Locate IFA Modal (triggered by [Locate IFA])
+### 1c. Locate IFA Modal (triggered by Locate IFA button)
 
 ```
 +============================================+
-| Locate IFA                             [X] |
+| Locate IFA                             [X] |  <- Navy header (#00263e)
 +--------------------------------------------+
 |                                            |
-|  [Enter IFA reference..._______________]   |
+|  [Enter IFA reference..._____________]    |  <- auto-focused text input
 |                                            |
 |  +--------------------------------------+  |
-|  | IFA Ref  | Broker Name   | Postcode  |  |  <- shown after search
+|  | IFA Ref  | Broker Name   | Postcode  |  |  <- shown only after search
 |  |----------|---------------|-----------|  |
-|  | A G S-001| AF            | HP4 3QZ   |  |
-|  | B K L-002| Baker Ltd     | SW1A 1AA  |  |
+|  | AGEPA-003| Age Partner.. | LS15 8ZB  |  |  <- click row to select
+|  | BKBFL-001| Baker & Sons  | SW1A 1AA  |  |
 |  +--------------------------------------+  |
 |                                            |
-|                       [Find]  [Quit]       |
+|                  [🔍 Find]  [✕ Quit]       |  <- right-aligned buttons
 +============================================+
 ```
 
 **Behavior:**
-- Type IFA reference, press Enter or click [Find] to search
-- Results table shown only after a search is submitted
-- Click any row to select that broker and close the modal
+- Modal width: 480px, background: `#f0f0f0`
+- Single search input, auto-focused on open
+- Press Enter or click [Find] to submit search (Find disabled when input empty)
+- Searches brokers by IFA reference (partial match, case-insensitive)
+- Results table appears only after a search is submitted:
+  - 3 columns: IFA Ref (blue, bold), Broker Name, Postcode
+  - Max height 200px with scroll
+  - Alternating row colours; hover highlights in blue (`bg-[#05579B]`)
+  - Click any row → selects that broker and closes modal immediately
+  - "Searching..." shown while loading; "No records found." if empty
 - [Quit] / Escape / backdrop click: closes without action
+
+---
+
+### 1d. Lookup IFA Modal (triggered by Search/Lookup IFA button)
+
+```
++================================================================================+
+| IFA Lookup                                                                 [X] |  <- Navy header (#002f5c)
++--------------------------------------------------------------------------------+
+|                                                                                |
+|  IFA Ref [________]  Postcode [________]  Broker Name [________]  [x] Authorised   [✓ OK ]  |
+|                                                                   [ ] Cancelled    [✕ Cancel] |
+|                                                                   [ ] Duplicate Rec [+ New ] |
+|                                                                   [ ] Revoked                |
+|  +--------------------------------------------------------------------------+  |
+|  | IFA_REF       | POST_CODE    | BROKER_NAME                              |  |
+|  |---------------|--------------|------------------------------------------|  |
+|  | AGEPA-003     | LS15 8ZB     | Age Partnership                         |  |  <- click to select, dblclick to select+close
+|  | BKBFL-001     | SW1A 1AA     | Baker & Sons                            |  |
+|  | HLXPN-004     | M1 4BT       | Halifax Pension Fund                    |  |
+|  +--------------------------------------------------------------------------+  |
+|                                                                                |
+|  +== AMENDABLE DETAILS ====================================================+  |
+|  |  Address [2200 Century Way ]         SIB No        [__________]         |  |
+|  |          [Thorpe Park      ]         Authorised By [__________]         |  |
+|  |          [Leeds             ]         Authorised On [__________]         |  |
+|  |          [West Yorkshire    ]         IFA Portfolio  [ ]                 |  |
+|  |  Post Code [LS15 8ZB       ]                                            |  |
+|  +=========================================================================+  |
++================================================================================+
+```
+
+**Behavior:**
+- Modal width: 780px, max height: 85vh, background: `#f0f0f0`
+- **Filter row** across the top:
+  - 3 text inputs: IFA Ref, Postcode, Broker Name (all live-filter as you type, case-insensitive partial match)
+  - 4 status checkboxes: Authorised (checked by default), Cancelled, Duplicate Record, Revoked
+  - 3 action buttons stacked vertically: OK (primary, disabled until row selected), Cancel (secondary), New (secondary, opens Insert IFA modal)
+- **Results table**: 3 columns (IFA_REF, POST_CODE, BROKER_NAME)
+  - Min height 180px, max height 280px with scroll
+  - Single-click selects a row (highlighted in blue `bg-[#05579B]`); double-click selects and closes
+  - Alternating row backgrounds; sticky header with light blue bg
+- **Amendable Details** fieldset below the table:
+  - Read-only fields showing the selected broker's details
+  - Left column: Address (4 lines: addressLine1, addressLine2, town, county), Post Code
+  - Right column: SIB No, Authorised By, Authorised On, IFA Portfolio (checkbox)
+  - All fields disabled with grey background (`bg-[#CCCCCC]`, `border-[#ACACAC]`)
+- [New] button closes the Lookup modal and opens the Insert IFA modal
+- Escape / backdrop click / Cancel: closes without action
+
+---
+
+### 1e. Notes Tab — System-Generated Audit Notes
+
+```
++--------------------------------------------------------------------------------------------+
+|                                                                                            |
+|  ┌────┬──────────────────────────────────────────────────────────────────────┐              |
+|  │ S  │  NPA : Grade updated by SYSTEM                                     │              |
+|  │ Y  │                                                                     │              |
+|  │ S  │  OLD VALUE  : National Accounts                                    │              |
+|  │    │  NEW VALUE  : Major Accounts                                       │              |
+|  └────┴──────────────────────────────────────────────────────────────────────┘              |
+|                                                                                            |
+|  ┌────┬──────────────────────────────────────────────────────────────────────┐              |
+|  │ U  │  Called broker to discuss terms — follow up next week               │              |
+|  │ S  │                                                                     │              |
+|  │ R  │                                                                     │              |
+|  └────┴──────────────────────────────────────────────────────────────────────┘              |
+|                                                                                            |
+|  ┌─────────────────────────────────────────────────────────────────────────────┐            |
+|  │  (empty grey placeholder row)                                              │            |
+|  └─────────────────────────────────────────────────────────────────────────────┘            |
+|                                                                                            |
++--------------------------------------------------------------------------------------------+
+```
+
+**Note Card Layout:**
+- Each note rendered as a horizontal card with border and rounded corners
+- Left strip (40px): light blue background (`bg-[#eaf5f8]`) with note type letters stacked vertically ("SYS" or "USR"), bold navy text
+- Right body: padding 16px horizontal, 12px vertical, minimum height 80px
+  - First line (bold, navy): optional label prefix (e.g. "NPA :") followed by description text
+  - If `oldValue`/`newValue` exist: shown below in 2 rows, each with bold fixed-width (100px) label ("OLD VALUE" / "NEW VALUE") followed by ": {value}"
+- Empty placeholder rows: grey background (`bg-[#d8d8d8]`), 60px min height, fills up to 6 total rows
+
+**Note Interface:**
+```
+Note {
+  id: number
+  brokerId: number
+  noteType: "SYS" | "USR"
+  description: string
+  oldValue?: string        // only on SYS notes from save
+  newValue?: string        // only on SYS notes from save
+  updatedBy?: string       // e.g. "SYSTEM", "JSMITH"
+  updatedDate?: string     // e.g. "14/11/2005"
+  label?: string           // e.g. "NPA", "PIPA", "PRP"
+}
+```
+
+**Note Types:**
+- **SYS** notes: system-generated when fields are saved (see Save Flow above). Always have `oldValue`/`newValue`. Labels like "NPA", "PIPA", "PRP" rendered inline before description
+- **USR** notes: user-entered notes with free-text description. No old/new values. No "Add Note" button (notes are system-generated only)
+- Seed data includes 31 pre-populated notes across all 6 brokers, mixing SYS and USR types
+- Old/new values pattern in seed data: always `"0"` vs a digit `"1"–"9"` for SYS notes; USR notes have no old/new values
 
 ---
 
