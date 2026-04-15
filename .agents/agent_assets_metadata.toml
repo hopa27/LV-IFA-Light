@@ -30,3 +30,9 @@ id = "CBXh1Rx1KAZNQy4LLpUXw"
 uri = "file://IFA-Lite-Screen-Digest.md"
 type = "text"
 title = "IFA Lite — Screen Digest (Restructured)"
+
+[[outputs]]
+id = "kQDb7SnQ2bGnVzSwZ5hkn"
+uri = "file://IFA-Lite-Recreation-Prompt.md"
+type = "text"
+title = "IFA Lite Recreation Prompt"
