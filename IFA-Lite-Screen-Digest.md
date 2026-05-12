@@ -2,7 +2,7 @@
 
 > **Version:** 1.1.0
 > **Type:** Internal Broker/IFA Management Tool
-> **Description:** Fully static (no backend/database) React/Vite web application for internal users to manage brokers/IFAs. Replicates a legacy Citrix-based Windows desktop EXE. All data is embedded in-memory via React context. Features 6 tabs covering IFA details, contacts, lookups, retirement income, equity release, and audit notes.
+> **Description:** Fully static (no backend/database) Angular web application for internal users to manage brokers/IFAs. Replicates a legacy Citrix-based Windows desktop EXE. All data is embedded in-memory via injectable Angular services exposing signals. Features 6 tabs covering IFA details, contacts, lookups, retirement income, equity release, and audit notes.
 
 ---
 
@@ -10,14 +10,15 @@
 
 | Layer | Technology |
 |---|---|
-| Framework | React 18 + Vite |
+| Framework | Angular 17+ (standalone components, signals, `OnPush`) |
 | Styling | Tailwind CSS v4 (inline `@theme`) |
-| Routing | wouter (single route `/`, tab-based navigation via React context) |
-| State | React Context (`AppProvider` + `DataStoreProvider`) |
-| Data | In-memory seed data — no API, no database |
-| Icons | lucide-react |
-| Combobox | cmdk |
-| Utilities | clsx + tailwind-merge |
+| Routing | Angular Router (single route `/`, tab-based navigation via `AppStateService.activeTab` signal) |
+| State | Injectable services (`AppStateService` + `DataStoreService`) using `signal()` / `computed()` / `effect()` |
+| Data | In-memory seed data — no HTTP, no database |
+| Forms | `ReactiveFormsModule` (`FormBuilder`, `FormGroup`, `FormControl`, `FormArray`) |
+| Icons | `lucide-angular` |
+| Combobox | Custom `<app-combobox>` built on Angular CDK Overlay/Listbox, implements `ControlValueAccessor` |
+| Utilities | Angular `NgClass` / `NgStyle`; native template bindings (no clsx needed) |
 | Zoom | `html { zoom: 0.8 }`, root height `calc(100vh / 0.8)` |
 
 ### 1.1 Typography
@@ -80,19 +81,19 @@
 
 ## 3. Global State
 
-### 3.1 AppContext Properties
+### 3.1 AppStateService Signals & Methods
 
 | Property | Type | Default | Description |
 |---|---|---|---|
-| `activeTab` | `TabId` | `ifa-detail` | Currently visible tab |
-| `activeBrokerId` | `number \| null` | `null` (auto-set to first broker on load) | Selected broker ID |
-| `activeIfaRef` | `string` | `""` | Display label for current broker in toolbar |
-| `isDirty` | `boolean` | `false` | True when IFA Detail form has unsaved changes |
-| `isSaving` | `boolean` | `false` | True during save mutation |
-| `registerSaveHandler` | callback | — | Callback registration for tab-level save logic |
-| `triggerSave` | callback | — | Invokes the registered save handler |
+| `activeTab` | `WritableSignal<TabId>` | `ifa-detail` | Currently visible tab |
+| `activeBrokerId` | `WritableSignal<number \| null>` | `null` (auto-set to first broker on load) | Selected broker ID |
+| `activeIfaRef` | `Signal<string>` (computed) | `""` | Display label for current broker in toolbar |
+| `isDirty` | `WritableSignal<boolean>` | `false` | True when IFA Detail form has unsaved changes |
+| `isSaving` | `WritableSignal<boolean>` | `false` | True during save operation |
+| `registerSaveHandler(fn)` | method | — | Registers the active tab's save handler |
+| `triggerSave()` | method | — | Invokes the registered save handler |
 
-### 3.2 Data Entities (In-Memory via DataStoreProvider)
+### 3.2 Data Entities (In-Memory via DataStoreService)
 
 | Entity | Type | Seed Count | Key Fields |
 |---|---|---|---|
@@ -192,7 +193,7 @@ Common: `min-w-[140px]`, `px-6 py-3`, `15px semibold font-sans`, `rounded-t-lg`.
 
 ### 4.6 Reusable Form Components
 
-#### Combobox (cmdk-based)
+#### Combobox (`<app-combobox>`, Angular CDK Overlay + Listbox, implements `ControlValueAccessor`)
 - Height: `34px`, border radius: `8px`
 - Default border: `1px solid #BBBBBB`, hover: `#178830`
 - Open state: `3px solid #178830` (no bottom border, squared bottom corners)
@@ -228,8 +229,8 @@ Common: `min-w-[140px]`, `px-6 py-3`, `15px semibold font-sans`, `rounded-t-lg`.
 
 | Property | Value |
 |---|---|
-| Component | `IfaDetailTab` |
-| File | `components/tabs/IfaDetailTab.tsx` |
+| Component | `IfaDetailTabComponent` (`<app-ifa-detail-tab>`) |
+| File | `features/ifa-detail/ifa-detail-tab.component.ts` |
 | Requires Broker | Yes |
 
 **Empty State:** Dashed border container with AlertCircle icon, "No Broker Selected", "Please select a broker from the Lookups tab first."
@@ -270,9 +271,9 @@ Common: `min-w-[140px]`, `px-6 py-3`, `15px semibold font-sans`, `rounded-t-lg`.
 
 1. Toolbar Save button enabled when `isDirty`
 2. Compares every labelled field against original values
-3. `updateBroker` mutation fires
-4. On success: for each changed field, creates a `Note` (type: `SYS`) with description `"{FieldLabel} updated by SYSTEM on {DD/MM/YYYY}"`, `oldValue`, `newValue`
-5. Resets `isDirty`, updates `originalData`
+3. `dataStore.updateBroker(...)` is called
+4. On success: for each changed field, calls `dataStore.createNote({ noteType: 'SYS', description: '{FieldLabel} updated by SYSTEM on {DD/MM/YYYY}', oldValue, newValue })`
+5. Resets `appState.isDirty.set(false)`, updates `originalData` snapshot
 
 ---
 
@@ -280,8 +281,8 @@ Common: `min-w-[140px]`, `px-6 py-3`, `15px semibold font-sans`, `rounded-t-lg`.
 
 | Property | Value |
 |---|---|
-| Component | `ContactsTab` |
-| File | `components/tabs/ContactsTab.tsx` |
+| Component | `ContactsTabComponent` (`<app-contacts-tab>`) |
+| File | `features/contacts/contacts-tab.component.ts` |
 | Requires Broker | Yes |
 
 **Empty State:** "Please select a broker first." (centered, muted)
@@ -361,8 +362,8 @@ Common: `min-w-[140px]`, `px-6 py-3`, `15px semibold font-sans`, `rounded-t-lg`.
 
 | Property | Value |
 |---|---|
-| Component | `LookupsTab` |
-| File | `components/tabs/LookupsTab.tsx` |
+| Component | `LookupsTabComponent` (`<app-lookups-tab>`) |
+| File | `features/lookups/lookups-tab.component.ts` |
 | Requires Broker | No |
 
 #### Search Criteria (Fieldset)
@@ -397,8 +398,8 @@ Common: `min-w-[140px]`, `px-6 py-3`, `15px semibold font-sans`, `rounded-t-lg`.
 
 | Property | Value |
 |---|---|
-| Component | `RetirementTab` |
-| File | `components/tabs/RetirementTab.tsx` |
+| Component | `RetirementTabComponent` (`<app-retirement-tab>`) |
+| File | `features/retirement/retirement-tab.component.ts` |
 | Requires Broker | Yes |
 
 **Empty State:** "Please select a broker first."
@@ -425,8 +426,8 @@ Common: `min-w-[140px]`, `px-6 py-3`, `15px semibold font-sans`, `rounded-t-lg`.
 
 | Property | Value |
 |---|---|
-| Component | `EquityReleaseTab` |
-| File | `components/tabs/EquityReleaseTab.tsx` |
+| Component | `EquityReleaseTabComponent` (`<app-equity-release-tab>`) |
+| File | `features/equity-release/equity-release-tab.component.ts` |
 | Requires Broker | Yes |
 
 **Empty State:** "Please select a broker first."
@@ -476,8 +477,8 @@ Each sub-fieldset contains:
 
 | Property | Value |
 |---|---|
-| Component | `NotesTab` |
-| File | `components/tabs/NotesTab.tsx` |
+| Component | `NotesTabComponent` (`<app-notes-tab>`) |
+| File | `features/notes/notes-tab.component.ts` |
 | Requires Broker | Yes |
 
 **Empty State:** "Please select a broker first."
@@ -662,10 +663,10 @@ Separator: `border-t-2 #BBBBBB` between advice type groups.
 ### 7.1 App Initialisation
 
 ```
-DataStoreProvider loads seed data into memory
-  → AppProvider initialises (activeTab: ifa-detail)
-    → useListBrokers fetches all 6 brokers
-      → First broker auto-selected (activeBrokerId = brokers[0].id)
+DataStoreService instantiated (providedIn: 'root') — loads seed data into in-memory signals
+  → AppStateService instantiated (activeTab: ifa-detail)
+    → dataStore.brokers() signal emits all 6 brokers
+      → First broker auto-selected via effect() — appState.activeBrokerId.set(brokers[0].id)
         → IFA Detail tab renders with first broker data
 ```
 
@@ -673,8 +674,8 @@ DataStoreProvider loads seed data into memory
 
 ```
 Lookups Tab: double-click row OR click [Select]
-  → setActiveBrokerId(selectedId)
-    → handleSetBroker resets isDirty, sets activeTab to ifa-detail
+  → appState.activeBrokerId.set(selectedId)
+    → effect() resets isDirty, sets appState.activeTab.set('ifa-detail')
       → IFA Detail tab loads with selected broker
 ```
 
@@ -682,10 +683,10 @@ Lookups Tab: double-click row OR click [Select]
 
 ```
 IFA Detail toolbar: click [+New]
-  → InsertIfaModal opens
+  → InsertIfaModalComponent opens
     → User fills form, clicks [Ok]
-      → createBroker mutation (status: "Authorised")
-        → onSuccess: setActiveBrokerId(newBroker.id), close modal
+      → dataStore.createBroker({ ..., status: "Authorised" })
+        → on return: appState.activeBrokerId.set(newBroker.id), close modal
           → IFA Detail renders with new broker
 ```
 
@@ -693,11 +694,11 @@ IFA Detail toolbar: click [+New]
 
 ```
 IFA Detail toolbar: click [Locate]
-  → LocateIfaModal opens (simple text search)
+  → LocateIfaModalComponent opens (simple text search)
     → User types reference, clicks [Find] or presses Enter
-      → Results table shows matching brokers
+      → Results table shows matching brokers (computed signal over dataStore.brokers())
         → User clicks a row
-          → setActiveBrokerId(broker.id), modal closes
+          → appState.activeBrokerId.set(broker.id), modal closes
             → IFA Detail loads with selected broker
 ```
 
@@ -705,46 +706,47 @@ IFA Detail toolbar: click [Locate]
 
 ```
 IFA Detail toolbar: click [Search]
-  → LookupIfaModal opens (full Citrix-style with filters + Amendable Details)
+  → LookupIfaModalComponent opens (full Citrix-style with filters + Amendable Details)
     → User filters by IFA Ref / Postcode / Broker Name + status checkboxes
-      → Results table updates in real-time
+      → Results table updates in real-time (computed signal)
         → Click selects row (populates Amendable Details); double-click confirms
-          → setActiveBrokerId(broker.id), modal closes
+          → appState.activeBrokerId.set(broker.id), modal closes
             → IFA Detail loads with selected broker
-  → [New] button → closes Lookup, opens InsertIfaModal
+  → [New] button → closes Lookup, opens InsertIfaModalComponent
 ```
 
 ### 7.6 Save Changes (with Audit Trail)
 
 ```
-IFA Detail toolbar: click [Save] (enabled when isDirty)
-  → triggerSave() invokes registered saveHandler
-    → Handler compares formData vs originalData for all labelled fields
-      → updateBroker mutation fires
-        → onSuccess: for each changed field →
-            createNote(type: "SYS", description: "{Label} updated by SYSTEM on {date}",
-                       oldValue, newValue)
-          → isDirty reset to false, originalData updated
+IFA Detail toolbar: click [Save] (enabled when appState.isDirty())
+  → appState.triggerSave() invokes registered saveHandler
+    → Handler compares form.value vs originalData for all labelled fields
+      → dataStore.updateBroker(...) is called
+        → on return: for each changed field →
+            dataStore.createNote({ noteType: "SYS",
+                                   description: "{Label} updated by SYSTEM on {date}",
+                                   oldValue, newValue })
+          → appState.isDirty.set(false), originalData updated
 ```
 
 ### 7.7 Network Lookup (Contacts)
 
 ```
 Contacts Tab: click circular search button next to Network IFA
-  → NetworkLookupModal opens
+  → NetworkLookupModalComponent opens
     → User filters by IFA Ref / Postcode / Broker Name
       → Click selects row; double-click confirms
-        → onSelect: sets networkIfa, networkName, networkPostcode overrides
-          → Modal closes, Contacts form updates read-only fields
+        → (selected) emits — parent sets networkIfa, networkName, networkPostcode overrides
+          → Modal closes, Contacts form patches read-only fields via form.patchValue(...)
 ```
 
 ### 7.8 Contact Navigation
 
 ```
 Contacts toolbar: click |<<, <, >, >>|
-  → currentIndex updates
+  → currentIndex signal updates
     → networkOverrides reset to null
-      → Contact form re-renders with new contact data
+      → Contact form re-renders with new contact data (form.patchValue)
 ```
 
 ---
@@ -753,18 +755,20 @@ Contacts toolbar: click |<<, <, >, >>|
 
 | File | Purpose |
 |---|---|
-| `src/App.tsx` | Root — providers, router, tab switcher |
-| `src/context/app-context.tsx` | Global state (active tab, broker, dirty/save) |
-| `src/data/seed-data.ts` | In-memory data: 6 brokers, types, interfaces |
-| `src/data/static-store.tsx` | DataStoreProvider — CRUD hooks over in-memory arrays |
-| `src/components/Layout.tsx` | Shell — header, tab bar, toolbar, footer, Insert/Locate modals |
-| `src/components/shared/FormElements.tsx` | Fieldset, FormInput, FormSelect, FormRadioGroup, FormCheckbox, Button |
-| `src/components/shared/Combobox.tsx` | Searchable combobox (cmdk-based) |
-| `src/components/shared/ClubModal.tsx` | Add/Search Clubs modal |
-| `src/components/tabs/IfaDetailTab.tsx` | Tab 1 — broker detail form + associated contacts |
-| `src/components/tabs/ContactsTab.tsx` | Tab 2 — contact form + bank/network/quote sections + Network Lookup modal |
-| `src/components/tabs/LookupsTab.tsx` | Tab 3 — search criteria + 75-column results grid |
-| `src/components/tabs/RetirementTab.tsx` | Tab 4 — 3 product sections + Pricing/Special Deals modals |
-| `src/components/tabs/EquityReleaseTab.tsx` | Tab 5 — permissions, commissions, age bands, valuations |
-| `src/components/tabs/NotesTab.tsx` | Tab 6 — audit note cards with change tracking |
-| `src/index.css` | Tailwind config, CSS variables, `html { zoom: 0.8 }` |
+| `src/main.ts` | Bootstraps `AppComponent` with `provideRouter`, `provideAnimations`, etc. |
+| `src/app/app.component.ts` | Root — `<router-outlet>` + global layout |
+| `src/app/app.routes.ts` | Single route `/` → `LayoutComponent` |
+| `src/app/core/services/app-state.service.ts` | Global state signals (active tab, broker, dirty/save) |
+| `src/app/core/services/data-store.service.ts` | In-memory CRUD over signal-backed arrays |
+| `src/app/core/data/seed-data.ts` | Seed data: 6 brokers, TypeScript interfaces |
+| `src/app/layout/layout.component.ts` | Shell — header, tab bar, toolbar, footer, Insert/Locate modals |
+| `src/app/shared/form-elements/` | `FieldsetComponent`, `FormInputComponent`, `FormSelectComponent`, `FormRadioGroupComponent`, `FormCheckboxComponent`, `ButtonComponent` (CVAs) |
+| `src/app/shared/combobox/combobox.component.ts` | Searchable combobox (Angular CDK Overlay/Listbox, `ControlValueAccessor`) |
+| `src/app/shared/club-modal/club-modal.component.ts` | Add/Search Clubs modal |
+| `src/app/features/ifa-detail/ifa-detail-tab.component.ts` | Tab 1 — broker detail Reactive Form + associated contacts |
+| `src/app/features/contacts/contacts-tab.component.ts` | Tab 2 — contact form + bank/network/quote sections + Network Lookup modal |
+| `src/app/features/lookups/lookups-tab.component.ts` | Tab 3 — search criteria + 75-column results grid |
+| `src/app/features/retirement/retirement-tab.component.ts` | Tab 4 — 3 product sections + Pricing/Special Deals modals |
+| `src/app/features/equity-release/equity-release-tab.component.ts` | Tab 5 — permissions, commissions, age bands, valuations |
+| `src/app/features/notes/notes-tab.component.ts` | Tab 6 — audit note cards with change tracking |
+| `src/styles.scss` | Tailwind config, CSS variables, `html { zoom: 0.8 }` |
