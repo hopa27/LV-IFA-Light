@@ -541,7 +541,7 @@ Each sub-fieldset contains:
 | Property | Value |
 |---|---|
 | Trigger | IFA Detail toolbar → [Search] button |
-| Width | `95vw` / `max-w-1100px`, max-h `90vh` |
+| Width | `780px`, max-h `85vh` (`w-[780px] max-h-[85vh]`) |
 | Title Bar | `bg-#002f5c`, "IFA Lookup" |
 
 **Search Filters (horizontal row):**
