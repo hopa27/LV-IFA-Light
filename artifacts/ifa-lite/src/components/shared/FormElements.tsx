@@ -30,7 +30,7 @@ export function FormInput({ label, labelWidth = "w-1/3", className, ...props }: 
       </label>
       <input 
         className={cn(
-          "flex-1 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d]",
+          "flex-1 min-w-0 px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-lg bg-white font-[Mulish] text-[#3d3d3d]",
           "placeholder:text-[#BBBBBB] placeholder:font-[Mulish]",
           "focus:border-[#178830] focus:border-2 focus:outline-none focus:px-[10px] focus:py-[5px]",
           "hover:border-[#178830]",
@@ -63,7 +63,7 @@ export function FormSelect({ label, options, labelWidth = "w-1/3", className, na
       <label className={cn("text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans", labelWidth)}>
         {label}
       </label>
-      <div className="flex-1">
+      <div className="flex-1 min-w-0">
         <Combobox
           options={options}
           value={value}
@@ -111,7 +111,7 @@ export function FormRadioGroup({ label, name, options, value, onChange }: {
       <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans">
         {label}
       </label>
-      <div className="flex-1 flex gap-4">
+      <div className="flex-1 min-w-0 flex gap-4 flex-wrap">
         {options.map(opt => (
           <label key={opt.value} className="flex items-center gap-1.5 text-sm font-[Mulish] text-[#3d3d3d] cursor-pointer">
             <input 

@@ -120,11 +120,11 @@ export default function IfaDetailTab() {
   };
 
   return (
-    <div className="flex gap-6 min-h-full pt-[12px]">
-      <div className="flex-1 flex flex-col min-w-[600px]">
+    <div className="flex flex-col xl:flex-row gap-6 min-h-full pt-[12px]">
+      <div className="flex-1 min-w-0 flex flex-col">
         <div className="flex-1 overflow-auto pr-2 pb-4">
-          <div className="grid grid-cols-2 gap-x-8 gap-y-1">
-            <div className="flex items-start gap-3 mb-2 row-span-5">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-1 [&>*]:min-w-0">
+            <div className="flex items-start gap-3 mb-2 lg:row-span-5">
               <label className="w-1/3 text-xs font-semibold text-[#3d3d3d] text-right truncate font-sans pt-[7px]">Broker Name</label>
               <div className="flex-1 flex flex-col">
                 <input name="brokerName" value={formData.brokerName || ''} onChange={handleChange} className="w-full px-3 py-1.5 text-sm border border-[#BBBBBB] rounded-t-lg bg-white font-[Mulish] text-[#3d3d3d] focus:border-[#178830] focus:border-2 focus:outline-none hover:border-[#178830] transition-colors border-b-0" />
@@ -138,7 +138,7 @@ export default function IfaDetailTab() {
               </div>
             </div>
             <FormInput label="FCA Reference" name="fcaReference" value={formData.fcaReference || ''} onChange={handleChange} />
-            <div className="flex flex-col gap-y-1 row-span-3">
+            <div className="flex flex-col gap-y-1 lg:row-span-3">
               <FormRadioGroup label="Annuity TOBA" name="annuityToba" options={[{label: 'Yes', value: 'true'}, {label: 'No', value: 'false'}]} value={String(formData.annuityToba)} />
               <FormSelect label="Status" name="status" value={formData.status || ''} onChange={handleChange} options={[{label: 'Authorised', value: 'Authorised'},{label: 'Cancelled', value: 'Cancelled'},{label: 'Revoked', value: 'Revoked'},{label: 'Duplicate Record', value: 'Duplicate Record'}]} />
               <FormInput label="Sent Date" name="sentDate" value={formData.sentDate || ''} onChange={handleChange} />
@@ -169,7 +169,7 @@ export default function IfaDetailTab() {
           </div>
 
           <hr className="border-t border-[#BBBBBB] mt-4 mb-2" />
-          <div className="grid grid-cols-2 gap-x-8 gap-y-1">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-1 [&>*]:min-w-0">
             <FormInput label="Created By" name="createdBy" value={formData.createdBy || ''} disabled />
             <FormInput label="Created Date" name="createdDate" value={formData.createdDate || ''} disabled />
             <FormInput label="Amended By" name="amendedBy" value={formData.amendedBy || ''} disabled />
@@ -178,7 +178,7 @@ export default function IfaDetailTab() {
         </div>
       </div>
 
-      <div className="w-[350px] flex flex-col bg-white border border-[#BBBBBB] shadow-sm rounded-lg overflow-hidden">
+      <div className="w-full xl:w-[350px] shrink-0 flex flex-col bg-white border border-[#BBBBBB] shadow-sm rounded-lg overflow-hidden">
         <div className="bg-[#002f5c] border-b border-[#04589b] px-3 py-2.5 font-bold text-xs text-white uppercase tracking-wider font-sans">
           Associated Contacts
         </div>

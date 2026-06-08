@@ -1,0 +1,1 @@
+- [IFA Lite responsive layout](ifa-lite-responsive.md) — flex/grid children need min-w-0 or inputs (intrinsic ~180px) bleed out of cards; fixed col-counts must use responsive breakpoints.

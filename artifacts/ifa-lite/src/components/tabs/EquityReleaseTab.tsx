@@ -8,7 +8,8 @@ const AGE_BANDS = ['60-65', '66-70', '71-75', '76-80', '81-85', '86-90', '91 +']
 function AgeBandTable() {
   return (
     <Fieldset title="Age Band Details">
-      <table className="w-full text-[11px] text-center border-collapse font-[Mulish]">
+      <div className="overflow-x-auto">
+      <table className="w-full min-w-[340px] text-[11px] text-center border-collapse font-[Mulish]">
         <thead>
           <tr>
             <th className="p-1.5 text-left text-[#3d3d3d] font-sans font-semibold">Age Band</th>
@@ -48,6 +49,7 @@ function AgeBandTable() {
           ))}
         </tbody>
       </table>
+      </div>
     </Fieldset>
   );
 }
@@ -97,7 +99,7 @@ export default function EquityReleaseTab() {
   return (
     <div className="flex flex-col min-h-full pb-8 pt-[12px]">
       {/* Row 1: Mortgage Permissions + ERLM TOBA + Club Membership */}
-      <div className="grid grid-cols-[1fr_1fr_1fr] gap-4 mb-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-0 [&>*]:min-w-0">
         <Fieldset title="Mortgage Permissions?">
           <div className="flex gap-6">
             <label className="flex items-center gap-1.5 text-sm font-[Mulish] text-[#3d3d3d] cursor-pointer">
@@ -148,9 +150,9 @@ export default function EquityReleaseTab() {
       </div>
 
       {/* Row 2: Flexible Commission + Lump Sum Commission */}
-      <div className="grid grid-cols-2 gap-4 mb-0">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-0 [&>*]:min-w-0">
         <Fieldset title="Flexible Commission">
-          <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 [&>*]:min-w-0">
             <FormInput label="Broker Rate" labelWidth="w-auto" value={eq.flexibleBrokerRate || ''} />
             <FormInput label="Minimum Amount" labelWidth="w-auto" value={eq.flexibleMinimumAmount || ''} />
             <FormInput label="Network Rate" labelWidth="w-auto" value={eq.flexibleNetworkRate || ''} />
@@ -161,7 +163,7 @@ export default function EquityReleaseTab() {
         </Fieldset>
 
         <Fieldset title="Lump Sum Commission">
-          <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 [&>*]:min-w-0">
             <FormInput label="Broker Rate" labelWidth="w-auto" value={eq.lumpSumBrokerRate || ''} />
             <FormInput label="Minimum Amount" labelWidth="w-auto" value={eq.lumpSumMinimumAmount || ''} />
             <FormInput label="Network Rate" labelWidth="w-auto" value={eq.lumpSumNetworkRate || ''} />
@@ -171,7 +173,7 @@ export default function EquityReleaseTab() {
 
       {/* Row 3: Special Deals - parent fieldset */}
       <Fieldset title="Special Deals">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 [&>*]:min-w-0">
           {/* Left: Flexible */}
           <Fieldset title="Flexible" className="mb-0">
             <AgeBandTable />
